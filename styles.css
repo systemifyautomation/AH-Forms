@@ -1,0 +1,286 @@
+/* Amington Hall Wedding Form - Black, Gold & White Theme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    min-height: 100vh;
+    background: 
+        radial-gradient(ellipse at top, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at bottom left, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+    background-attachment: fixed;
+    color: #ffffff;
+}
+
+/* Golden glow effect overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 600px;
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-shadow: 
+        0 0 60px rgba(212, 175, 55, 0.1),
+        0 0 100px rgba(212, 175, 55, 0.05),
+        inset 0 1px 0 rgba(212, 175, 55, 0.1);
+}
+
+/* Header Styles */
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.form-header h1 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #d4af37;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    margin-bottom: 10px;
+}
+
+.form-header .tagline {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 2px;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.05rem;
+    color: #ffffff;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.question-number {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    color: #0a0a0a;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 15px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Select Dropdown Styling */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+select option {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* Radio Button Styles */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.radio-label:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.radio-label input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    border-radius: 50%;
+    margin-right: 12px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+    border-color: #d4af37;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: #d4af37;
+    border-radius: 50%;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    border: none;
+    border-radius: 8px;
+    color: #0a0a0a;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #e5c349 0%, #d4af37 100%);
+    box-shadow: 0 6px 30px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Footer */
+.form-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.form-footer p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-wrapper {
+        padding: 35px 25px;
+    }
+    
+    .form-header h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .form-header .tagline {
+        font-size: 0.95rem;
+    }
+    
+    .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select {
+        padding: 12px 15px;
+    }
+}
+
+/* Date input specific styling for dark theme */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
