@@ -7,19 +7,28 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             
-            // Collect form data
-            const formData = new FormData(form);
-            const data = {};
+            // Create success message element
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
             
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.innerHTML = `
+                <div class="success-icon">✓</div>
+                <h3>Thank You!</h3>
+                <p>Your inquiry has been submitted successfully. The Amington Hall team will contact you soon.</p>
+            `;
             
-            // Display success message
-            alert('Thank you for your inquiry! The Amington Hall team will contact you soon.');
+            // Insert success message before the form
+            form.parentNode.insertBefore(successMessage, form);
             
-            // Optionally reset the form
-            form.reset();
+            // Hide the form
+            form.style.display = 'none';
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
     }
 });

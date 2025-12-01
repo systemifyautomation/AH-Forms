@@ -284,3 +284,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
 }
+
+/* Success Message */
+.success-message {
+    text-align: center;
+    padding: 40px 30px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: #0a0a0a;
+}
+
+.success-message h3 {
+    font-size: 1.5rem;
+    color: #d4af37;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.success-message p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
