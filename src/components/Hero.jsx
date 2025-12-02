@@ -23,7 +23,7 @@ const Hero = () => {
         {/* Subheading */}
         <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
           Start your journey with us by completing our quick and easy onboarding form. 
-          We&apos;re excited to learn more about you and your needs.
+          We're excited to learn more about you and your needs.
         </p>
 
         {/* Stats */}

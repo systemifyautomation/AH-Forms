@@ -50,7 +50,7 @@ const Features = () => {
             The Premium Experience
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            We&apos;ve designed every aspect of our service to provide you with an exceptional experience from start to finish.
+            We've designed every aspect of our service to provide you with an exceptional experience from start to finish.
           </p>
         </div>
 
