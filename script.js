@@ -1,6 +1,22 @@
 // Amington Hall Wedding Form - JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Flatpickr date picker
+    flatpickr("#event-date", {
+        dateFormat: "F j, Y",
+        minDate: "today",
+        altInput: true,
+        altFormat: "F j, Y",
+        theme: "dark",
+        disableMobile: true,
+        animate: true,
+        onReady: function(selectedDates, dateStr, instance) {
+            // Custom styling for the calendar
+            const calendarContainer = instance.calendarContainer;
+            calendarContainer.style.fontFamily = "'Georgia', 'Times New Roman', serif";
+        }
+    });
+    
     const form = document.getElementById('wedding-inquiry-form');
     
     if (form) {

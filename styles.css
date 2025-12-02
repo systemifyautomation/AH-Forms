@@ -59,10 +59,36 @@ body::before {
 
 /* Header Styles */
 .form-header {
-    text-align: center;
     margin-bottom: 40px;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: clamp(60px, 10vw, 100px);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 1;
+}
+
+.header-text {
+    flex: 1;
+    padding-right: 120px;
 }
 
 .form-header h1 {
@@ -93,6 +119,12 @@ body::before {
     color: #ffffff;
     margin-bottom: 12px;
     line-height: 1.5;
+}
+
+.required {
+    color: #d4af37;
+    font-weight: bold;
+    margin-left: 4px;
 }
 
 .question-number {
@@ -258,6 +290,14 @@ select option {
         padding: 35px 25px;
     }
     
+    .logo {
+        width: clamp(50px, 12vw, 70px);
+    }
+    
+    .header-text {
+        padding-right: 80px;
+    }
+    
     .form-header h1 {
         font-size: 2rem;
         letter-spacing: 2px;
@@ -279,10 +319,176 @@ select option {
     }
 }
 
-/* Date input specific styling for dark theme */
-input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+/* Premium Date Picker Styling */
+input[type="date"],
+input[type="text"]#event-date {
+    position: relative;
     cursor: pointer;
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    padding: 16px 20px;
+    font-weight: 500;
+    box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+input[type="date"]:hover,
+input[type="text"]#event-date:hover {
+    border-color: #d4af37;
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
+    box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+input[type="date"]:focus,
+input[type="text"]#event-date:focus {
+    border-color: #d4af37;
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+    box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(212, 175, 55, 0.25),
+        0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Flatpickr Custom Styling */
+.flatpickr-calendar {
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.98) 0%, rgba(10, 10, 10, 1) 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    border-radius: 12px !important;
+    box-shadow: 
+        0 0 60px rgba(212, 175, 55, 0.2),
+        0 20px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.flatpickr-months {
+    background: transparent !important;
+    padding: 15px 10px !important;
+}
+
+.flatpickr-month {
+    color: #d4af37 !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    background: rgba(212, 175, 55, 0.1) !important;
+    color: #d4af37 !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 6px !important;
+}
+
+.flatpickr-current-month input.cur-year {
+    background: rgba(212, 175, 55, 0.1) !important;
+    color: #d4af37 !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 6px !important;
+}
+
+.flatpickr-weekdays {
+    background: transparent !important;
+}
+
+.flatpickr-weekday {
+    color: rgba(212, 175, 55, 0.8) !important;
+    font-weight: 600 !important;
+}
+
+.flatpickr-day {
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.flatpickr-day:hover:not(.flatpickr-disabled) {
+    background: rgba(212, 175, 55, 0.2) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    color: #ffffff !important;
+}
+
+.flatpickr-day.selected {
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%) !important;
+    border-color: #d4af37 !important;
+    color: #0a0a0a !important;
+    font-weight: 600 !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4) !important;
+}
+
+.flatpickr-day.today {
+    border-color: rgba(212, 175, 55, 0.6) !important;
+    color: #d4af37 !important;
+}
+
+.flatpickr-day.today:hover {
+    background: rgba(212, 175, 55, 0.15) !important;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    fill: #d4af37 !important;
+    transition: all 0.3s ease !important;
+}
+
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+    fill: #e5c349 !important;
+}
+
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg {
+    fill: #e5c349 !important;
+}
+
+.flatpickr-day.flatpickr-disabled {
+    color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Calendar icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Date text color */
+input[type="date"]::-webkit-datetime-edit {
+    color: #ffffff;
+    padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    color: #d4af37;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+    color: rgba(212, 175, 55, 0.6);
+    padding: 0 4px;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+    color: #ffffff;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 4px;
+    padding: 4px 6px;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    outline: none;
 }
 
 /* Success Message */

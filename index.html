@@ -4,94 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amington Hall - Wedding Inquiry Form</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="form-wrapper">
             <header class="form-header">
-                <h1>Amington Hall</h1>
-                <p class="tagline">Your Dream Wedding Awaits</p>
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
             </header>
             
             <form id="wedding-inquiry-form" class="wedding-form">
                 <!-- Question 1 -->
                 <div class="form-group">
-                    <label for="couple-names">
-                        <span class="question-number">1</span>
-                        What are the names of the couple getting married?
+                    <label for="your-name">
+                        What is you name? <span class="required">*</span>
                     </label>
-                    <input type="text" id="couple-names" name="couple-names" placeholder="e.g., John & Jane" required>
+                    <input type="text" id="your-name" name="your-name" placeholder="Short answer text" required>
                 </div>
 
                 <!-- Question 2 -->
                 <div class="form-group">
-                    <label for="wedding-date">
-                        <span class="question-number">2</span>
-                        What is your preferred wedding date?
+                    <label for="groom-name">
+                        What is the name of the groom? <span class="required">*</span>
                     </label>
-                    <input type="date" id="wedding-date" name="wedding-date" required>
+                    <input type="text" id="groom-name" name="groom-name" placeholder="Short answer text" required>
                 </div>
 
                 <!-- Question 3 -->
                 <div class="form-group">
-                    <label for="guest-count">
-                        <span class="question-number">3</span>
-                        How many guests are you expecting?
+                    <label for="bride-name">
+                        What is the name of the bride? <span class="required">*</span>
                     </label>
-                    <select id="guest-count" name="guest-count" required>
-                        <option value="" disabled selected>Select number of guests</option>
-                        <option value="1-50">1 - 50 guests</option>
-                        <option value="51-100">51 - 100 guests</option>
-                        <option value="101-150">101 - 150 guests</option>
-                        <option value="151-200">151 - 200 guests</option>
-                        <option value="200+">200+ guests</option>
-                    </select>
+                    <input type="text" id="bride-name" name="bride-name" placeholder="Short answer text" required>
                 </div>
 
                 <!-- Question 4 -->
                 <div class="form-group">
-                    <label for="ceremony-type">
-                        <span class="question-number">4</span>
-                        What type of ceremony are you planning?
+                    <label for="ethnicity">
+                        What is your Ethnicity / Cultural Background ? <span class="required">*</span>
                     </label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="ceremony-type" value="indoor" required>
-                            <span class="radio-custom"></span>
-                            Indoor Ceremony
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="ceremony-type" value="outdoor">
-                            <span class="radio-custom"></span>
-                            Outdoor Ceremony
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="ceremony-type" value="both">
-                            <span class="radio-custom"></span>
-                            Both Indoor & Outdoor
-                        </label>
-                    </div>
+                    <input type="text" id="ethnicity" name="ethnicity" placeholder="Short answer text" required>
                 </div>
 
                 <!-- Question 5 -->
                 <div class="form-group">
-                    <label for="contact-email">
-                        <span class="question-number">5</span>
-                        What is your contact email address?
+                    <label for="event-date">
+                        What is the date of the event? <span class="required">*</span>
                     </label>
-                    <input type="email" id="contact-email" name="contact-email" placeholder="your.email@example.com" required>
+                    <input type="text" id="event-date" name="event-date" placeholder="Select date..." required readonly>
                 </div>
 
-                <button type="submit" class="submit-btn">Submit Inquiry</button>
+                <button type="submit" class="submit-btn">Submit</button>
             </form>
             
             <footer class="form-footer">
-                <p>&copy; 2024 Amington Hall. All rights reserved.</p>
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
             </footer>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="script.js"></script>
 </body>
 </html>
