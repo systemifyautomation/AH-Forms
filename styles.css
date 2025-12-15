@@ -328,6 +328,32 @@ input[type="time"]::-webkit-datetime-edit {
     color: #ffffff;
 }
 
+/* Textarea Styling */
+textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #d4af37;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 input[type="time"]::-webkit-datetime-edit-fields-wrapper {
     color: #ffffff;
 }
@@ -906,7 +932,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 }
 
 .nav-btn.next-btn,
-.submit-btn {
+.nav-btn.submit-btn {
     background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
     border: none;
     color: #0a0a0a;
@@ -915,12 +941,12 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 }
 
 .nav-btn.next-btn:hover,
-.submit-btn:hover {
+.nav-btn.submit-btn:hover {
     background: linear-gradient(135deg, #e5c349 0%, #d4af37 100%);
     box-shadow: 0 6px 30px rgba(212, 175, 55, 0.4);
 }
 
-.submit-btn:disabled {
+.nav-btn.submit-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
