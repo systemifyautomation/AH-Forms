@@ -236,6 +236,7 @@ input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="date"],
+input[type="time"],
 select {
     width: 100%;
     padding: 15px 18px;
@@ -246,6 +247,78 @@ select {
     font-size: 1rem;
     font-family: inherit;
     transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus {
+    outline: none;
+    border-color: #d4af37;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* File Input Styling */
+input[type="file"] {
+    width: 100%;
+    padding: 15px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: #d4af37;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+input[type="file"]::file-selector-button {
+    padding: 10px 20px;
+    margin-right: 15px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 6px;
+    color: #d4af37;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: rgba(212, 175, 55, 0.25);
+    border-color: #d4af37;
+}
+
+/* Time input specific styling */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(0.8);
+    cursor: pointer;
+}
+
+input[type="time"]::-webkit-datetime-edit {
+    color: #ffffff;
+}
+
+input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+    color: #ffffff;
 }
 
 input[type="text"]::placeholder,
@@ -406,6 +479,48 @@ select option {
 
 .checkbox-text {
     color: #ffffff;
+}
+
+/* Conditional Input Styling */
+.conditional-input {
+    margin-top: 10px;
+    display: none;
+}
+
+/* Radio Subgroup Styling */
+.radio-subgroup {
+    margin-top: 15px;
+}
+
+/* Subsection Styling */
+.subsection-title {
+    display: block;
+    font-weight: 600;
+    color: #d4af37;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.subsection-group {
+    margin-top: 30px;
+}
+
+/* Form Sublabel */
+.form-sublabel {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Info Notice Variants */
+.info-notice-compact {
+    margin-bottom: 25px;
+}
+
+.info-notice-highlighted {
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 4px solid #d4af37;
 }
 
 /* Submit Button */
@@ -1049,4 +1164,97 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
         left: 10px;
         top: 10px;
     }
+}
+
+/* Table Styling */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 30px;
+}
+
+.screen-usage-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.screen-usage-table thead tr {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.screen-usage-table th {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.screen-usage-table td {
+    padding: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.table-cell-header {
+    vertical-align: top;
+}
+
+.table-cell-content {
+    line-height: 1.6;
+}
+
+/* Screen Option Boxes */
+.screen-option-box {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+}
+
+.screen-title {
+    margin-bottom: 15px;
+    color: #d4af37;
+}
+
+/* Utility Classes */
+.text-gold {
+    color: #d4af37;
+}
+
+.text-indent {
+    margin-top: 15px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.field-note-italic {
+    font-style: italic;
+}
+
+.info-notice-subtle {
+    margin-bottom: 30px;
+    background: rgba(212, 175, 55, 0.05);
 }

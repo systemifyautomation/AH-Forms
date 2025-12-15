@@ -88,7 +88,7 @@
                             <span class="checkbox-text">Other:</span>
                         </label>
                     </div>
-                    <input type="text" id="table-other-text" name="table-other-text" placeholder="Please specify" style="margin-top: 10px; display: none;">
+                    <input type="text" id="table-other-text" name="table-other-text" placeholder="Please specify" class="conditional-input">
                 </div>
 
                 <div class="info-notice" style="margin-bottom: 30px;">
@@ -108,8 +108,8 @@
 
                 <div class="form-group">
                     <label>Would you like to upload a picture/document of your décor plans?</label>
-                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">Click option to take/upload picture</p>
-                    <input type="file" id="decor-upload" name="decor-upload" accept="image/*,.pdf" style="margin-top: 10px;">
+                    <p class="field-note">Click option to take/upload picture</p>
+                    <input type="file" id="decor-upload" name="decor-upload" accept="image/*,.pdf">
                 </div>
 
                 <!-- Cake Section -->
@@ -160,7 +160,7 @@
                             <span class="radio-text">Other:</span>
                         </label>
                     </div>
-                    <input type="text" id="cake-served-other" name="cake-served-other" placeholder="Please specify" style="margin-top: 10px; display: none;">
+                    <input type="text" id="cake-served-other" name="cake-served-other" placeholder="Please specify" class="conditional-input">
                 </div>
 
                 <div class="info-notice" style="margin-bottom: 30px;">
@@ -193,7 +193,7 @@
 
                 <div class="form-group">
                     <label>Alternate in between the plates</label>
-                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">Will you be having Thank you cards?</p>
+                    <p class="field-note">Will you be having Thank you cards?</p>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="thankyou-cards" value="Yes">
@@ -222,7 +222,7 @@
                             <span class="radio-text">No</span>
                         </label>
                     </div>
-                    <div class="radio-group" style="margin-top: 15px;">
+                    <div class="radio-group radio-subgroup">
                         <label class="radio-label">
                             <input type="radio" name="menu-cards-placement" value="1 per plate">
                             <span class="radio-custom"></span>
@@ -244,7 +244,7 @@
 
                 <!-- Special Effects -->
                 <div class="form-group">
-                    <label style="font-weight: 600; color: #d4af37;">Special Effects</label>
+                    <label class="subsection-title">Special Effects</label>
                     <label for="special-effects-company">Name of Company:</label>
                     <input type="text" id="special-effects-company" name="special-effects-company">
                 </div>
@@ -268,8 +268,8 @@
                 </div>
 
                 <!-- Sweet Setups -->
-                <div class="form-group" style="margin-top: 30px;">
-                    <label style="font-weight: 600; color: #d4af37;">Sweet setups</label>
+                <div class="form-group subsection-group">
+                    <label class="subsection-title">Sweet setups</label>
                     <label for="sweet-setups-type">Type of Service:</label>
                     <input type="text" id="sweet-setups-type" name="sweet-setups-type">
                 </div>
@@ -280,8 +280,8 @@
                 </div>
 
                 <!-- 360/Photobooth -->
-                <div class="form-group" style="margin-top: 30px;">
-                    <label style="font-weight: 600; color: #d4af37;">360/Photobooth</label>
+                <div class="form-group subsection-group">
+                    <label class="subsection-title">360/Photobooth</label>
                     <label for="photobooth-type">Type of Service:</label>
                     <input type="text" id="photobooth-type" name="photobooth-type">
                 </div>

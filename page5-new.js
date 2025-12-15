@@ -21,6 +21,11 @@ function setupConditionalFields() {
                 tableOtherText.value = '';
             }
         });
+        
+        // Initialize display state
+        if (tableOtherCheckbox.checked) {
+            tableOtherText.style.display = 'block';
+        }
     }
 
     // Cake served "Other" radio toggle
@@ -36,6 +41,11 @@ function setupConditionalFields() {
                 cakeServedOther.value = '';
             }
         });
+        
+        // Initialize display state
+        if (radio.checked && radio.value === 'Other') {
+            cakeServedOther.style.display = 'block';
+        }
     });
 }
 
