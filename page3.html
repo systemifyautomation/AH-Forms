@@ -21,11 +21,303 @@
             </header>
             
             <form id="page3-form" class="wedding-form">
-                <h2 class="page-title">Additional Information</h2>
+                <h2 class="page-title">Seating and Hall Arrangements</h2>
                 
-                <!-- Placeholder for future questions -->
+                <!-- Suite(s) Hired -->
+                <div class="form-group">
+                    <label>
+                        Suite(s) Hired <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Amington Suite" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Amington Suite</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Serenity Suite" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Serenity Suite</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Both" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Both</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Number of Guests -->
+                <div class="form-group">
+                    <label for="guest-count">
+                        How many guests? <span class="required">*</span>
+                    </label>
+                    <input type="number" id="guest-count" name="guest-count" placeholder="Enter number of guests" min="1" max="650" required>
+                    <p class="field-note">Maximum: 400 for Amington Suite, 250 for Serenity Suite, 650 for Both</p>
+                </div>
+
+                <!-- Types of Tables -->
+                <div class="form-group">
+                    <label>
+                        Types of tables – Applies to front tables only <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="table-type" value="VIP" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">VIP</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="table-type" value="Round Tables" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Round Tables</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Guest Arrangements -->
+                <div class="form-group">
+                    <label>
+                        Guest Arrangements <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="guest-arrangements" value="Mixed Family Seating" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Mixed Family Seating</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="guest-arrangements" value="Men & Women Segregation" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Men &amp; Women Segregation</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Segregation Guest Counts (Hidden by default) -->
+                <div id="segregation-counts" style="display: none;">
+                    <p style="margin-bottom: 20px; font-weight: 600; color: #d4af37;">If Segregation you will need to provide the amount below:</p>
+                    
+                    <div class="form-group">
+                        <label for="men-count">
+                            Men
+                        </label>
+                        <select id="men-count" name="men-count" class="select-input">
+                            <option value="">Select number</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="60">60</option>
+                            <option value="70">70</option>
+                            <option value="80">80</option>
+                            <option value="90">90</option>
+                            <option value="100">100</option>
+                            <option value="110">110</option>
+                            <option value="120">120</option>
+                            <option value="130">130</option>
+                            <option value="140">140</option>
+                            <option value="150">150</option>
+                            <option value="160">160</option>
+                            <option value="170">170</option>
+                            <option value="180">180</option>
+                            <option value="190">190</option>
+                            <option value="200">200</option>
+                            <option value="210">210</option>
+                            <option value="220">220</option>
+                            <option value="230">230</option>
+                            <option value="240">240</option>
+                            <option value="250">250</option>
+                            <option value="260">260</option>
+                            <option value="270">270</option>
+                            <option value="280">280</option>
+                            <option value="290">290</option>
+                            <option value="300">300</option>
+                            <option value="310">310</option>
+                            <option value="320">320</option>
+                            <option value="330">330</option>
+                            <option value="340">340</option>
+                            <option value="350">350</option>
+                            <option value="360">360</option>
+                            <option value="370">370</option>
+                            <option value="380">380</option>
+                            <option value="390">390</option>
+                            <option value="400">400</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="women-count">
+                            Women
+                        </label>
+                        <select id="women-count" name="women-count" class="select-input">
+                            <option value="">Select number</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="60">60</option>
+                            <option value="70">70</option>
+                            <option value="80">80</option>
+                            <option value="90">90</option>
+                            <option value="100">100</option>
+                            <option value="110">110</option>
+                            <option value="120">120</option>
+                            <option value="130">130</option>
+                            <option value="140">140</option>
+                            <option value="150">150</option>
+                            <option value="160">160</option>
+                            <option value="170">170</option>
+                            <option value="180">180</option>
+                            <option value="190">190</option>
+                            <option value="200">200</option>
+                            <option value="210">210</option>
+                            <option value="220">220</option>
+                            <option value="230">230</option>
+                            <option value="240">240</option>
+                            <option value="250">250</option>
+                            <option value="260">260</option>
+                            <option value="270">270</option>
+                            <option value="280">280</option>
+                            <option value="290">290</option>
+                            <option value="300">300</option>
+                            <option value="310">310</option>
+                            <option value="320">320</option>
+                            <option value="330">330</option>
+                            <option value="340">340</option>
+                            <option value="350">350</option>
+                            <option value="360">360</option>
+                            <option value="370">370</option>
+                            <option value="380">380</option>
+                            <option value="390">390</option>
+                            <option value="400">400</option>
+                        </select>
+                    </div>
+
+                    <div class="info-notice" style="background: rgba(212, 175, 55, 0.1); border-left: 4px solid #d4af37;">
+                        <p><strong>Disclaimer:</strong> If you are having a segregated event in the Amington Suite only, please note you will need to have a guest count of 350 and under.</p>
+                    </div>
+                </div>
+
+                <!-- Table Settings and Tableware -->
+                <div class="form-group">
+                    <label>
+                        Table Settings and Tableware - unless agreed otherwise and confirmed on your booking quotation, you will be provided our standard table setting and tableware as shown on your viewing(s). Does this still apply? (tick below) (If you are unsure, this can be discussed in your Walkthrough Meeting.) <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="table-settings" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="table-settings" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="table-settings" value="Unsure" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Unsure</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seating Plan Disclaimer -->
                 <div class="info-notice">
-                    <p>Additional questions will be added here soon. For now, you can review and submit your form.</p>
+                    <p>Your event organiser will go through this with you in more detail during your Walkthrough Meeting.</p>
+                    <p>If you intend to create a seating plan for your guests, you will need to decide the seating arrangement and arrange for guests to be ushered to their set seats on the event day by your own appointees. Please note you will need to provide us with any seating stationery to be placed on the tables in order for guests to identify where they will be sitting.</p>
+                </div>
+
+                <!-- Reserved Seatings -->
+                <div class="form-group">
+                    <label for="reserved-seatings">
+                        How many seats would you like to reserve any seatings (example: 3 seatings for the Groom's Family)
+                    </label>
+                    <input type="number" id="reserved-seatings" name="reserved-seatings" placeholder="Enter number of reserved seatings" min="0">
+                    <div class="info-notice" style="margin-top: 15px;">
+                        <p><strong>Disclaimer:</strong> We have 2 types of reserved signs:</p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Reserved for Groom's Family</li>
+                            <li>Reserved for Bride's Family</li>
+                        </ol>
+                        <p style="margin-top: 10px;">If you require any signs with any specific group names, you will need to provide these yourselves.</p>
+                    </div>
+                </div>
+
+                <!-- Head Table -->
+                <div class="form-group">
+                    <label>
+                        Would you require a 2 seater Head Table? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="head-table" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="head-table" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Dance Floor -->
+                <div class="form-group">
+                    <label>
+                        Will you be having a dance floor? (this needs prior approval if you require this.) <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="dance-floor" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="dance-floor" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="dance-floor" value="Maybe" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Maybe</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Additional Tables -->
+                <div class="form-group">
+                    <label>
+                        Do you require any additional tables set up on your event day?
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="additional-tables" value="Nendra Table (2 seater)">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Nendra Table (2 seater)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="additional-tables" value="Gift Table (6ft Rectangle Table)">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Gift Table (6ft Rectangle Table)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="additional-tables" value="Drink station (6f Rectangle table)">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Drink station (6f Rectangle table)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="additional-tables-other" name="additional-tables" value="Other">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Other:</span>
+                        </label>
+                    </div>
+                    <input type="text" id="additional-tables-other-text" name="additional-tables-other-text" placeholder="Please specify other table requirements" style="margin-top: 12px; display: none;">
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -33,12 +325,12 @@
                     <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
                     <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
                     <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
-                    <button type="submit" class="nav-btn submit-btn">Submit Form</button>
+                    <button type="submit" class="nav-btn next-btn">Next</button>
                 </div>
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 3 of 3</span>
+                    <span class="page-info">Page 3 of 4</span>
                 </div>
             </form>
             
@@ -46,26 +338,6 @@
                 <p>&copy; 2025 Amington Hall. All rights reserved.</p>
                 <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
             </footer>
-        </div>
-    </div>
-
-    <!-- Exit Modal -->
-    <div class="modal" id="exit-modal">
-        <div class="modal-content">
-            <h3>Before you go...</h3>
-            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
-            <div class="form-group">
-                <label for="modal-phone">Phone Number (Optional)</label>
-                <div class="phone-input-wrapper">
-                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
-                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
-                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
-                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
-            </div>
         </div>
     </div>
 

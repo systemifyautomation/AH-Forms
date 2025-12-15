@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amington Hall - Wedding Cake and Favours</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page5-form" class="wedding-form">
+                <h2 class="page-title">Wedding Cake and Favours</h2>
+                
+                <!-- Wedding Cake Question -->
+                <div class="form-group">
+                    <label>
+                        Will you be having a wedding cake? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Cake Details (Hidden by default) -->
+                <div id="cake-details-section" style="display: none;">
+                    <h3 class="section-subtitle">If 'Yes', please confirm the following:</h3>
+                    
+                    <div class="form-group">
+                        <label for="cake-company-name">
+                            Cake Company Name
+                        </label>
+                        <input type="text" id="cake-company-name" name="cake-company-name" placeholder="Enter cake company name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-tiers">
+                            Number of tiers
+                        </label>
+                        <input type="number" id="cake-tiers" name="cake-tiers" placeholder="Enter number of tiers" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-contact-name">
+                            Contact Name
+                        </label>
+                        <input type="text" id="cake-contact-name" name="cake-contact-name" placeholder="Enter contact name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-contact-number">
+                            Contact number
+                        </label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" class="phone-prefix" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" placeholder="+44">
+                            <input type="tel" id="cake-contact-number" name="cake-contact-number" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cake Serving Question -->
+                <div class="form-group">
+                    <label style="margin-bottom: 20px; display: block; font-weight: 600;">
+                        Would you like the cake served on the day of the event?
+                    </label>
+                    
+                    <div class="info-notice" style="margin-bottom: 25px;">
+                        <p><strong>Cake Location:</strong> Our standard location for a cake table in either the Amington or Serenity Suite is to the front left of the stage. We can discuss this in your Walkthrough Meeting should you wish to change the standard location.</p>
+                        <p style="margin-top: 15px;">Our cake table is circular and measures 100cm in diameter. There is a raised level measuring 60cm in diameter.</p>
+                    </div>
+
+                    <label style="margin-bottom: 15px; display: block;">
+                        Kindly confirm if you would like us to provide a cake cutting knife:
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="cake-knife" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="cake-knife" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Cake Reminder -->
+                <div class="info-notice" style="background: rgba(212, 175, 55, 0.1); border-left: 4px solid #d4af37;">
+                    <p><strong>Please remind your cake company to provide and leave cake boxes at the venue.</strong> This is especially important if you are not serving the cake and/or will need to pack the cake away to take home at the end of your event.</p>
+                    <p style="margin-top: 15px;">We will discuss the cake cutting ceremony with you in detail and whether you would like this to be served to guests in your Walkthrough Meeting.</p>
+                </div>
+
+                <!-- Favours Question -->
+                <div class="form-group">
+                    <label>
+                        Will you be having favours?
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="favours" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="favours" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Favours Details (Hidden by default) -->
+                <div id="favours-details-section" style="display: none;">
+                    <h3 class="section-subtitle">If 'Yes', please confirm the following:</h3>
+                    
+                    <div class="form-group">
+                        <label for="favours-number">
+                            Number of Favours
+                        </label>
+                        <input type="number" id="favours-number" name="favours-number" placeholder="Enter number of favours" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favours-type">
+                            Type of Favour(s)
+                        </label>
+                        <input type="text" id="favours-type" name="favours-type" placeholder="Enter type of favours">
+                    </div>
+                </div>
+
+                <!-- Menu Cards Question -->
+                <div class="form-group">
+                    <label>
+                        Would you be having menu cards?
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="menu-cards" value="Yes, one per table">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes, one per table</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="menu-cards" value="Yes, 2 per table">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes, 2 per table</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="menu-cards" value="Yes, one per plate">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes, one per plate</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="menu-cards" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Favours Advice -->
+                <div class="info-notice">
+                    <p>We would advise brining extra favours, in case any are damaged in transit or lost.</p>
+                </div>
+
+                <!-- Leftover Favours -->
+                <div class="form-group">
+                    <label>
+                        In the case where many favours are left unopened, please confirm whether you would like to have them taken by you at the end of your event or for them to be disposed of:
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-favours" value="Family will collect the favours before leaving the venue">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Family will collect the favours before leaving the venue</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-favours" value="The Venue can dispose of any leftover favours">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">The Venue can dispose of any leftover favours</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Important Notice -->
+                <div class="info-notice" style="background: rgba(212, 175, 55, 0.1); border-left: 4px solid #d4af37;">
+                    <p><strong>We cannot guarantee we will be able to hold onto items left at Amington Hall if they are not collected by the end of your event.</strong></p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 5 of 7</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="page5.js"></script>
+</body>
+</html>
