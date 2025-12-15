@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amington Hall - Additional Information</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page3-form" class="wedding-form">
+                <h2 class="page-title">Additional Information</h2>
+                
+                <!-- Placeholder for future questions -->
+                <div class="info-notice">
+                    <p>Additional questions will be added here soon. For now, you can review and submit your form.</p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn submit-btn">Submit Form</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 3 of 3</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Exit Modal -->
+    <div class="modal" id="exit-modal">
+        <div class="modal-content">
+            <h3>Before you go...</h3>
+            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
+            <div class="form-group">
+                <label for="modal-phone">Phone Number (Optional)</label>
+                <div class="phone-input-wrapper">
+                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
+                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
+                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
+                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="page3.js"></script>
+</body>
+</html>

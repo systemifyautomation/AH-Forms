@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amington Hall - Event Details</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page1-form" class="wedding-form">
+                <h2 class="page-title">Event Details</h2>
+                
+                <!-- Name of Client -->
+                <div class="form-group">
+                    <label for="client-name">
+                        Name of Client <span class="required">*</span>
+                    </label>
+                    <input type="text" id="client-name" name="client-name" placeholder="Enter client name" required>
+                </div>
+
+                <!-- Groom's Name -->
+                <div class="form-group">
+                    <label for="groom-name">
+                        Groom's Name <span class="required">*</span>
+                    </label>
+                    <input type="text" id="groom-name" name="groom-name" placeholder="Enter groom's name" required>
+                </div>
+
+                <!-- Bride's Name -->
+                <div class="form-group">
+                    <label for="bride-name">
+                        Bride's Name <span class="required">*</span>
+                    </label>
+                    <input type="text" id="bride-name" name="bride-name" placeholder="Enter bride's name" required>
+                </div>
+
+                <!-- Ethnicity / Cultural Background -->
+                <div class="form-group">
+                    <label for="ethnicity">
+                        Ethnicity / Cultural Background <span class="required">*</span>
+                    </label>
+                    <input type="text" id="ethnicity" name="ethnicity" placeholder="Enter ethnicity or cultural background" required>
+                </div>
+
+                <!-- Date of the Event -->
+                <div class="form-group">
+                    <label for="event-date">
+                        Date of the Event <span class="required">*</span>
+                    </label>
+                    <input type="text" id="event-date" name="event-date" placeholder="Select date..." required readonly>
+                </div>
+
+                <!-- Event Timings -->
+                <div class="form-group">
+                    <label>
+                        Event Timings <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="event-timings" value="12pm - 4:30pm" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">12pm – 4:30pm</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="event-timings" value="6:30pm - 11pm" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">6:30pm – 11pm</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="event-timings" value="All day (6 Hours)" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">All day (6 Hours)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="event-timings" value="Other" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Other</span>
+                        </label>
+                    </div>
+                    <input type="text" id="event-timings-other" name="event-timings-other" placeholder="Please specify other timing" style="margin-top: 12px; display: none;">
+                </div>
+
+                <!-- Suite(s) Hired -->
+                <div class="form-group">
+                    <label>
+                        Suite(s) Hired <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Amington Suite" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Amington Suite</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Serenity Suite" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Serenity Suite</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="suite-hired" value="Both" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Both</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Number of Guests -->
+                <div class="form-group">
+                    <label for="guest-count">
+                        How many guests? <span class="required">*</span>
+                    </label>
+                    <input type="number" id="guest-count" name="guest-count" placeholder="Enter number of guests" min="1" max="650" required>
+                    <p class="field-note">Maximum: 400 for Amington Suite, 250 for Serenity Suite, 650 for Both</p>
+                </div>
+
+                <!-- Date of Walkthrough Meeting -->
+                <div class="form-group">
+                    <label for="walkthrough-date">
+                        Date of Walkthrough Meeting <span class="required">*</span>
+                    </label>
+                    <input type="text" id="walkthrough-date" name="walkthrough-date" placeholder="Select date..." required readonly>
+                </div>
+
+                <!-- Attendees -->
+                <div class="form-group">
+                    <label for="attendees">
+                        Attendees <span class="required">*</span>
+                    </label>
+                    <input type="text" id="attendees" name="attendees" placeholder="Enter attendee names" required>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 1 of 3</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="page1.js"></script>
+</body>
+</html>

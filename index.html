@@ -3,6 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amington Hall - Walkthrough Register</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta http-equiv="refresh" content="0; url=page1.html">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper" style="text-align: center; padding: 50px;">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <p style="margin: 30px 0;">Redirecting to form...</p>
+            <p><a href="page1.html" style="color: #d4af37;">Click here if not redirected automatically</a></p>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+        // Backup JavaScript redirect
+        window.location.href = 'page1.html';
+    </script>
+</body>
+</html>
+
+<!-- Old single-page form code below - kept for reference -->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amington Hall - Wedding Inquiry Form</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -22,51 +64,297 @@
             </header>
             
             <form id="wedding-inquiry-form" class="wedding-form">
-                <!-- Question 1 -->
-                <div class="form-group">
-                    <label for="your-name">
-                        What is you name? <span class="required">*</span>
-                    </label>
-                    <input type="text" id="your-name" name="your-name" placeholder="Short answer text" required>
+                <!-- Page 1 - Event Details -->
+                <div class="form-page" data-page="1">
+                    <h2 class="page-title">Event Details</h2>
+                    
+                    <!-- Name of Client -->
+                    <div class="form-group">
+                        <label for="client-name">
+                            Name of Client <span class="required">*</span>
+                        </label>
+                        <input type="text" id="client-name" name="client-name" placeholder="Enter client name" required>
+                    </div>
+
+                    <!-- Groom's Name -->
+                    <div class="form-group">
+                        <label for="groom-name">
+                            Groom's Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="groom-name" name="groom-name" placeholder="Enter groom's name" required>
+                    </div>
+
+                    <!-- Bride's Name -->
+                    <div class="form-group">
+                        <label for="bride-name">
+                            Bride's Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="bride-name" name="bride-name" placeholder="Enter bride's name" required>
+                    </div>
+
+                    <!-- Ethnicity / Cultural Background -->
+                    <div class="form-group">
+                        <label for="ethnicity">
+                            Ethnicity / Cultural Background <span class="required">*</span>
+                        </label>
+                        <input type="text" id="ethnicity" name="ethnicity" placeholder="Enter ethnicity or cultural background" required>
+                    </div>
+
+                    <!-- Date of the Event -->
+                    <div class="form-group">
+                        <label for="event-date">
+                            Date of the Event <span class="required">*</span>
+                        </label>
+                        <input type="text" id="event-date" name="event-date" placeholder="Select date..." required readonly>
+                    </div>
+
+                    <!-- Event Timings -->
+                    <div class="form-group">
+                        <label>
+                            Event Timings <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="event-timings" value="12pm - 4:30pm" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">12pm – 4:30pm</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="event-timings" value="6:30pm - 11pm" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">6:30pm – 11pm</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="event-timings" value="All day (6 Hours)" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">All day (6 Hours)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="event-timings" value="Other" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Other</span>
+                            </label>
+                        </div>
+                        <input type="text" id="event-timings-other" name="event-timings-other" placeholder="Please specify other timing" style="margin-top: 12px; display: none;">
+                    </div>
+
+                    <!-- Suite(s) Hired -->
+                    <div class="form-group">
+                        <label>
+                            Suite(s) Hired <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="suite-hired" value="Amington Suite" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Amington Suite</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="suite-hired" value="Serenity Suite" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Serenity Suite</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="suite-hired" value="Both" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Both</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Number of Guests -->
+                    <div class="form-group">
+                        <label for="guest-count">
+                            How many guests? <span class="required">*</span>
+                        </label>
+                        <input type="number" id="guest-count" name="guest-count" placeholder="Enter number of guests" min="1" max="650" required>
+                        <p class="field-note">Maximum: 400 for Amington Suite, 250 for Serenity Suite, 650 for Both</p>
+                    </div>
+
+                    <!-- Date of Walkthrough Meeting -->
+                    <div class="form-group">
+                        <label for="walkthrough-date">
+                            Date of Walkthrough Meeting <span class="required">*</span>
+                        </label>
+                        <input type="text" id="walkthrough-date" name="walkthrough-date" placeholder="Select date..." required readonly>
+                    </div>
+
+                    <!-- Attendees -->
+                    <div class="form-group">
+                        <label for="attendees">
+                            Attendees <span class="required">*</span>
+                        </label>
+                        <input type="text" id="attendees" name="attendees" placeholder="Enter attendee names" required>
+                    </div>
                 </div>
 
-                <!-- Question 2 -->
-                <div class="form-group">
-                    <label for="groom-name">
-                        What is the name of the groom? <span class="required">*</span>
-                    </label>
-                    <input type="text" id="groom-name" name="groom-name" placeholder="Short answer text" required>
+                <!-- Page 2 - Key Contacts -->
+                <div class="form-page" data-page="2" style="display: none;">
+                    <h2 class="page-title">Key Contacts</h2>
+                    
+                    <!-- Important Notice -->
+                    <div class="info-notice">
+                        <p>In order to ensure your event runs smoothly, we need a key point of contact if any changes to your event itinerary are required on the day due to delays or any unforeseen happenings. We advise that your key contact is not a main person on the event day, such as the bride or groom for wedding events.</p>
+                        <p>The main point of contact will need to be completely familiar with the details in this form and are to have ideally visited the venue before. It is advised for them to be present at the meeting.</p>
+                    </div>
+
+                    <!-- Primary Contact -->
+                    <h3 class="section-subtitle">Primary Point of Contact</h3>
+                    
+                    <div class="form-group">
+                        <label for="primary-contact-name">
+                            Name of First Main Point of Contact <span class="required">*</span>
+                        </label>
+                        <input type="text" id="primary-contact-name" name="primary-contact-name" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="primary-contact-phone">
+                            Phone Number of First Main Point of Contact <span class="required">*</span>
+                        </label>
+                        <div class="phone-input-wrapper">
+                            <span class="phone-prefix">+44</span>
+                            <input type="tel" id="primary-contact-phone" name="primary-contact-phone" placeholder="Enter phone number" pattern="[0-9]{10,11}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="primary-contact-relationship">
+                            Relationship of First Main Point of Contact with the Bride/Groom <span class="required">*</span>
+                        </label>
+                        <input type="text" id="primary-contact-relationship" name="primary-contact-relationship" placeholder="e.g., Sister, Best Friend, Father, etc." required>
+                    </div>
+
+                    <!-- Secondary Contact Notice -->
+                    <div class="info-notice secondary-notice">
+                        <p>In the case of a joint day, we require contact details of a main point of contact from both the bride's side & groom's side. If this applies to your event, please provide details for another main point of contact from the other side.</p>
+                        <button type="button" class="add-contact-btn" id="add-secondary-contact">+ Add Secondary Point of Contact</button>
+                    </div>
+
+                    <!-- Secondary Contact (Hidden by default) -->
+                    <div id="secondary-contact-section" style="display: none;">
+                        <h3 class="section-subtitle">Secondary Point of Contact</h3>
+                        
+                        <div class="form-group">
+                            <label for="secondary-contact-name">
+                                Name of Second Main Point of Contact
+                            </label>
+                            <input type="text" id="secondary-contact-name" name="secondary-contact-name" placeholder="Enter full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secondary-contact-phone">
+                                Phone Number of Second Main Point of Contact
+                            </label>
+                            <div class="phone-input-wrapper">
+                                <span class="phone-prefix">+44</span>
+                                <input type="tel" id="secondary-contact-phone" name="secondary-contact-phone" placeholder="Enter phone number" pattern="[0-9]{10,11}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secondary-contact-relationship">
+                                Relationship of Second Main Point of Contact with the Bride/Groom
+                            </label>
+                            <input type="text" id="secondary-contact-relationship" name="secondary-contact-relationship" placeholder="e.g., Sister, Best Friend, Father, etc.">
+                        </div>
+
+                        <button type="button" class="remove-contact-btn" id="remove-secondary-contact">Remove Secondary Contact</button>
+                    </div>
                 </div>
 
-                <!-- Question 3 -->
-                <div class="form-group">
-                    <label for="bride-name">
-                        What is the name of the bride? <span class="required">*</span>
-                    </label>
-                    <input type="text" id="bride-name" name="bride-name" placeholder="Short answer text" required>
+                <!-- Page 3 -->
+                <div class="form-page" data-page="3" style="display: none;">
+                    <h2 class="page-title">Additional Information</h2>
+                    
+                    <!-- Placeholder for future questions -->
+                    <div class="info-notice">
+                        <p>Additional questions will be added here.</p>
+                    </div>
                 </div>
 
-                <!-- Question 4 -->
-                <div class="form-group">
-                    <label for="ethnicity">
-                        What is your Ethnicity / Cultural Background ? <span class="required">*</span>
-                    </label>
-                    <input type="text" id="ethnicity" name="ethnicity" placeholder="Short answer text" required>
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn next-btn" id="next-btn">Next</button>
                 </div>
 
-                <!-- Question 5 -->
-                <div class="form-group">
-                    <label for="event-date">
-                        What is the date of the event? <span class="required">*</span>
-                    </label>
-                    <input type="text" id="event-date" name="event-date" placeholder="Select date..." required readonly>
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info"><span id="current-page">1</span> of <span id="total-pages">3</span></span>
                 </div>
-
-                <button type="submit" class="submit-btn">Submit</button>
             </form>
             
             <footer class="form-footer">
                 <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Exit Modal -->
+    <div class="modal" id="exit-modal">
+        <div class="modal-content">
+            <h3>Before you go...</h3>
+            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
+            <div class="form-group">
+                <label for="modal-phone">Phone Number (Optional)</label>
+                <div class="phone-input-wrapper">
+                    <span class="phone-prefix">+44</span>
+                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,11}">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
+                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
+                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+-->
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+                    <button type="submit" class="submit-btn" id="submit-btn" style="display: none;">Submit</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page <span id="current-page">1</span> of <span id="total-pages">2</span></span>
+                </div>
+            </form>
+
+            <!-- Exit Warning Modal -->
+            <div id="exit-modal" class="modal">
+                <div class="modal-content">
+                    <h2>Don't leave just yet!</h2>
+                    <p>We'd love to help you plan your special day. Leave your phone number and we'll remind you to complete the form.</p>
+                    <div class="form-group">
+                        <div class="phone-input-wrapper">
+                            <span class="phone-prefix">+44</span>
+                            <input type="tel" id="reminder-phone" placeholder="Enter phone number (optional)" pattern="[0-9]{10,11}">
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="modal-btn secondary" id="modal-cancel">Continue Form</button>
+                        <button class="modal-btn secondary" id="modal-leave">Leave Without Saving</button>
+                        <button class="modal-btn primary" id="modal-save-phone">Save & Exit</button>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
             </footer>
         </div>
     </div>

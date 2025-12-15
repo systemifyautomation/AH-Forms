@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amington Hall - Key Contacts</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page2-form" class="wedding-form">
+                <h2 class="page-title">Key Contacts</h2>
+                
+                <!-- Important Notice -->
+                <div class="info-notice">
+                    <p>In order to ensure your event runs smoothly, we need a key point of contact if any changes to your event itinerary are required on the day due to delays or any unforeseen happenings. We advise that your key contact is not a main person on the event day, such as the bride or groom for wedding events.</p>
+                    <p>The main point of contact will need to be completely familiar with the details in this form and are to have ideally visited the venue before. It is advised for them to be present at the meeting.</p>
+                </div>
+
+                <!-- Primary Contact -->
+                <h3 class="section-subtitle">Primary Point of Contact</h3>
+                
+                <div class="form-group">
+                    <label for="primary-contact-name">
+                        Name of First Main Point of Contact <span class="required">*</span>
+                    </label>
+                    <input type="text" id="primary-contact-name" name="primary-contact-name" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="primary-contact-phone">
+                        Phone Number of First Main Point of Contact <span class="required">*</span>
+                    </label>
+                    <div class="phone-input-wrapper">
+                        <input type="text" class="phone-prefix" id="primary-contact-phone-prefix" name="primary-contact-phone-prefix" value="+44" placeholder="+44">
+                        <input type="tel" id="primary-contact-phone" name="primary-contact-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="primary-contact-relationship">
+                        Relationship of First Main Point of Contact with the Bride/Groom <span class="required">*</span>
+                    </label>
+                    <input type="text" id="primary-contact-relationship" name="primary-contact-relationship" placeholder="e.g., Sister, Best Friend, Father, etc." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="primary-contact-email">
+                        Email of First Main Point of Contact
+                    </label>
+                    <input type="email" id="primary-contact-email" name="primary-contact-email" placeholder="Enter email address">
+                </div>
+
+                <!-- Secondary Contact Notice -->
+                <div class="info-notice secondary-notice">
+                    <p>In the case of a joint day, we require contact details of a main point of contact from both the bride's side & groom's side. If this applies to your event, please provide details for another main point of contact from the other side.</p>
+                    <button type="button" class="add-contact-btn" id="add-secondary-contact">+ Add Secondary Point of Contact</button>
+                </div>
+
+                <!-- Secondary Contact (Hidden by default) -->
+                <div id="secondary-contact-section" style="display: none;">
+                    <h3 class="section-subtitle">Secondary Point of Contact</h3>
+                    
+                    <div class="form-group">
+                        <label for="secondary-contact-name">
+                            Name of Second Main Point of Contact
+                        </label>
+                        <input type="text" id="secondary-contact-name" name="secondary-contact-name" placeholder="Enter full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secondary-contact-phone">
+                            Phone Number of Second Main Point of Contact
+                        </label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" class="phone-prefix" id="secondary-contact-phone-prefix" name="secondary-contact-phone-prefix" value="+44" placeholder="+44">
+                            <input type="tel" id="secondary-contact-phone" name="secondary-contact-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secondary-contact-relationship">
+                            Relationship of Second Main Point of Contact with the Bride/Groom
+                        </label>
+                        <input type="text" id="secondary-contact-relationship" name="secondary-contact-relationship" placeholder="e.g., Sister, Best Friend, Father, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secondary-contact-email">
+                            Email of Second Main Point of Contact
+                        </label>
+                        <input type="email" id="secondary-contact-email" name="secondary-contact-email" placeholder="Enter email address">
+                    </div>
+
+                    <button type="button" class="remove-contact-btn" id="remove-secondary-contact">Remove Secondary Contact</button>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 2 of 3</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="page2.js"></script>
+</body>
+</html>
