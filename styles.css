@@ -155,6 +155,17 @@ body::before {
     text-align: center;
 }
 
+.info-notice-large {
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.list-standard {
+    margin-left: 20px;
+    line-height: 1.8;
+}
+
 .add-contact-btn {
     margin-top: 15px;
     padding: 12px 24px;
@@ -909,14 +920,6 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
     box-shadow: 0 6px 30px rgba(212, 175, 55, 0.4);
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 18px;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
 .submit-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -1220,6 +1223,15 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 /* Utility Classes */
 .text-gold {
     color: #d4af37;
+}
+
+.text-gold-bold {
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .text-indent {

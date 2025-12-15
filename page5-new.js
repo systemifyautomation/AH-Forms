@@ -59,7 +59,7 @@ function setupEventListeners() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         saveFormData();
-        window.location.href = 'page6-old.html'; // Will be renamed to page6.html
+        window.location.href = 'page5.html'; // Navigate to Wedding Cake page
     });
 
     // Previous button
