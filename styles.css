@@ -560,35 +560,7 @@ select option {
     border-left: 4px solid #d4af37;
 }
 
-/* Submit Button */
-.submit-btn {
-    width: 100%;
-    padding: 18px;
-    margin-top: 20px;
-    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
-    border: none;
-    border-radius: 8px;
-    color: #0a0a0a;
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-family: inherit;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
-}
-
-.submit-btn:hover {
-    background: linear-gradient(135deg, #e5c349 0%, #d4af37 100%);
-    box-shadow: 0 6px 30px rgba(212, 175, 55, 0.4);
-    transform: translateY(-2px);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-}
+/* Submit Button - Removed duplicate styles, see navigation section for .nav-btn.submit-btn */
 
 /* Footer */
 .form-footer {
