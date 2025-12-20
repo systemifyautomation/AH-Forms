@@ -1,10 +1,27 @@
 // Page 7 - Visuals & External JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
-const APPSCRIPT_URL = 'YOUR_APPSCRIPT_WEB_APP_URL_HERE';
+
+// Load endpoints from JSON file
+let APPSCRIPT_ENDPOINTS = [];
+
+// Load endpoints on page load
+async function loadAppScriptEndpoints() {
+    try {
+        const response = await fetch('appscript-endpoints.json');
+        const config = await response.json();
+        APPSCRIPT_ENDPOINTS = config.endpoints || [];
+        console.log('Loaded App Script endpoints:', APPSCRIPT_ENDPOINTS);
+    } catch (error) {
+        console.error('Error loading App Script endpoints:', error);
+        // Fallback to empty array - will show error on submission
+        APPSCRIPT_ENDPOINTS = [];
+    }
+}
 
 let isSubmitting = false;
 
 document.addEventListener('DOMContentLoaded', function() {
+    loadAppScriptEndpoints(); // Load endpoints first
     loadSavedData();
     setupEventListeners();
     setupToggleSections();
@@ -211,15 +228,12 @@ async function handleFormSubmit() {
         
         console.log('Submitting structured form data:', webhookPayload);
 
-        // Submit to webhook/AppScript
-        const response = await fetch(APPSCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(webhookPayload)
-        });
+        // Submit to App Script endpoints with retry logic
+        const success = await submitToAppScript(webhookPayload);
+        
+        if (!success) {
+            throw new Error('All App Script endpoints failed');
+        }
 
         console.log('Form submitted successfully');
         console.log('Submitted payload structure:', JSON.stringify(webhookPayload, null, 2));
@@ -303,4 +317,52 @@ function showNotification(message, type = 'success') {
     setTimeout(() => {
         notification.classList.remove('show');
     }, 3000);
+}
+
+/**
+ * Submits data to App Script endpoints with fallback retry logic
+ * Tries each endpoint in order until one succeeds
+ */
+async function submitToAppScript(payload) {
+    if (!APPSCRIPT_ENDPOINTS || APPSCRIPT_ENDPOINTS.length === 0) {
+        console.error('No App Script endpoints configured');
+        showNotification('Configuration error: No submission endpoints available', 'error');
+        return false;
+    }
+
+    console.log(`Attempting submission to ${APPSCRIPT_ENDPOINTS.length} endpoint(s)`);
+
+    for (let i = 0; i < APPSCRIPT_ENDPOINTS.length; i++) {
+        const endpoint = APPSCRIPT_ENDPOINTS[i];
+        console.log(`Trying endpoint ${i + 1}/${APPSCRIPT_ENDPOINTS.length}: ${endpoint.substring(0, 50)}...`);
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                mode: 'no-cors', // Required for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // With no-cors mode, we can't read the response, but if fetch doesn't throw, consider it successful
+            console.log(`✓ Endpoint ${i + 1} accepted the request`);
+            return true;
+
+        } catch (error) {
+            console.warn(`✗ Endpoint ${i + 1} failed:`, error.message);
+            
+            // If this was the last endpoint, return false
+            if (i === APPSCRIPT_ENDPOINTS.length - 1) {
+                console.error('All endpoints failed');
+                return false;
+            }
+            
+            // Otherwise, continue to next endpoint
+            console.log(`Retrying with next endpoint...`);
+        }
+    }
+
+    return false;
 }
