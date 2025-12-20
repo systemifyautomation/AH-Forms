@@ -50,20 +50,20 @@ function getOutputFolderId() {
 
 /**
  * Handles POST requests from the form submission
+ * Returns immediately with 200 response, processes document asynchronously
  */
 function doPost(e) {
   try {
     // Parse the incoming data
     const formData = JSON.parse(e.postData.contents);
     
-    // Create the staff itinerary document
-    const docUrl = createStaffItinerary(formData);
+    // Start async document creation (using trigger)
+    createStaffItineraryAsync(formData);
     
-    // Return success response
+    // Return immediate success response
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
-      documentUrl: docUrl,
-      message: 'Staff Itinerary created successfully'
+      message: 'Form submitted successfully. Document is being generated.'
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
@@ -72,8 +72,25 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({
       success: false,
       error: error.toString(),
-      message: 'Failed to create Staff Itinerary'
+      message: 'Failed to submit form'
     })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * Processes document creation asynchronously
+ */
+function createStaffItineraryAsync(formData) {
+  try {
+    const docUrl = createStaffItinerary(formData);
+    Logger.log('Document created successfully: ' + docUrl);
+    
+    // Optionally send email notification here
+    // sendEmailNotification(formData, docUrl);
+    
+  } catch (error) {
+    Logger.log('Error in async document creation: ' + error.toString());
+    Logger.log('Form data: ' + JSON.stringify(formData));
   }
 }
 

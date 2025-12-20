@@ -223,20 +223,17 @@ async function handleFormSubmit() {
             return;
         }
         
-        // Structure data for webhook
-        const webhookPayload = prepareWebhookPayload(rawData);
-        
-        console.log('Submitting structured form data:', webhookPayload);
+        // Send raw data directly to Apps Script (it expects flat field names)
+        console.log('Submitting form data:', rawData);
 
         // Submit to App Script endpoints with retry logic
-        const success = await submitToAppScript(webhookPayload);
+        const success = await submitToAppScript(rawData);
         
         if (!success) {
             throw new Error('All App Script endpoints failed');
         }
 
         console.log('Form submitted successfully');
-        console.log('Submitted payload structure:', JSON.stringify(webhookPayload, null, 2));
         
         isSubmitting = true;
         localStorage.removeItem(STORAGE_KEY);
