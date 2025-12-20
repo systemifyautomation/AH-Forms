@@ -273,7 +273,18 @@ async function handleFormSubmit() {
         console.log('Form submitted successfully');
         
         isSubmitting = true;
+        
+        // Clear localStorage
         localStorage.removeItem(STORAGE_KEY);
+        
+        // Clear all form fields on page 7
+        document.getElementById('page7-form').reset();
+        
+        // Clear all conditional sections
+        document.getElementById('photographer-details').style.display = 'none';
+        document.getElementById('videographer-details').style.display = 'none';
+        
+        // Show success modal
         showSuccessModal();
         
         submitBtn.disabled = false;
