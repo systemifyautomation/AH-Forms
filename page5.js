@@ -62,6 +62,7 @@ function setupEventListeners() {
             saveFormData();
             window.location.href = 'page6.html';
         } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
         }
     });
@@ -158,10 +159,12 @@ function getStoredData() {
 
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = `notification ${type} show`;
+    notification.innerHTML = message.replace(/\n/g, '<br>');
+    notification.className = `notification notification-${type} show`;
+    
+    const duration = type === 'error' ? 5000 : 3000;
     
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, duration);
 }

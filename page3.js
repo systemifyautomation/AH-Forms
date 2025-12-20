@@ -62,8 +62,9 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
-            window.location.href = 'page4.html';
+            window.location.href = 'page5.html';
         } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
         }
     });
@@ -92,53 +93,43 @@ function setupEventListeners() {
 function validatePage() {
     console.log('=== Starting Page 3 Validation ===');
     
-    // Get all required fields
-    const requiredFields = document.querySelectorAll('input[required], textarea[required], select[required]');
-    const emptyFields = [];
+    const missingFields = [];
     
-    // Check text, number, email, tel inputs
-    requiredFields.forEach(field => {
-        // Skip hidden fields
-        if (field.offsetParent === null) {
-            console.log(`Skipping hidden field: ${field.name || field.id}`);
-            return;
-        }
-        
-        if (field.type !== 'radio' && !field.value.trim()) {
-            emptyFields.push(field.name || field.id);
-            console.log(`Empty field: ${field.name || field.id}`);
-        }
-    });
-    
-    if (emptyFields.length > 0) {
-        console.log('Empty fields found:', emptyFields);
-        return false;
-    }
-    
-    // Check radio button groups
-    const radioGroups = ['suite-hired', 'table-type', 'guest-arrangements', 'table-settings', 'head-table', 'dance-floor'];
-    for (const groupName of radioGroups) {
-        const checkedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
-        if (!checkedRadio) {
-            console.log(`Unchecked radio group: ${groupName}`);
-            return false;
-        }
-    }
-    
-    // Validate guest count against suite capacity
+    // Check required text fields
     const guestCountInput = document.getElementById('guest-count');
-    const guestCount = parseInt(guestCountInput.value);
+    if (!guestCountInput.value.trim()) {
+        missingFields.push('Number of Guests');
+    }
     
+    // Check radio button groups with user-friendly labels
+    const radioGroups = [
+        { name: 'suite-hired', label: 'Suite Hired' },
+        { name: 'table-type', label: 'Table Type' },
+        { name: 'guest-arrangements', label: 'Guest Arrangements' },
+        { name: 'table-settings', label: 'Table Settings' },
+        { name: 'head-table', label: 'Head Table' },
+        { name: 'dance-floor', label: 'Dance Floor' }
+    ];
+    
+    for (const group of radioGroups) {
+        const checkedRadio = document.querySelector(`input[name="${group.name}"]:checked`);
+        if (!checkedRadio) {
+            missingFields.push(group.label);
+            console.log(`Unchecked: ${group.label}`);
+        }
+    }
+    
+    if (missingFields.length > 0) {
+        return `Please answer the following required questions:\n\n• ${missingFields.join('\n• ')}`;
+    }
+    
+    // Validate guest count
+    const guestCount = parseInt(guestCountInput.value);
     if (isNaN(guestCount) || guestCount <= 0) {
-        console.log('Invalid guest count:', guestCountInput.value);
         return 'Please enter a valid number of guests.';
     }
     
     const selectedSuite = document.querySelector('input[name="suite-hired"]:checked');
-    if (!selectedSuite) {
-        return 'Please select a suite.';
-    }
-    
     let maxCapacity;
     let suiteName;
     
@@ -277,10 +268,12 @@ function getStoredData() {
 
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = `notification ${type} show`;
+    notification.innerHTML = message.replace(/\n/g, '<br>');
+    notification.className = `notification notification-${type} show`;
+    
+    const duration = type === 'error' ? 5000 : 3000;
     
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, duration);
 }

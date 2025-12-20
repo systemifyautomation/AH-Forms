@@ -59,6 +59,7 @@ function setupEventListeners() {
             saveFormData();
             window.location.href = 'page2.html';
         } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
         }
     });
@@ -81,37 +82,40 @@ function setupEventListeners() {
 function validatePage() {
     console.log('=== Starting Page 1 Validation ===');
     
-    // Get all required fields
-    const requiredFields = document.querySelectorAll('input[required], textarea[required], select[required]');
-    const emptyFields = [];
+    const missingFields = [];
     
-    // Check text, number, email, tel inputs
-    requiredFields.forEach(field => {
-        // Skip hidden fields
-        if (field.offsetParent === null) {
-            console.log(`Skipping hidden field: ${field.name || field.id}`);
-            return;
-        }
-        
-        if (field.type !== 'radio' && !field.value.trim()) {
-            emptyFields.push(field.name || field.id);
-            console.log(`Empty field: ${field.name || field.id}`);
+    // Check required text fields with user-friendly labels
+    const requiredFieldsMap = [
+        { id: 'client-name', label: 'Client Name' },
+        { id: 'groom-name', label: 'Groom Name' },
+        { id: 'bride-name', label: 'Bride Name' },
+        { id: 'ethnicity', label: 'Ethnicity' },
+        { id: 'event-date', label: 'Event Date' },
+        { id: 'walkthrough-date', label: 'Walkthrough Date' }
+    ];
+    
+    requiredFieldsMap.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (element && !element.value.trim()) {
+            missingFields.push(field.label);
+            console.log(`Empty field: ${field.label}`);
         }
     });
     
-    if (emptyFields.length > 0) {
-        console.log('Empty fields found:', emptyFields);
-        return false;
+    // Check event timings radio group
+    const timingChecked = document.querySelector('input[name="event-timings"]:checked');
+    if (!timingChecked) {
+        missingFields.push('Event Timings');
+        console.log('Event Timings not selected');
+    } else if (timingChecked.value === 'Other') {
+        const otherInput = document.getElementById('event-timings-other');
+        if (!otherInput.value.trim()) {
+            missingFields.push('Other Event Timing (please specify)');
+        }
     }
     
-    // Check radio button groups
-    const radioGroups = ['event-timings'];
-    for (const groupName of radioGroups) {
-        const checkedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
-        if (!checkedRadio) {
-            console.log(`Unchecked radio group: ${groupName}`);
-            return false;
-        }
+    if (missingFields.length > 0) {
+        return `Please fill in the following required fields:\n\n• ${missingFields.join('\n• ')}`;
     }
     
     console.log('=== Page 1 Validation Passed ===');
@@ -172,10 +176,12 @@ function getStoredData() {
 
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = `notification ${type} show`;
+    notification.innerHTML = message.replace(/\n/g, '<br>');
+    notification.className = `notification notification-${type} show`;
+    
+    const duration = type === 'error' ? 5000 : 3000;
     
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, duration);
 }
