@@ -391,7 +391,12 @@ function buildVariables(data) {
     '{{guestCount}}': data['guest-count'] || '',
     '{{guestTables}}': calculateTables(data['guest-count']),
     
-    // Venue Setup - Suite Section
+    // Venue Setup - Complete Sections
+    '{{suiteSection}}': buildSuiteSection(data),
+    '{{serenitySuiteSection}}': buildSerenitySuiteSection(data),
+    '{{foyerNendraTable}}': data['table-nendra'] ? 'Nendra table' : 'No Nendra',
+    
+    // Legacy individual variables (keeping for backward compatibility)
     '{{reservedTablesLHS}}': getReservedTablesLHS(data),
     '{{reservedTablesRHS}}': getReservedTablesRHS(data),
     '{{extraTableInfo}}': getExtraTableInfo(data),
@@ -401,15 +406,10 @@ function buildVariables(data) {
     '{{decorStage}}': getDecorStage(data),
     '{{decorCentrepieces}}': getDecorCentrepieces(data),
     '{{decorWalkway}}': getDecorWalkway(data),
-    
-    // Venue Setup - Serenity Suite Section
     '{{serenityGuestTables}}': getSerenityGuestTables(data),
     '{{serenityGuestCount}}': getSerenityGuestCount(data),
     '{{serenityReservedTablesLeft}}': getSerenityReservedLeft(data),
     '{{serenityReservedTablesRight}}': getSerenityReservedRight(data),
-    
-    // Venue Setup - Foyer
-    '{{foyerNendraTable}}': data['table-nendra'] ? 'Nendra table?' : 'No Nendra',
     
     // External Vendors - Table Drinks
     '{{vendorTableDrinksETA}}': '',
@@ -535,6 +535,144 @@ function calculateTables(guestCount) {
 // ============================================================================
 // SECTION BUILDERS
 // ============================================================================
+
+/**
+ * Builds complete Suite section with proper formatting
+ */
+function buildSuiteSection(data) {
+  const suiteHired = data['suite-hired'] || '';
+  
+  // Only show suite section if Amington Suite or Both are hired
+  if (suiteHired !== 'Amington Suite' && suiteHired !== 'Both') {
+    return '';
+  }
+  
+  let section = 'Suite';
+  
+  // Guest tables
+  const guestCount = parseInt(data['guest-count']) || 0;
+  const guestTables = calculateTables(data['guest-count']);
+  
+  if (suiteHired === 'Both') {
+    // Split guests between suites
+    const halfGuests = Math.ceil(guestCount / 2);
+    const halfTables = Math.ceil(halfGuests / 10);
+    section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+  } else {
+    section += `\nGuest tables:\n\t${guestTables} round tables of 10 = ${guestCount} seats`;
+  }
+  
+  // Reserved tables
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount > 0) {
+    section += '\n\nReserved tables';
+    
+    if (data['guest-arrangements'] === 'Men & Women Segregation') {
+      const tablesLHS = Math.ceil(reservedCount / 2 / 10);
+      const tablesRHS = Math.ceil(reservedCount / 2 / 10);
+      section += `\n\t${tablesLHS} round tables on LHS of stage`;
+      section += `\n\t${tablesRHS} round tables on RHS of stage`;
+    } else {
+      const reservedTables = Math.ceil(reservedCount / 10);
+      section += `\n\t${reservedTables} round tables`;
+    }
+  }
+  
+  // Extra tables
+  const extraTables = [];
+  if (data['table-gift']) extraTables.push('6ft table for gifts – Envelope box on this table');
+  if (data['table-drink']) extraTables.push('Drink station (6ft Rectangle table)');
+  if (data['table-other-text']) extraTables.push(data['table-other-text']);
+  
+  if (extraTables.length > 0) {
+    section += '\n\nExtra tables\n\t' + extraTables.join('\n\t');
+  }
+  
+  // CCLG & Favours
+  if (data['favours'] === 'Yes' && data['favours-type']) {
+    section += `\n\nCCLG & Favours?\n\t${data['favours-type']}`;
+  } else if (data['favours'] === 'Yes') {
+    section += '\n\nCCLG & Favours?';
+  }
+  
+  // Head table
+  if (data['head-table'] === 'Yes') {
+    section += '\n\nHead table - YES\n\t2 seater';
+    if (data['guest-arrangements'] === 'Men & Women Segregation') {
+      section += ' on RHS of stage';
+    }
+  } else {
+    section += '\n\nHead table - NO';
+  }
+  
+  // Cake table
+  const hasWeddingCake = data['wedding-cake'] === 'Yes';
+  const hasCakeCompany = data['cake-company'] || data['cake-company-name'];
+  
+  if (hasWeddingCake || hasCakeCompany) {
+    section += '\n\nCake table - YES';
+    if (data['guest-arrangements'] === 'Men & Women Segregation') {
+      section += '\n\tOn LHS side of stage';
+    }
+  } else {
+    section += '\n\nCake table - NO';
+  }
+  
+  // Decor
+  section += '\n\nDecor -';
+  if (data['decor-company-name']) {
+    section += `\n\tStage: ${data['decor-company-name']}`;
+    section += '\n\tCentrepieces: Custom';
+    section += '\n\tWalkway: Custom';
+    if (data['decor-description']) {
+      section += `\n\t${data['decor-description']}`;
+    }
+  } else {
+    section += '\n\tStage: Standard';
+    section += '\n\tCentrepieces: Standard';
+    section += '\n\tWalkway: Standard';
+  }
+  
+  return section;
+}
+
+/**
+ * Builds complete Serenity Suite section with proper formatting
+ */
+function buildSerenitySuiteSection(data) {
+  const suiteHired = data['suite-hired'] || '';
+  
+  // Only show Serenity section if Serenity Suite or Both are hired
+  if (suiteHired !== 'Serenity Suite' && suiteHired !== 'Both') {
+    return '';
+  }
+  
+  let section = 'Serenity Suite';
+  
+  // Guest tables
+  const guestCount = parseInt(data['guest-count']) || 0;
+  
+  if (suiteHired === 'Serenity Suite') {
+    const guestTables = calculateTables(data['guest-count']);
+    section += `\nGuest tables:\n\t${guestTables} round tables of 10 = ${guestCount} seats`;
+  } else if (suiteHired === 'Both') {
+    const halfGuests = Math.ceil(guestCount / 2);
+    const halfTables = Math.ceil(halfGuests / 10);
+    section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+  }
+  
+  // Reserved tables
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount > 0) {
+    section += '\n\nReserved tables';
+    const tablesLeft = Math.ceil(reservedCount / 2 / 10);
+    const tablesRight = Math.ceil(reservedCount / 2 / 10);
+    section += `\n\t${tablesLeft} round tables on left side of stage`;
+    section += `\n\t${tablesRight} round tables on right side of stage`;
+  }
+  
+  return section;
+}
 
 /**
  * Builds reserved tables information

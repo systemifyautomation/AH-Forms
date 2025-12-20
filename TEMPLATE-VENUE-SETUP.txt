@@ -1,34 +1,8 @@
 Venue Setup
 
-Suite
-Guest tables:
-	{{guestTables}} round tables of 10 = {{guestCount}} seats
+{{suiteSection}}
 
-Reserved tables
-	{{reservedTablesLHS}} round tables on LHS of stage
-	{{reservedTablesRHS}} round tables on RHS of stage
-
-Extra tables
-	{{extraTableInfo}}
-	
-{{cclgFavoursInfo}}
-
-{{headTableInfo}}
-
-{{cakeTableInfo}}
-
-Decor -
-	Stage: {{decorStage}}
-	Centrepieces: {{decorCentrepieces}}
-	Walkway: {{decorWalkway}}
-
-Serenity Suite
-Guest tables:
-	{{serenityGuestTables}} round tables of 10 = {{serenityGuestCount}} seats
-
-Reserved tables
-	{{serenityReservedTablesLeft}} round tables on left side of stage
-	{{serenityReservedTablesRight}} round tables on right side of stage
+{{serenitySuiteSection}}
 
 Foyer
 {{foyerNendraTable}}
