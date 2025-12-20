@@ -1,0 +1,166 @@
+{
+  "templateVariables": {
+    "description": "Variable mapping for Staff Itinerary template. Use this to replace {{variable}} placeholders when creating documents from form submissions.",
+    "variables": {
+      "clientName": {
+        "source": "page1.client-name",
+        "description": "Client's full name",
+        "example": "Saahira Sikander"
+      },
+      "eventDate": {
+        "source": "page1.event-date",
+        "description": "Event date formatted as 'Day Date Month Year'",
+        "example": "Sunday 19th October 2025"
+      },
+      "eventTime": {
+        "source": "page1.event-timings",
+        "description": "Event timing slot",
+        "example": "12pm to 4:30pm",
+        "note": "If 'Other' selected, use event-timings-other value"
+      },
+      "suite": {
+        "source": "page3.suite-hired",
+        "description": "Suite name(s) hired for event",
+        "example": "Serenity Suite",
+        "possibleValues": ["Amington Suite", "Serenity Suite", "Both"]
+      },
+      "eventType": {
+        "source": "page1.event-type",
+        "description": "Type of event",
+        "example": "Walima",
+        "possibleValues": ["Walima", "Nikkah", "Joint Day"]
+      },
+      "seatingArrangement": {
+        "source": "page3.guest-arrangements",
+        "description": "Guest seating arrangement type",
+        "example": "Mixed Family Seating",
+        "possibleValues": ["Mixed Family Seating", "Men & Women Segregation"]
+      },
+      "brideName": {
+        "source": "page1.bride-name",
+        "description": "Bride's full name",
+        "example": "Saahira Sikander"
+      },
+      "groomName": {
+        "source": "page1.groom-name",
+        "description": "Groom's full name",
+        "example": "Hussan Aftab Choudhry"
+      },
+      "mpcName": {
+        "source": "page2.primary-contact-name",
+        "description": "Main Point of Contact name",
+        "example": "Shahbaz Choudhry"
+      },
+      "mpcRelationship": {
+        "source": "page2.primary-contact-relationship",
+        "description": "MPC's relationship to couple",
+        "example": "Groom's Brother"
+      },
+      "mpcPhone": {
+        "source": "page2.primary-contact-phone-prefix + page2.primary-contact-phone",
+        "description": "MPC's phone number with country code",
+        "example": "07903422999"
+      },
+      "guestCount": {
+        "source": "page3.guest-count",
+        "description": "Total number of guests",
+        "example": "120"
+      },
+      "guestTables": {
+        "source": "calculated",
+        "description": "Number of tables needed (guestCount / 10, rounded up)",
+        "example": "12",
+        "calculation": "Math.ceil(guestCount / 10)"
+      },
+      "reservedTablesInfo": {
+        "source": "constructed",
+        "description": "Information about reserved tables and their distribution",
+        "example": "\nReserved tables\n\t2 round tables on LHS of stage – Grooms Side\n\t2 round tables on RHS of stage – Brides Side",
+        "logic": "Build from page3.reserved-seatings and segregation info"
+      },
+      "extraTablesInfo": {
+        "source": "constructed",
+        "description": "Additional tables requested",
+        "example": "\nExtra tables\n\t6ft table for gifts – Envelope box on this table\n\tCCLG & Favours",
+        "fields": [
+          "page5-new.table-nendra -> 'Nendra Table (2 seater)'",
+          "page5-new.table-gift -> '6ft table for gifts'",
+          "page5-new.table-drink -> 'Drink station (6ft Rectangle table)'",
+          "page5-new.table-other-text -> custom table description",
+          "page5-new.favours + page5-new.favours-type -> 'CCLG & Favours'",
+          "page5-new.menu-cards + page5-new.menu-cards-placement -> menu card details"
+        ]
+      },
+      "headTableInfo": {
+        "source": "page3.head-table",
+        "description": "Head table yes/no and position",
+        "example": "\nHead table - YES\n\t2 seater on RHS of stage",
+        "note": "Include position (RHS/LHS) if segregation is enabled"
+      },
+      "cakeTableInfo": {
+        "source": "constructed",
+        "description": "Cake table information",
+        "example": "\nCake table - YES\n\tOn LHS side of stage",
+        "fields": [
+          "page5.wedding-cake OR page5-new has cake info",
+          "Position based on segregation setup"
+        ]
+      },
+      "decorInfo": {
+        "source": "constructed",
+        "description": "Décor details (usually standard unless third party)",
+        "example": "\nDecor -\n\tStage: Standard\n\tCentrepieces: Standard\n\tWalkway: Standard",
+        "fields": [
+          "page4.decor-company-name",
+          "page5-new.decor-description",
+          "If no custom decor, use 'Standard'"
+        ]
+      },
+      "foyerSetup": {
+        "source": "constructed",
+        "description": "Foyer setup details",
+        "example": "No Nendra",
+        "note": "Based on page5-new.table-nendra checkbox"
+      },
+      "inHouseServices": {
+        "source": "constructed",
+        "description": "List of in-house services as table rows",
+        "example": "| Welcome drinks | Mango & Guava |\n| 360 | In front of Bar – After Food |\n| White Walkway |  |",
+        "fields": [
+          "Derived from various service selections across forms",
+          "page7.sound-system -> DJ/In-house options",
+          "page5-new services like special-effects, sweet-setups, photobooth"
+        ],
+        "format": "Each service as: | ServiceName | Notes |"
+      },
+      "externalVendors": {
+        "source": "constructed",
+        "description": "External vendors table rows",
+        "example": "|  | Photography | VIP Media Group - 07974722722 | Confirmed |\n|  | Caterer | MKB - 0121 753 0816 |  |",
+        "fields": [
+          "page7.photographer-company-name + photographer-contact-number",
+          "page7.videographer-company-name + videographer-contact-number",
+          "page7.dj-name + dj-contact-number (if external DJ)",
+          "page5/page5-new.cake-company-name + cake-contact-number",
+          "page4.decor-company-name + decor-contact-number",
+          "page5-new.special-effects-company + special-effects-contact"
+        ],
+        "format": "Each vendor as: | ETA | Service | Company - Phone | Notes |"
+      }
+    },
+    "notes": {
+      "missingFields": [
+        "ETA (Estimated Time of Arrival) for vendors - Not collected in form",
+        "AH Staff names - Not in form, manual entry needed",
+        "Caterer details - Not in current form"
+      ],
+      "constructionLogic": {
+        "reservedTablesInfo": "Calculate table distribution based on segregation and reserved count",
+        "extraTablesInfo": "Combine all additional table selections into formatted list",
+        "decorInfo": "Use 'Standard' for each category unless custom decor company provided",
+        "inHouseServices": "Filter selected services and format as table rows",
+        "externalVendors": "Collect all external vendor details from photographer, videographer, DJ, cake, decor, special effects sections"
+      }
+    }
+  }
+}
