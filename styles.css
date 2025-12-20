@@ -1104,19 +1104,40 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
     position: fixed;
     top: 20px;
     right: 20px;
-    padding: 16px 24px;
+    left: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px 28px;
     background: linear-gradient(145deg, rgba(20, 20, 20, 0.98) 0%, rgba(10, 10, 10, 1) 100%);
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: 8px;
     color: #ffffff;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.6;
     box-shadow: 
         0 0 30px rgba(212, 175, 55, 0.2),
         0 10px 20px rgba(0, 0, 0, 0.5);
     z-index: 2000;
     opacity: 0;
-    transform: translateX(400px);
-    transition: all 0.3s ease;
+    transform: translateY(-100px);
+    transition: all 0.4s ease;
+    text-align: center;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-success {
+    border-color: rgba(76, 175, 80, 0.6);
+    background: linear-gradient(145deg, rgba(20, 40, 20, 0.98) 0%, rgba(10, 30, 10, 1) 100%);
+}
+
+.notification-error {
+    border-color: rgba(244, 67, 54, 0.8);
+    background: linear-gradient(145deg, rgba(40, 20, 20, 0.98) 0%, rgba(30, 10, 10, 1) 100%);
+    font-weight: 500;
 }
 
 /* Success Modal Styles */
@@ -1186,7 +1207,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 
 .notification.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 .notification-success {
@@ -1195,8 +1216,9 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 }
 
 .notification-error {
-    border-color: rgba(244, 67, 54, 0.6);
+    border-color: rgba(244, 67, 54, 0.8);
     background: linear-gradient(145deg, rgba(40, 20, 20, 0.98) 0%, rgba(30, 10, 10, 1) 100%);
+    font-weight: 500;
 }
 
 /* Responsive Design for New Elements */

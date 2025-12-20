@@ -87,11 +87,11 @@ function setupEventListeners() {
         
         const validation = validatePage();
         if (validation === true) {
-            if (confirm('Are you ready to submit the form? Please make sure all information is correct.')) {
-                handleFormSubmit();
-            }
+            handleFormSubmit();
         } else {
-            showNotification(validation || 'Please fill in all required fields correctly.', 'error');
+            // Scroll to top to see the error
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showNotification(validation, 'error');
         }
     });
 
@@ -119,15 +119,26 @@ function setupEventListeners() {
 function validatePage() {
     console.log('=== Starting Page 7 Validation ===');
     
-    // Check required radio groups
-    const requiredRadios = ['photographer', 'videographer', 'cinematography-equipment', 'sound-system'];
+    // Check required radio groups with user-friendly labels
+    const requiredFields = [
+        { name: 'photographer', label: 'Photographer' },
+        { name: 'videographer', label: 'Videographer' },
+        { name: 'cinematography-equipment', label: 'Cinematography Equipment' },
+        { name: 'sound-system', label: 'Sound System' }
+    ];
     
-    for (const radioName of requiredRadios) {
-        const checked = document.querySelector(`input[name="${radioName}"]:checked`);
+    const missingFields = [];
+    
+    for (const field of requiredFields) {
+        const checked = document.querySelector(`input[name="${field.name}"]:checked`);
         if (!checked) {
-            console.log(`Required radio group not answered: ${radioName}`);
-            return false;
+            console.log(`Required field not answered: ${field.label}`);
+            missingFields.push(field.label);
         }
+    }
+    
+    if (missingFields.length > 0) {
+        return `Please answer the following required questions:\n\n• ${missingFields.join('\n• ')}`;
     }
     
     console.log('=== Page 7 Validation Passed ===');
@@ -204,9 +215,18 @@ function showSuccessModal() {
     const modal = document.getElementById('success-modal');
     modal.classList.add('show');
     
+    // Remove any existing event listeners
     const okBtn = document.getElementById('success-ok-btn');
-    okBtn.addEventListener('click', function() {
-        window.location.href = 'page1.html';
+    const newBtn = okBtn.cloneNode(true);
+    okBtn.parentNode.replaceChild(newBtn, okBtn);
+    
+    // Add fresh event listener
+    newBtn.addEventListener('click', function() {
+        modal.classList.remove('show');
+        // Force navigation after a short delay
+        setTimeout(() => {
+            window.location.href = 'page1.html';
+        }, 100);
     });
 }
 
@@ -232,7 +252,9 @@ async function handleFormSubmit() {
         const validation = validateCompleteForm(rawData);
         if (!validation.isValid) {
             console.warn('Form validation found missing fields:', validation.missingFields);
-            showNotification('Please ensure all required fields are filled. Missing: ' + validation.missingFields.join(', '), 'error');
+            const errorMsg = `Please complete all required fields:\n\n• ${validation.missingFields.join('\n• ')}`;
+            showNotification(errorMsg, 'error');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit Form';
             return;
@@ -259,7 +281,8 @@ async function handleFormSubmit() {
 
     } catch (error) {
         console.error('Error submitting form:', error);
-        showNotification('There was an error submitting the form. Please try again.', 'error');
+        showNotification('Submission failed. Please check your internet connection and try again.', 'error');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Form';
     }
@@ -321,12 +344,16 @@ function getStoredData() {
 
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = `notification ${type} show`;
+    // Preserve line breaks in messages
+    notification.innerHTML = message.replace(/\n/g, '<br>');
+    notification.className = `notification notification-${type} show`;
+    
+    // Errors stay longer so users can read them
+    const duration = type === 'error' ? 5000 : 3000;
     
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, duration);
 }
 
 /**
