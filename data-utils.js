@@ -182,7 +182,7 @@ function validateCompleteForm(data) {
     if (!data['event-date']) missing.push('Event Date');
     if (!data['event-timings']) missing.push('Event Timings');
     if (!data['walkthrough-date']) missing.push('Walkthrough Date');
-    if (!data['number-of-attendees']) missing.push('Number of Attendees');
+    // Removed: number-of-attendees (field no longer exists)
     
     // Page 2 - Key Contacts
     if (!data['primary-contact-name']) missing.push('Primary Contact Name');
@@ -190,11 +190,11 @@ function validateCompleteForm(data) {
     
     // Page 3 - Seating & Hall
     if (!data['suite-hired']) missing.push('Suite Hired');
-    if (!data['number-of-guests']) missing.push('Number of Guests');
+    if (!data['guest-count']) missing.push('Number of Guests'); // Fixed: was 'number-of-guests'
     if (!data['table-type']) missing.push('Table Type');
     if (!data['guest-arrangements']) missing.push('Guest Arrangements');
     if (!data['table-settings']) missing.push('Table Settings');
-    if (!data['reserved-seating']) missing.push('Reserved Seating');
+    if (!data['reserved-seatings']) missing.push('Reserved Seating'); // Fixed: was 'reserved-seating'
     if (!data['head-table']) missing.push('Head Table');
     if (!data['dance-floor']) missing.push('Dance Floor');
     
