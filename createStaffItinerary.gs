@@ -16,10 +16,33 @@
 // ============================================================================
 
 const CONFIG = {
-  TEMPLATE_DOC_ID: '1l5nuot7quE3jYdzuGgBbVpgvQhwW3PMl',
-  OUTPUT_FOLDER_ID: 'YOUR_FOLDER_ID_HERE', // Update this!
   DATE_FORMAT: 'EEEE d MMMM yyyy', // e.g., "Sunday 19 October 2025"
 };
+
+/**
+ * Gets configuration from Script Properties
+ * Set these in Project Settings > Script Properties:
+ * - TEMPLATE_WALIMA: Document ID for Walima events
+ * - TEMPLATE_NIKKAH: Document ID for Nikkah events
+ * - TEMPLATE_JOINT: Document ID for Joint Day events
+ * - OUTPUT_FOLDER_ID: Folder ID where generated documents will be saved
+ */
+function getTemplateIds() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  return {
+    WALIMA: scriptProperties.getProperty('TEMPLATE_WALIMA') || '1l5nuot7quE3jYdzuGgBbVpgvQhwW3PMl',
+    NIKKAH: scriptProperties.getProperty('TEMPLATE_NIKKAH') || '',
+    JOINT: scriptProperties.getProperty('TEMPLATE_JOINT') || ''
+  };
+}
+
+/**
+ * Gets output folder ID from Script Properties
+ */
+function getOutputFolderId() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  return scriptProperties.getProperty('OUTPUT_FOLDER_ID') || '';
+}
 
 // ============================================================================
 // WEB APP ENDPOINT
@@ -55,23 +78,126 @@ function doPost(e) {
 }
 
 /**
- * Test function to verify setup (run this first!)
+ * Step 1: Test permissions (run this FIRST!)
+ */
+function testPermissions() {
+  try {
+    Logger.log('Testing Drive access...');
+    const templateDocId = getTemplateDocId('Walima'); // Test with Walima template
+    const templateDoc = DriveApp.getFileById(templateDocId);
+    Logger.log('✓ Template found: ' + templateDoc.getName());
+    
+    Logger.log('Testing Document access...');
+    const doc = DocumentApp.openById(templateDocId);
+    Logger.log('✓ Can open template document');
+    
+    Logger.log('Testing folder access...');
+    const outputFolderId = getOutputFolderId();
+    if (outputFolderId) {
+      const folder = DriveApp.getFolderById(outputFolderId);
+      Logger.log('✓ Output folder found: ' + folder.getName());
+    } else {
+      Logger.log('⚠ OUTPUT_FOLDER_ID not set in Script Properties - will use template folder');
+    }
+    
+    Logger.log('\n✓ All permissions OK! You can now run testSetup()');
+    return true;
+    
+  } catch (error) {
+    Logger.log('✗ Error: ' + error.toString());
+    Logger.log('\nPlease check:');
+    Logger.log('1. Template IDs are correct in CONFIG');
+    Logger.log('2. You have access to the documents');
+    Logger.log('3. You\'ve authorized the script (check the authorization popup)');
+    return false;
+  }
+}
+
+/**
+ * Step 2: Test document creation (run testPermissions first!)
  */
 function testSetup() {
   const testData = {
+    // Basic Information
     'client-name': 'Test Client',
-    'bride-name': 'Test Bride',
-    'groom-name': 'Test Groom',
+    'bride-name': 'Amara Khan',
+    'groom-name': 'Zayn Ahmed',
     'event-date': '2025-12-25',
     'event-type': 'Walima',
     'event-timings': '6:30pm - 11pm',
-    'suite-hired': 'Amington Suite',
-    'guest-count': '150',
-    'guest-arrangements': 'Mixed Family Seating',
-    'primary-contact-name': 'Test MPC',
-    'primary-contact-relationship': 'Sister',
+    'suite-hired': 'Both',
+    'guest-count': '200',
+    'guest-arrangements': 'Men & Women Segregation',
+    
+    // Primary Contact
+    'primary-contact-name': 'Sarah Khan',
+    'primary-contact-relationship': 'Sister of Bride',
     'primary-contact-phone-prefix': '+44',
-    'primary-contact-phone': '7700900000'
+    'primary-contact-phone': '7700900123',
+    
+    // Reserved Seating & Tables
+    'reserved-seatings': '40',
+    'table-gift': true,
+    'table-drink': true,
+    'table-nendra': true,
+    'favours': 'Yes',
+    'favours-type': 'CCLG on each table',
+    'head-table': 'Yes',
+    
+    // Cake
+    'wedding-cake': 'Yes',
+    'cake-company-name': 'Sweet Sensations',
+    'cake-contact-name': 'Emma Baker',
+    'cake-contact-number-prefix': '+44',
+    'cake-contact-number': '7700900456',
+    'cake-tiers': '3',
+    
+    // Photography
+    'photographer': 'Yes',
+    'photographer-company-name': 'Lens & Light Studios',
+    'photographer-contact-name': 'James Wilson',
+    'photographer-contact-number-prefix': '+44',
+    'photographer-contact-number': '7700900789',
+    
+    // Videography
+    'videographer': 'Yes',
+    'videographer-company-name': 'Motion Pictures Pro',
+    'videographer-contact-name': 'Oliver Smith',
+    'videographer-contact-number-prefix': '+44',
+    'videographer-contact-number': '7700900321',
+    
+    // DJ
+    'sound-system': 'DJ',
+    'dj-name': 'DJ Khalid Productions',
+    'dj-contact-number-prefix': '+44',
+    'dj-contact-number': '7700900654',
+    
+    // Decor
+    'decor-company-name': 'Royal Decorations Ltd',
+    'decor-contact-name': 'Aisha Malik',
+    'decor-contact-number-prefix': '+44',
+    'decor-contact-number': '7700900987',
+    'decor-description': 'Gold and white theme with floral centerpieces',
+    
+    // Special Effects (External)
+    'special-effects-company': 'Spark & Shine Events',
+    'special-effects-contact-prefix': '+44',
+    'special-effects-contact': '7700900147',
+    
+    // In-house Special Effects
+    'special-effects-type': 'Low fog',
+    'special-effects-time': '8:30pm - Bride entrance',
+    
+    // Sweet Setups
+    'sweet-setups-type': '360 Photo Booth',
+    'sweet-setups-time': '7:00pm - 10:00pm',
+    
+    // Photobooth
+    'photobooth-type': 'Premium Photo Booth',
+    'photobooth-time': '7:30pm - 10:30pm',
+    
+    // Dancefloor
+    'dancefloor': 'Yes'
   };
   
   const docUrl = createStaffItinerary(testData);
@@ -87,25 +213,69 @@ function testSetup() {
  * Creates a Staff Itinerary document from form data
  */
 function createStaffItinerary(formData) {
-  // Make a copy of the template
-  const templateDoc = DriveApp.getFileById(CONFIG.TEMPLATE_DOC_ID);
-  const folder = DriveApp.getFolderById(CONFIG.OUTPUT_FOLDER_ID);
-  
-  const fileName = `Staff Itinerary - ${formData['client-name']} - ${formData['event-date']}`;
-  const newDoc = templateDoc.makeCopy(fileName, folder);
-  const doc = DocumentApp.openById(newDoc.getId());
-  const body = doc.getBody();
-  
-  // Build all the variables
-  const variables = buildVariables(formData);
-  
-  // Replace all variables in the document
-  replaceAllVariables(body, variables);
-  
-  // Save and close
-  doc.saveAndClose();
-  
-  return newDoc.getUrl();
+  try {
+    // Get the appropriate template based on event type
+    const eventType = formData['event-type'] || 'Walima';
+    const templateDocId = getTemplateDocId(eventType);
+    
+    // Make a copy of the template
+    const templateDoc = DriveApp.getFileById(templateDocId);
+    
+    // Get output folder or use template's folder as fallback
+    let folder;
+    const outputFolderId = getOutputFolderId();
+    if (outputFolderId) {
+      folder = DriveApp.getFolderById(outputFolderId);
+    } else {
+      Logger.log('Warning: OUTPUT_FOLDER_ID not set in Script Properties. Using template folder.');
+      folder = DriveApp.getFileById(templateDocId).getParents().next();
+    }
+    
+    const fileName = `Staff Itinerary - ${formData['client-name']} - ${formData['event-date']}`;
+    const newDoc = templateDoc.makeCopy(fileName, folder);
+    const newDocId = newDoc.getId();
+    
+    Logger.log('Document copied, ID: ' + newDocId);
+    
+    // Try to open the document with retry logic (sometimes takes a moment)
+    let doc;
+    let attempts = 0;
+    const maxAttempts = 5;
+    
+    while (attempts < maxAttempts) {
+      try {
+        Utilities.sleep(1000 * (attempts + 1)); // Increasing delay: 1s, 2s, 3s, etc.
+        doc = DocumentApp.openById(newDocId);
+        Logger.log('Document opened successfully on attempt ' + (attempts + 1));
+        break;
+      } catch (e) {
+        attempts++;
+        if (attempts >= maxAttempts) {
+          throw new Error('Could not open document after ' + maxAttempts + ' attempts. Document URL: ' + newDoc.getUrl() + '. Error: ' + e.toString());
+        }
+        Logger.log('Attempt ' + attempts + ' failed, retrying...');
+      }
+    }
+    
+    const body = doc.getBody();
+    
+    // Build all the variables
+    const variables = buildVariables(formData);
+    
+    // Replace all variables in the document
+    replaceAllVariables(body, variables);
+    
+    // Save and close
+    doc.saveAndClose();
+    
+    Logger.log('Document created successfully: ' + newDoc.getUrl());
+    return newDoc.getUrl();
+    
+  } catch (error) {
+    Logger.log('Error details: ' + error.toString());
+    Logger.log('Error stack: ' + error.stack);
+    throw error;
+  }
 }
 
 // ============================================================================
@@ -136,7 +306,70 @@ function buildVariables(data) {
     '{{guestCount}}': data['guest-count'] || '',
     '{{guestTables}}': calculateTables(data['guest-count']),
     
-    // Constructed Sections
+    // Venue Setup - Suite Section
+    '{{reservedTablesLHS}}': getReservedTablesLHS(data),
+    '{{reservedTablesRHS}}': getReservedTablesRHS(data),
+    '{{extraTableInfo}}': getExtraTableInfo(data),
+    '{{cclgFavoursInfo}}': getCCLGFavoursInfo(data),
+    '{{headTableInfo}}': getHeadTableInfo(data),
+    '{{cakeTableInfo}}': getCakeTableInfo(data),
+    '{{decorStage}}': getDecorStage(data),
+    '{{decorCentrepieces}}': getDecorCentrepieces(data),
+    '{{decorWalkway}}': getDecorWalkway(data),
+    
+    // Venue Setup - Serenity Suite Section
+    '{{serenityGuestTables}}': getSerenityGuestTables(data),
+    '{{serenityGuestCount}}': getSerenityGuestCount(data),
+    '{{serenityReservedTablesLeft}}': getSerenityReservedLeft(data),
+    '{{serenityReservedTablesRight}}': getSerenityReservedRight(data),
+    
+    // Venue Setup - Foyer
+    '{{foyerNendraTable}}': data['table-nendra'] ? 'Nendra table?' : 'No Nendra',
+    
+    // External Vendors - Table Drinks
+    '{{vendorTableDrinksETA}}': '',
+    '{{vendorTableDrinksCompany}}': '',
+    '{{vendorTableDrinksNotes}}': '',
+    
+    // External Vendors - Photography
+    '{{vendorPhotographyETA}}': '',
+    '{{vendorPhotographyCompany}}': getVendorPhotography(data),
+    '{{vendorPhotographyNotes}}': '',
+    
+    // External Vendors - Caterer
+    '{{vendorCatererETA}}': '',
+    '{{vendorCatererCompany}}': '',
+    '{{vendorCatererNotes}}': '',
+    
+    // External Vendors - Cake
+    '{{vendorCakeETA}}': '',
+    '{{vendorCakeCompany}}': getVendorCake(data),
+    '{{vendorCakeNotes}}': getVendorCakeNotes(data),
+    
+    // External Vendors - DJ
+    '{{vendorDJETA}}': '',
+    '{{vendorDJCompany}}': getVendorDJ(data),
+    '{{vendorDJNotes}}': '',
+    
+    // External Vendors - Extra 1 (Videography)
+    '{{vendorExtra1ETA}}': '',
+    '{{vendorExtra1Service}}': getVendorExtra1Service(data),
+    '{{vendorExtra1Company}}': getVendorExtra1Company(data),
+    '{{vendorExtra1Notes}}': '',
+    
+    // External Vendors - Extra 2 (Decor)
+    '{{vendorExtra2ETA}}': '',
+    '{{vendorExtra2Service}}': getVendorExtra2Service(data),
+    '{{vendorExtra2Company}}': getVendorExtra2Company(data),
+    '{{vendorExtra2Notes}}': '',
+    
+    // External Vendors - Extra 3 (Special Effects)
+    '{{vendorExtra3ETA}}': '',
+    '{{vendorExtra3Service}}': getVendorExtra3Service(data),
+    '{{vendorExtra3Company}}': getVendorExtra3Company(data),
+    '{{vendorExtra3Notes}}': '',
+    
+    // Constructed Sections (keeping for backward compatibility)
     '{{reservedTablesInfo}}': buildReservedTablesInfo(data),
     '{{extraTablesInfo}}': buildExtraTablesInfo(data),
     '{{headTableInfo}}': buildHeadTableInfo(data),
@@ -481,8 +714,380 @@ function escapeRegExp(string) {
 }
 
 // ============================================================================
+// VENUE SETUP HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Gets reserved tables count for LHS (Left Hand Side)
+ */
+function getReservedTablesLHS(data) {
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount === 0) return 'X';
+  
+  if (data['guest-arrangements'] === 'Men & Women Segregation') {
+    return Math.ceil(reservedCount / 2 / 10).toString();
+  }
+  return Math.ceil(reservedCount / 10).toString();
+}
+
+/**
+ * Gets reserved tables count for RHS (Right Hand Side)
+ */
+function getReservedTablesRHS(data) {
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount === 0) return 'X';
+  
+  if (data['guest-arrangements'] === 'Men & Women Segregation') {
+    return Math.ceil(reservedCount / 2 / 10).toString();
+  }
+  return Math.ceil(reservedCount / 10).toString();
+}
+
+/**
+ * Gets extra table purpose
+ */
+function getExtraTablePurpose(data) {
+  if (data['table-gift']) return 'gifts';
+  if (data['table-drink']) return 'drinks';
+  if (data['table-other-text']) return data['table-other-text'];
+  return '?';
+}
+
+/**
+ * Gets extra table information with full formatting
+ */
+function getExtraTableInfo(data) {
+  const extras = [];
+  
+  if (data['table-gift']) {
+    extras.push('6ft table for gifts');
+  }
+  if (data['table-drink']) {
+    extras.push('6ft table for drinks');
+  }
+  if (data['table-other-text']) {
+    extras.push(`6ft table for ${data['table-other-text']}`);
+  }
+  
+  return extras.length > 0 ? extras.join('\n\t') : 'None';
+}
+
+/**
+ * Gets CCLG & Favours information
+ */
+function getCCLGFavoursInfo(data) {
+  if (data['favours'] === 'Yes' && data['favours-type']) {
+    return `CCLG & Favours?\n\t${data['favours-type']}`;
+  }
+  if (data['favours'] === 'Yes') {
+    return 'CCLG & Favours?';
+  }
+  return '';
+}
+
+/**
+ * Gets head table information with full formatting
+ */
+function getHeadTableInfo(data) {
+  if (data['head-table'] !== 'Yes') {
+    return 'Head table - NO';
+  }
+  
+  let info = 'Head table - YES\n\t2 seater';
+  
+  // Add position if segregated
+  if (data['guest-arrangements'] === 'Men & Women Segregation') {
+    info += ' on RHS of stage';
+  }
+  
+  return info;
+}
+
+/**
+ * Gets cake table information with full formatting
+ */
+function getCakeTableInfo(data) {
+  const hasWeddingCake = data['wedding-cake'] === 'Yes';
+  const hasCakeCompany = data['cake-company'] || data['cake-company-name'];
+  
+  if (!hasWeddingCake && !hasCakeCompany) {
+    return 'Cake table - NO';
+  }
+  
+  let info = 'Cake table - YES';
+  
+  // Add position if segregated
+  if (data['guest-arrangements'] === 'Men & Women Segregation') {
+    info += '\n\tOn LHS side of stage';
+  }
+  
+  return info;
+}
+
+/**
+ * Gets cake table yes/no
+ */
+function getCakeTableYesNo(data) {
+  const hasWeddingCake = data['wedding-cake'] === 'Yes';
+  const hasCakeCompany = data['cake-company'] || data['cake-company-name'];
+  return (hasWeddingCake || hasCakeCompany) ? 'YES' : 'NO';
+}
+
+/**
+ * Gets decor stage information
+ */
+function getDecorStage(data) {
+  if (data['decor-company-name']) {
+    return data['decor-company-name'];
+  }
+  return 'Standard';
+}
+
+/**
+ * Gets decor centrepieces information
+ */
+function getDecorCentrepieces(data) {
+  if (data['decor-company-name']) {
+    return 'Custom';
+  }
+  return 'Standard';
+}
+
+/**
+ * Gets decor walkway information
+ */
+function getDecorWalkway(data) {
+  if (data['suite-hired'] !== 'Amington Suite' && data['suite-hired'] !== 'Both') {
+    return 'N/A';
+  }
+  if (data['decor-company-name']) {
+    return 'Custom';
+  }
+  return 'Standard';
+}
+
+/**
+ * Gets Serenity Suite guest tables count
+ */
+function getSerenityGuestTables(data) {
+  if (data['suite-hired'] === 'Serenity Suite') {
+    return calculateTables(data['guest-count']);
+  }
+  if (data['suite-hired'] === 'Both') {
+    const halfGuests = Math.ceil(parseInt(data['guest-count'] || 0) / 2);
+    return calculateTables(halfGuests.toString());
+  }
+  return 'x';
+}
+
+/**
+ * Gets Serenity Suite guest count
+ */
+function getSerenityGuestCount(data) {
+  if (data['suite-hired'] === 'Serenity Suite') {
+    return data['guest-count'] || '';
+  }
+  if (data['suite-hired'] === 'Both') {
+    return Math.ceil(parseInt(data['guest-count'] || 0) / 2).toString();
+  }
+  return 'x';
+}
+
+/**
+ * Gets Serenity Suite reserved tables left side
+ */
+function getSerenityReservedLeft(data) {
+  if (data['suite-hired'] !== 'Serenity Suite' && data['suite-hired'] !== 'Both') {
+    return 'X';
+  }
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount === 0) return 'X';
+  return Math.ceil(reservedCount / 2 / 10).toString();
+}
+
+/**
+ * Gets Serenity Suite reserved tables right side
+ */
+function getSerenityReservedRight(data) {
+  if (data['suite-hired'] !== 'Serenity Suite' && data['suite-hired'] !== 'Both') {
+    return 'X';
+  }
+  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  if (reservedCount === 0) return 'X';
+  return Math.ceil(reservedCount / 2 / 10).toString();
+}
+
+// ============================================================================
+// EXTERNAL VENDORS HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Gets photography vendor info
+ */
+function getVendorPhotography(data) {
+  if (data['photographer'] !== 'Yes') return '';
+  
+  const company = data['photographer-company-name'] || '';
+  const contact = data['photographer-contact-name'] || '';
+  const phone = formatPhone(data['photographer-contact-number-prefix'], data['photographer-contact-number']);
+  
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+/**
+ * Gets cake vendor info
+ */
+function getVendorCake(data) {
+  const company = data['cake-company'] || data['cake-company-name'] || '';
+  if (!company) return '';
+  
+  const contact = data['cake-contact-name'] || '';
+  const phone = formatPhone(data['cake-contact-number-prefix'], data['cake-contact-number']);
+  
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+/**
+ * Gets cake vendor notes
+ */
+function getVendorCakeNotes(data) {
+  const tiers = data['cake-tiers'];
+  if (!tiers) return '';
+  return `${tiers} tiers`;
+}
+
+/**
+ * Gets DJ vendor info
+ */
+function getVendorDJ(data) {
+  if (data['sound-system'] !== 'DJ') return '';
+  
+  const name = data['dj-name'] || '';
+  const phone = formatPhone(data['dj-contact-number-prefix'], data['dj-contact-number']);
+  
+  let info = name;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+/**
+ * Gets Extra 1 service name (Videography)
+ */
+function getVendorExtra1Service(data) {
+  if (data['videographer'] === 'Yes') {
+    return 'Videography';
+  }
+  return '';
+}
+
+/**
+ * Gets Extra 1 company (Videography)
+ */
+function getVendorExtra1Company(data) {
+  if (data['videographer'] !== 'Yes') return '';
+  
+  const company = data['videographer-company-name'] || '';
+  const contact = data['videographer-contact-name'] || '';
+  const phone = formatPhone(data['videographer-contact-number-prefix'], data['videographer-contact-number']);
+  
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+/**
+ * Gets Extra 2 service name (Decor)
+ */
+function getVendorExtra2Service(data) {
+  if (data['decor-company-name']) {
+    return 'Decor';
+  }
+  return '';
+}
+
+/**
+ * Gets Extra 2 company (Decor)
+ */
+function getVendorExtra2Company(data) {
+  const company = data['decor-company-name'] || '';
+  if (!company) return '';
+  
+  const contact = data['decor-contact-name'] || '';
+  const phone = formatPhone(data['decor-contact-number-prefix'], data['decor-contact-number']);
+  
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+/**
+ * Gets Extra 3 service name (Special Effects)
+ */
+function getVendorExtra3Service(data) {
+  if (data['special-effects-company']) {
+    return 'Special Effects';
+  }
+  return '';
+}
+
+/**
+ * Gets Extra 3 company (Special Effects)
+ */
+function getVendorExtra3Company(data) {
+  const company = data['special-effects-company'] || '';
+  if (!company) return '';
+  
+  const phone = formatPhone(data['special-effects-contact-prefix'], data['special-effects-contact']);
+  
+  let info = company;
+  if (phone) info += ` - ${phone}`;
+  
+  return info;
+}
+
+// ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
+
+/**
+ * Gets the appropriate template document ID based on event type
+ */
+function getTemplateDocId(eventType) {
+  const templates = getTemplateIds();
+  
+  switch(eventType) {
+    case 'Walima':
+      return templates.WALIMA;
+    case 'Nikkah':
+      if (!templates.NIKKAH) {
+        Logger.log('Warning: TEMPLATE_NIKKAH not set in Script Properties, using Walima template');
+        return templates.WALIMA;
+      }
+      return templates.NIKKAH;
+    case 'Joint Day':
+      if (!templates.JOINT) {
+        Logger.log('Warning: TEMPLATE_JOINT not set in Script Properties, using Walima template');
+        return templates.WALIMA;
+      }
+      return templates.JOINT;
+    default:
+      Logger.log('Warning: Unknown event type "' + eventType + '", using Walima template');
+      return templates.WALIMA;
+  }
+}
 
 /**
  * Logs formatted data for debugging

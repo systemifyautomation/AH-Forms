@@ -1,0 +1,13 @@
+Staff Itinerary
+
+Client Name: {{clientName}}
+Event Date: {{eventDate}}
+Event Time: {{eventTime}}
+Suite: {{suite}}
+Event Type: {{eventType}}
+Seating arrangement: {{seatingArrangement}}
+Brides Name: {{brideName}}
+Grooms Name: {{groomName}}
+
+AH Staff:
+MPC: {{mpcName}} – {{mpcRelationship}} ({{mpcPhone}})
