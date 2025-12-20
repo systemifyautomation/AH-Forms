@@ -200,6 +200,21 @@ function hideExitModal() {
     modal.classList.remove('show');
 }
 
+function showSuccessModal() {
+    const modal = document.getElementById('success-modal');
+    modal.classList.add('show');
+    
+    const okBtn = document.getElementById('success-ok-btn');
+    okBtn.addEventListener('click', function() {
+        window.location.href = 'page1.html';
+    });
+}
+
+function hideSuccessModal() {
+    const modal = document.getElementById('success-modal');
+    modal.classList.remove('show');
+}
+
 async function handleFormSubmit() {
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.disabled = true;
@@ -237,12 +252,10 @@ async function handleFormSubmit() {
         
         isSubmitting = true;
         localStorage.removeItem(STORAGE_KEY);
-        showNotification('Form submitted successfully! Thank you.', 'success');
+        showSuccessModal();
         
-        setTimeout(() => {
-            alert('Thank you for completing the Amington Hall Walkthrough Register!\n\nYour submission has been received. We will contact you shortly to confirm your event details.');
-            window.location.href = 'page1.html';
-        }, 2000);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Form';
 
     } catch (error) {
         console.error('Error submitting form:', error);

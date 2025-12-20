@@ -190,11 +190,11 @@ function validateCompleteForm(data) {
     
     // Page 3 - Seating & Hall
     if (!data['suite-hired']) missing.push('Suite Hired');
-    if (!data['guest-count']) missing.push('Number of Guests'); // Fixed: was 'number-of-guests'
+    if (!data['guest-count']) missing.push('Number of Guests');
     if (!data['table-type']) missing.push('Table Type');
     if (!data['guest-arrangements']) missing.push('Guest Arrangements');
     if (!data['table-settings']) missing.push('Table Settings');
-    if (!data['reserved-seatings']) missing.push('Reserved Seating'); // Fixed: was 'reserved-seating'
+    // reserved-seatings is OPTIONAL - not checked
     if (!data['head-table']) missing.push('Head Table');
     if (!data['dance-floor']) missing.push('Dance Floor');
     

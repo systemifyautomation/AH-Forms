@@ -50,20 +50,28 @@ function getOutputFolderId() {
 
 /**
  * Handles POST requests from the form submission
- * Returns immediately with 200 response, processes document asynchronously
+ * Returns immediately with 200 response, schedules document creation for later
  */
 function doPost(e) {
   try {
     // Parse the incoming data
     const formData = JSON.parse(e.postData.contents);
     
-    // Start async document creation (using trigger)
-    createStaffItineraryAsync(formData);
+    // Store form data in Script Properties for the trigger to process
+    const timestamp = new Date().getTime();
+    const dataKey = 'pending_' + timestamp;
+    PropertiesService.getScriptProperties().setProperty(dataKey, JSON.stringify(formData));
     
-    // Return immediate success response
+    // Create a time-based trigger to process in 1 minute
+    ScriptApp.newTrigger('processScheduledDocuments')
+      .timeBased()
+      .after(60 * 1000) // 1 minute from now
+      .create();
+    
+    // Return INSTANT success response
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
-      message: 'Form submitted successfully. Document is being generated.'
+      message: 'Form submitted successfully. Document will be generated shortly.'
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
@@ -78,19 +86,46 @@ function doPost(e) {
 }
 
 /**
- * Processes document creation asynchronously
+ * Processes all scheduled documents (called by time-based trigger)
  */
-function createStaffItineraryAsync(formData) {
-  try {
-    const docUrl = createStaffItinerary(formData);
-    Logger.log('Document created successfully: ' + docUrl);
-    
-    // Optionally send email notification here
-    // sendEmailNotification(formData, docUrl);
-    
-  } catch (error) {
-    Logger.log('Error in async document creation: ' + error.toString());
-    Logger.log('Form data: ' + JSON.stringify(formData));
+function processScheduledDocuments() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const allProperties = scriptProperties.getProperties();
+  
+  // Find all pending documents
+  for (const [key, value] of Object.entries(allProperties)) {
+    if (key.startsWith('pending_')) {
+      try {
+        const formData = JSON.parse(value);
+        const docUrl = createStaffItinerary(formData);
+        Logger.log('Document created successfully: ' + docUrl);
+        
+        // Remove from pending after successful creation
+        scriptProperties.deleteProperty(key);
+        
+        // Optionally send email notification here
+        // sendEmailNotification(formData, docUrl);
+        
+      } catch (error) {
+        Logger.log('Error processing scheduled document ' + key + ': ' + error.toString());
+        // Keep the property for retry on next trigger
+      }
+    }
+  }
+  
+  // Clean up this trigger
+  deleteTrigger();
+}
+
+/**
+ * Deletes the current running trigger to prevent accumulation
+ */
+function deleteTrigger() {
+  const triggers = ScriptApp.getProjectTriggers();
+  for (const trigger of triggers) {
+    if (trigger.getHandlerFunction() === 'processScheduledDocuments') {
+      ScriptApp.deleteTrigger(trigger);
+    }
   }
 }
 
@@ -1115,4 +1150,37 @@ function logFormData(data) {
     Logger.log(`${key}: ${value}`);
   }
   Logger.log('========================');
+}
+
+/**
+ * Manual cleanup function - run this periodically to remove old pending items
+ * and orphaned triggers
+ */
+function cleanupOldPendingItems() {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const allProperties = scriptProperties.getProperties();
+  const oneDayAgo = new Date().getTime() - (24 * 60 * 60 * 1000);
+  
+  let cleaned = 0;
+  for (const [key, value] of Object.entries(allProperties)) {
+    if (key.startsWith('pending_')) {
+      const timestamp = parseInt(key.replace('pending_', ''));
+      if (timestamp < oneDayAgo) {
+        scriptProperties.deleteProperty(key);
+        cleaned++;
+        Logger.log('Deleted old pending item: ' + key);
+      }
+    }
+  }
+  
+  Logger.log('Cleanup complete. Removed ' + cleaned + ' old items.');
+  
+  // Also clean up orphaned triggers
+  const triggers = ScriptApp.getProjectTriggers();
+  for (const trigger of triggers) {
+    if (trigger.getHandlerFunction() === 'processScheduledDocuments') {
+      ScriptApp.deleteTrigger(trigger);
+      Logger.log('Deleted orphaned trigger');
+    }
+  }
 }
