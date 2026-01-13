@@ -59,14 +59,21 @@ function setupEventListeners() {
     // Form submission (navigation to next page)
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        saveFormData();
-        window.location.href = 'page7.html'; // Navigate to LED/LCD Screen page
+        
+        const validation = validatePage();
+        if (validation === true) {
+            saveFormData();
+            window.location.href = 'page7.html'; // Navigate to LED/LCD Screen page
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showNotification(validation || 'Please fill in all required fields correctly.', 'error');
+        }
     });
 
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
-        window.location.href = 'page5.html';
+        window.location.href = 'page4.html';
     });
 
     // Save Progress button
@@ -82,6 +89,16 @@ function setupEventListeners() {
             window.location.href = 'page1.html';
         }
     });
+}
+
+function validatePage() {
+    console.log('=== Starting Page 6 Validation ===');
+    
+    // Page 6 has no required fields - all fields are optional
+    // Validation passes automatically
+    
+    console.log('=== Page 6 Validation Passed ===');
+    return true;
 }
 
 function saveFormData() {

@@ -101,6 +101,13 @@ function validatePage() {
         }
     });
     
+    // Check event type radio group
+    const eventTypeChecked = document.querySelector('input[name="event-type"]:checked');
+    if (!eventTypeChecked) {
+        missingFields.push('Event Type');
+        console.log('Event Type not selected');
+    }
+    
     // Check event timings radio group
     const timingChecked = document.querySelector('input[name="event-timings"]:checked');
     if (!timingChecked) {

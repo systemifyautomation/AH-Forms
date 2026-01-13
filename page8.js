@@ -19,6 +19,7 @@ async function loadAppScriptEndpoints() {
 }
 
 let isSubmitting = false;
+let isNavigating = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadAppScriptEndpoints(); // Load endpoints first
@@ -129,6 +130,7 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
+            isNavigating = true;
             window.location.href = 'page9.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -139,6 +141,7 @@ function setupEventListeners() {
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
+        isNavigating = true;
         window.location.href = 'page7.html';
     });
 
@@ -158,14 +161,13 @@ function setupEventListeners() {
 }
 
 function validatePage() {
-    console.log('=== Starting Page 7 Validation ===');
+    console.log('=== Starting Page 8 Validation ===');
     
     // Check required radio groups with user-friendly labels
     const requiredFields = [
         { name: 'photographer', label: 'Photographer' },
         { name: 'videographer', label: 'Videographer' },
-        { name: 'cinematography-equipment', label: 'Cinematography Equipment' },
-        { name: 'sound-system', label: 'Sound System' }
+        { name: 'cinematography-equipment', label: 'Cinematography Equipment' }
     ];
     
     const missingFields = [];
@@ -178,17 +180,27 @@ function validatePage() {
         }
     }
     
+    // Check if cinematography equipment is Yes, then cinematography type is required
+    const cinematographyEquipment = document.querySelector('input[name="cinematography-equipment"]:checked');
+    if (cinematographyEquipment && cinematographyEquipment.value === 'Yes') {
+        const cinematographyType = document.querySelector('input[name="cinematography-type"]:checked');
+        if (!cinematographyType) {
+            console.log('Cinematography type not selected when equipment is Yes');
+            missingFields.push('Cinematography Equipment Type');
+        }
+    }
+    
     if (missingFields.length > 0) {
         return `Please answer the following required questions:\n\n• ${missingFields.join('\n• ')}`;
     }
     
-    console.log('=== Page 7 Validation Passed ===');
+    console.log('=== Page 8 Validation Passed ===');
     return true;
 }
 
 function setupExitWarnings() {
     window.addEventListener('beforeunload', function(e) {
-        if (!isSubmitting) {
+        if (!isSubmitting && !isNavigating) {
             e.preventDefault();
             e.returnValue = 'You have unsaved changes. Are you sure you want to leave? At least save your progress.';
             return e.returnValue;
@@ -196,7 +208,7 @@ function setupExitWarnings() {
     });
 
     document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden' && !isSubmitting) {
+        if (document.visibilityState === 'hidden' && !isSubmitting && !isNavigating) {
             const modal = document.getElementById('exit-modal');
             if (modal && !modal.classList.contains('show')) {
                 showExitModal();

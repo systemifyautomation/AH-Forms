@@ -146,8 +146,7 @@ function validatePage() {
         { name: 'table-type', label: 'Table Type' },
         { name: 'guest-arrangements', label: 'Guest Arrangements' },
         { name: 'table-settings', label: 'Table Settings' },
-        { name: 'head-table', label: 'Head Table' },
-        { name: 'dance-floor', label: 'Dance Floor' }
+        { name: 'head-table', label: 'Head Table' }
     ];
     
     for (const group of radioGroups) {
@@ -212,6 +211,35 @@ function validatePage() {
         if (selectedSuite.value === 'Amington Suite' && guestCount > 350) {
             console.log('Segregated event in Amington Suite exceeds 350 guests');
             return 'For segregated events in the Amington Suite only, the maximum guest count is 350. Please reduce your guest count or select Both Suites.';
+        }
+    }
+    
+    // Check reserved tables validation
+    const reservedTablesGroom = parseInt(document.getElementById('reserved-tables-groom').value) || 0;
+    if (reservedTablesGroom > 0) {
+        const groomTableType = document.querySelector('input[name="reserved-table-type-groom"]:checked');
+        if (!groomTableType) {
+            console.log('Groom reserved table type not selected');
+            return 'Please select the type of reserved tables for the Groom\'s Family.';
+        }
+    }
+    
+    const reservedTablesBride = parseInt(document.getElementById('reserved-tables-bride').value) || 0;
+    if (reservedTablesBride > 0) {
+        const brideTableType = document.querySelector('input[name="reserved-table-type-bride"]:checked');
+        if (!brideTableType) {
+            console.log('Bride reserved table type not selected');
+            return 'Please select the type of reserved tables for the Bride\'s Family.';
+        }
+    }
+    
+    // Check "Other" additional tables text input
+    const otherCheckbox = document.getElementById('additional-tables-other');
+    if (otherCheckbox && otherCheckbox.checked) {
+        const otherText = document.getElementById('additional-tables-other-text');
+        if (!otherText.value.trim()) {
+            console.log('Other additional tables selected but not specified');
+            return 'Please specify what other additional tables you require.';
         }
     }
     

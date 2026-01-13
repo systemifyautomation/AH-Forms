@@ -19,6 +19,7 @@ async function loadAppScriptEndpoints() {
 }
 
 let isSubmitting = false;
+let isNavigating = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadAppScriptEndpoints();
@@ -75,6 +76,7 @@ function setupEventListeners() {
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
+        isNavigating = true;
         window.location.href = 'page10.html';
     });
 
@@ -222,7 +224,7 @@ function setupExitWarnings() {
     window.addEventListener('beforeunload', function(e) {
         const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         
-        if (Object.keys(formData).length > 0 && !isExiting && !isSubmitting) {
+        if (Object.keys(formData).length > 0 && !isExiting && !isSubmitting && !isNavigating) {
             e.preventDefault();
             e.returnValue = '';
             return '';

@@ -19,6 +19,7 @@ async function loadAppScriptEndpoints() {
 }
 
 let isSubmitting = false;
+let isNavigating = false;
 let serviceCounter = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -103,6 +104,7 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
+            isNavigating = true;
             window.location.href = 'page10.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -113,6 +115,7 @@ function setupEventListeners() {
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
+        isNavigating = true;
         window.location.href = 'page8.html';
     });
 
@@ -178,6 +181,36 @@ function validatePage() {
     
     if (!additionalServices) {
         return 'Please answer if you will be having any additional services.';
+    }
+    
+    // If additional services is Yes, check conditional timing fields
+    if (additionalServices.value === 'Yes') {
+        // Check pancake cart timing
+        const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
+        if (pancakeCartCheckbox && pancakeCartCheckbox.checked) {
+            const pancakeCartTiming = document.querySelector('input[name="pancake-cart-timing"]:checked');
+            if (!pancakeCartTiming) {
+                return 'Please select the timing for Pancake Cart service (Before or After Food Service).';
+            }
+        }
+        
+        // Check 360 booth timing
+        const booth360Checkbox = document.getElementById('booth-360-checkbox');
+        if (booth360Checkbox && booth360Checkbox.checked) {
+            const booth360Timing = document.querySelector('input[name="booth-360-timing"]:checked');
+            if (!booth360Timing) {
+                return 'Please select the timing for 360 Booth service (Before or After Food Service).';
+            }
+        }
+        
+        // Check vintage photobooth timing
+        const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
+        if (vintagePhotoboothCheckbox && vintagePhotoboothCheckbox.checked) {
+            const vintagePhotoboothTiming = document.querySelector('input[name="vintage-photobooth-timing"]:checked');
+            if (!vintagePhotoboothTiming) {
+                return 'Please select the timing for Vintage Photobooth service (Before or After Food Service).';
+            }
+        }
     }
     
     console.log('Page 9 validation passed');
@@ -372,7 +405,7 @@ function setupExitWarnings() {
     window.addEventListener('beforeunload', function(e) {
         const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         
-        if (Object.keys(formData).length > 0 && !isExiting && !isSubmitting) {
+        if (Object.keys(formData).length > 0 && !isExiting && !isSubmitting && !isNavigating) {
             e.preventDefault();
             e.returnValue = '';
             return '';

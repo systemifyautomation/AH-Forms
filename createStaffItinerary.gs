@@ -282,7 +282,57 @@ function testSetup() {
     'photobooth-time': '7:30pm - 10:30pm',
     
     // Dancefloor
-    'dancefloor': 'Yes'
+    'dancefloor': 'Yes',
+    
+    // Page 9 - Additional Services
+    'additional-services': 'Yes',
+    'venue-service-welcome-drinks': true,
+    'venue-service-nikkah-partition': false,
+    'venue-service-low-fog': true,
+    'venue-service-sparklers': true,
+    'venue-service-pancake-cart': true,
+    'pancake-cart-timing': 'Before Food Service',
+    'venue-service-360-booth': true,
+    'booth-360-timing': 'After Food Service',
+    'venue-service-vintage-photobooth': false,
+    'third-party-services': [
+      {
+        id: '1',
+        type: 'Dessert Table',
+        company: 'Sweet Treats Ltd - John Doe - +447700900111',
+        startTime: '19:00'
+      },
+      {
+        id: '2',
+        type: 'Photobooth',
+        company: 'Capture Moments - Jane Smith - +447700900222',
+        startTime: '19:30'
+      }
+    ],
+    
+    // Page 10 - Catering
+    'catering-company-name': 'Royal Caterers Ltd',
+    'catering-contact-name': 'Ahmed Hassan',
+    'company-worked-before': 'Yes',
+    'leftover-food-drinks': 'Client',
+    'leftover-containers': 'Caterer',
+    'drinks-provider': 'Third Party Company',
+    'drinks-third-party-name': 'Beverage Solutions',
+    'drinks-third-party-contact-prefix': '+44',
+    'drinks-third-party-contact': '7700900333',
+    'reception-drinks': 'Yes',
+    'reception-drinks-supplier': 'Amington Hall',
+    'hot-drinks-supplier': 'Third Party Company',
+    'hot-drinks-contact-name': 'Coffee Masters',
+    'hot-drinks-contact-number-prefix': '+44',
+    'hot-drinks-contact-number': '7700900444',
+    
+    // Page 11 - Car Parking
+    'vip-parking-passes': '4',
+    'priority-parking-section1': '10',
+    'priority-parking-section2': '12',
+    'total-priority-parking': '22',
+    'parking-notes': 'Please reserve front row for VIP guests. Priority sections for elderly family members.'
   };
   
   const docUrl = createStaffItinerary(testData);
@@ -464,7 +514,28 @@ function buildVariables(data) {
     
     // Service Tables
     '{{inHouseServices}}': buildInHouseServices(data),
-    '{{externalVendors}}': buildExternalVendors(data)
+    '{{externalVendors}}': buildExternalVendors(data),
+    
+    // Page 9 - Additional Services
+    '{{additionalServices}}': buildAdditionalServicesSection(data),
+    '{{venueServices}}': buildVenueServicesSection(data),
+    '{{thirdPartyServices}}': buildThirdPartyServicesSection(data),
+    
+    // Page 10 - Catering
+    '{{cateringSection}}': buildCateringSection(data),
+    '{{cateringCompany}}': getCateringCompany(data),
+    '{{leftoverArrangements}}': getLeftoverArrangements(data),
+    '{{drinksProvider}}': getDrinksProvider(data),
+    '{{receptionDrinks}}': getReceptionDrinks(data),
+    '{{hotDrinksSupplier}}': getHotDrinksSupplier(data),
+    
+    // Page 11 - Car Parking
+    '{{parkingSection}}': buildParkingSection(data),
+    '{{vipParkingPasses}}': data['vip-parking-passes'] || '0',
+    '{{prioritySection1}}': data['priority-parking-section1'] || '0',
+    '{{prioritySection2}}': data['priority-parking-section2'] || '0',
+    '{{totalPriorityParking}}': data['total-priority-parking'] || '0',
+    '{{parkingNotes}}': data['parking-notes'] || 'None'
   };
 }
 
@@ -1279,6 +1350,272 @@ function getVendorExtra3Company(data) {
   if (phone) info += ` - ${phone}`;
   
   return info;
+}
+
+// ============================================================================
+// PAGE 9 - ADDITIONAL SERVICES BUILDER FUNCTIONS
+// ============================================================================
+
+/**
+ * Builds complete Additional Services section
+ */
+function buildAdditionalServicesSection(data) {
+  if (data['additional-services'] !== 'Yes') {
+    return 'No additional services requested.';
+  }
+  
+  let section = '';
+  
+  // Venue Services
+  const venueServices = buildVenueServicesSection(data);
+  if (venueServices) {
+    section += 'Venue Services:\n' + venueServices + '\n\n';
+  }
+  
+  // Third Party Services
+  const thirdPartyServices = buildThirdPartyServicesSection(data);
+  if (thirdPartyServices) {
+    section += 'Third Party Service Providers:\n' + thirdPartyServices;
+  }
+  
+  return section || 'Additional services selected but no details provided.';
+}
+
+/**
+ * Builds Venue Services list
+ */
+function buildVenueServicesSection(data) {
+  const services = [];
+  
+  if (data['venue-service-welcome-drinks']) {
+    services.push('• Welcome Drinks');
+  }
+  
+  if (data['venue-service-nikkah-partition']) {
+    services.push('• Nikkah Partition');
+  }
+  
+  if (data['venue-service-low-fog']) {
+    services.push('• Low Fog – 1 Time use');
+  }
+  
+  if (data['venue-service-sparklers']) {
+    services.push('• Sparklers – 1 Time use');
+  }
+  
+  if (data['venue-service-pancake-cart']) {
+    const timing = data['pancake-cart-timing'] || 'Timing not specified';
+    services.push(`• Pancake Cart – 2 Hour Service (${timing})`);
+  }
+  
+  if (data['venue-service-360-booth']) {
+    const timing = data['booth-360-timing'] || 'Timing not specified';
+    services.push(`• 360 Booth – 2 Hour Service (${timing})`);
+  }
+  
+  if (data['venue-service-vintage-photobooth']) {
+    const timing = data['vintage-photobooth-timing'] || 'Timing not specified';
+    services.push(`• Vintage Photobooth – 2 Hour Service (${timing})`);
+  }
+  
+  return services.length > 0 ? services.join('\n') : '';
+}
+
+/**
+ * Builds Third Party Services list
+ */
+function buildThirdPartyServicesSection(data) {
+  const services = data['third-party-services'];
+  
+  if (!services || !Array.isArray(services) || services.length === 0) {
+    return '';
+  }
+  
+  const serviceLines = services.map(service => {
+    let line = `• ${service.type || 'Service Type Not Specified'}`;
+    if (service.company) {
+      line += ` - ${service.company}`;
+    }
+    if (service.startTime) {
+      line += ` - Start Time: ${service.startTime}`;
+    }
+    return line;
+  });
+  
+  return serviceLines.join('\n');
+}
+
+// ============================================================================
+// PAGE 10 - CATERING BUILDER FUNCTIONS
+// ============================================================================
+
+/**
+ * Builds complete Catering section
+ */
+function buildCateringSection(data) {
+  let section = '';
+  
+  // Catering Company
+  const company = getCateringCompany(data);
+  if (company) {
+    section += 'Catering Company:\n' + company + '\n\n';
+  }
+  
+  // Leftover Arrangements
+  const leftover = getLeftoverArrangements(data);
+  if (leftover) {
+    section += 'Leftover Arrangements:\n' + leftover + '\n\n';
+  }
+  
+  // Drinks Provider
+  const drinks = getDrinksProvider(data);
+  if (drinks) {
+    section += 'Drinks Provider:\n' + drinks + '\n\n';
+  }
+  
+  // Reception Drinks
+  const reception = getReceptionDrinks(data);
+  if (reception) {
+    section += 'Reception Drinks:\n' + reception + '\n\n';
+  }
+  
+  // Hot Drinks
+  const hotDrinks = getHotDrinksSupplier(data);
+  if (hotDrinks) {
+    section += 'Hot Drinks Supplier:\n' + hotDrinks;
+  }
+  
+  return section || 'No catering information provided.';
+}
+
+/**
+ * Gets Catering Company information
+ */
+function getCateringCompany(data) {
+  const companyName = data['catering-company-name'] || '';
+  const contactName = data['catering-contact-name'] || '';
+  const workedBefore = data['company-worked-before'] || '';
+  
+  if (!companyName) return '';
+  
+  let info = companyName;
+  if (contactName) {
+    info += ` - Contact: ${contactName}`;
+  }
+  if (workedBefore) {
+    info += ` - Worked with venue before: ${workedBefore}`;
+  }
+  
+  return info;
+}
+
+/**
+ * Gets Leftover Arrangements information
+ */
+function getLeftoverArrangements(data) {
+  const foodDrinks = data['leftover-food-drinks'] || '';
+  const containers = data['leftover-containers'] || '';
+  
+  if (!foodDrinks && !containers) return '';
+  
+  let info = '';
+  if (foodDrinks) {
+    info += `• Leftover Food & Drinks: ${foodDrinks}`;
+  }
+  if (containers) {
+    if (info) info += '\n';
+    info += `• Leftover Containers: ${containers}`;
+  }
+  
+  return info;
+}
+
+/**
+ * Gets Drinks Provider information
+ */
+function getDrinksProvider(data) {
+  const provider = data['drinks-provider'] || '';
+  
+  if (provider === 'Third Party Company') {
+    const companyName = data['drinks-third-party-name'] || '';
+    const phone = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
+    
+    let info = 'Third Party Company';
+    if (companyName) {
+      info += ` - ${companyName}`;
+    }
+    if (phone) {
+      info += ` - ${phone}`;
+    }
+    return info;
+  }
+  
+  return provider || '';
+}
+
+/**
+ * Gets Reception Drinks information
+ */
+function getReceptionDrinks(data) {
+  const receptionDrinks = data['reception-drinks'] || '';
+  
+  if (receptionDrinks !== 'Yes') {
+    return receptionDrinks === 'No' ? 'No reception drinks' : '';
+  }
+  
+  const supplier = data['reception-drinks-supplier'] || 'Not specified';
+  return `Yes - Supplier: ${supplier}`;
+}
+
+/**
+ * Gets Hot Drinks Supplier information
+ */
+function getHotDrinksSupplier(data) {
+  const supplier = data['hot-drinks-supplier'] || '';
+  
+  if (supplier === 'Third Party Company') {
+    const contactName = data['hot-drinks-contact-name'] || '';
+    const phone = formatPhone(data['hot-drinks-contact-number-prefix'], data['hot-drinks-contact-number']);
+    
+    let info = 'Third Party Company';
+    if (contactName) {
+      info += ` - ${contactName}`;
+    }
+    if (phone) {
+      info += ` - ${phone}`;
+    }
+    return info;
+  }
+  
+  return supplier || '';
+}
+
+// ============================================================================
+// PAGE 11 - CAR PARKING BUILDER FUNCTIONS
+// ============================================================================
+
+/**
+ * Builds complete Car Parking section
+ */
+function buildParkingSection(data) {
+  const vip = data['vip-parking-passes'] || '0';
+  const priority1 = data['priority-parking-section1'] || '0';
+  const priority2 = data['priority-parking-section2'] || '0';
+  const total = data['total-priority-parking'] || '0';
+  const notes = data['parking-notes'] || '';
+  
+  let section = '';
+  
+  section += `VIP Parking Passes: ${vip}\n`;
+  section += `Priority Parking Section 1: ${priority1}\n`;
+  section += `Priority Parking Section 2: ${priority2}\n`;
+  section += `Total Priority Parking: ${total}\n`;
+  
+  if (notes) {
+    section += `\nParking Notes:\n${notes}`;
+  }
+  
+  return section;
 }
 
 // ============================================================================
