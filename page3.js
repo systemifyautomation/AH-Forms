@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupSegregationToggle();
     setupAdditionalTablesToggle();
+    setupReservedTablesToggle();
 });
 
 function setupAdditionalTablesToggle() {
@@ -21,6 +22,44 @@ function setupAdditionalTablesToggle() {
                 otherText.style.display = 'none';
                 otherText.required = false;
                 otherText.value = '';
+            }
+        });
+    }
+}
+
+function setupReservedTablesToggle() {
+    // Groom's reserved tables toggle
+    const groomTablesInput = document.getElementById('reserved-tables-groom');
+    const groomTypeSection = document.getElementById('reserved-table-type-groom-section');
+    const groomTypeRadios = document.querySelectorAll('input[name="reserved-table-type-groom"]');
+    
+    if (groomTablesInput && groomTypeSection) {
+        groomTablesInput.addEventListener('input', function() {
+            const count = parseInt(this.value);
+            if (count > 0) {
+                groomTypeSection.style.display = 'block';
+            } else {
+                groomTypeSection.style.display = 'none';
+                // Clear selection when hiding
+                groomTypeRadios.forEach(radio => radio.checked = false);
+            }
+        });
+    }
+    
+    // Bride's reserved tables toggle
+    const brideTablesInput = document.getElementById('reserved-tables-bride');
+    const brideTypeSection = document.getElementById('reserved-table-type-bride-section');
+    const brideTypeRadios = document.querySelectorAll('input[name="reserved-table-type-bride"]');
+    
+    if (brideTablesInput && brideTypeSection) {
+        brideTablesInput.addEventListener('input', function() {
+            const count = parseInt(this.value);
+            if (count > 0) {
+                brideTypeSection.style.display = 'block';
+            } else {
+                brideTypeSection.style.display = 'none';
+                // Clear selection when hiding
+                brideTypeRadios.forEach(radio => radio.checked = false);
             }
         });
     }
@@ -62,7 +101,7 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
-            window.location.href = 'page5.html';
+            window.location.href = 'page4.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
@@ -139,11 +178,11 @@ function validatePage() {
             suiteName = 'Amington Suite';
             break;
         case 'Serenity Suite':
-            maxCapacity = 250;
+            maxCapacity = 200;
             suiteName = 'Serenity Suite';
             break;
         case 'Both':
-            maxCapacity = 650;
+            maxCapacity = 600;
             suiteName = 'Both Suites';
             break;
     }

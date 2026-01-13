@@ -60,7 +60,7 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
-            window.location.href = 'page6.html';
+            window.location.href = 'page7.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
@@ -70,7 +70,7 @@ function setupEventListeners() {
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
-        window.location.href = 'page5-new.html';
+        window.location.href = 'page4.html';
     });
 
     // Save Progress button

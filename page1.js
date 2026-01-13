@@ -90,8 +90,7 @@ function validatePage() {
         { id: 'groom-name', label: 'Groom Name' },
         { id: 'bride-name', label: 'Bride Name' },
         { id: 'ethnicity', label: 'Ethnicity' },
-        { id: 'event-date', label: 'Event Date' },
-        { id: 'walkthrough-date', label: 'Walkthrough Date' }
+        { id: 'event-date', label: 'Event Date' }
     ];
     
     requiredFieldsMap.forEach(field => {

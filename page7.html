@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visuals & External - Amington Hall</title>
+    <title>Amington Hall - LED/LCD Screen</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,224 +21,167 @@
             </header>
             
             <form id="page7-form" class="wedding-form">
-                <h2 class="page-title">Visuals & External</h2>
+                <h2 class="page-title">LED/LCD Screen</h2>
+                
+                <!-- Screen Introduction -->
+                <div class="info-notice info-notice-compact">
+                    <p class="text-indent">We do provide a Live screening option. This is usually used for 2 hall events. If you do wish to go ahead with this service you will need to provide an additional camera separate to the ones provided by your camera team. You will also require an additional person to man this service during the event.</p>
+                </div>
 
-            <!-- Photographer Section -->
-            <div class="form-group">
-                <label class="required">Will you be having a Photographer?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="photographer" value="Yes" required>
-                        <span>Yes</span>
+                <!-- Screen Usage Info -->
+                <div class="info-notice info-notice-subtle info-notice-compact">
+                    <p class="mb-15"><strong>a) Reception Foyer Screen</strong> - we recommend you display a welcome message, e.g Welcome to the wedding of...</p>
+                    <p><strong>b) Amington and Serenity Suite Screens</strong> - screens in the hired Suite(s) are customisable and can be used as follows:</p>
+                </div>
+
+                <!-- Screen Usage Table -->
+                <div class="table-container">
+                    <table class="screen-usage-table">
+                        <thead>
+                            <tr>
+                                <th>Use</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="table-cell-header"><strong>Photo slideshow</strong></td>
+                                <td class="table-cell-content">
+                                    Use for presentations, childhood photos, family photos, pre wedding day event photos, etc.
+                                    <br><br>
+                                    You will need approximately 50 pictures minimum, on a loop, between 6 - 10 seconds per slide, on a smooth transition from one slide to another.
+                                    <br><br>
+                                    We advise against having any flashing images. <span class="text-gold">(Video to upload)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-cell-header"><strong>To play a video</strong></td>
+                                <td class="table-cell-content">For example if you have a trailer from the Nikah/Baraat day you would like to play or if you would like to display a live video stream of the Baraat entrance (if available).</td>
+                            </tr>
+                            <tr>
+                                <td class="table-cell-header"><strong>Still image</strong></td>
+                                <td class="table-cell-content">For example an image of couple's initials or an inspiring quote etc.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Screen Selection -->
+                <div class="form-group">
+                    <label class="subsection-title">
+                        Please complete the table below:
                     </label>
-                    <label class="radio-label">
-                        <input type="radio" name="photographer" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
+                    <p class="field-note field-note-italic">Mark only one oval per row.</p>
+                    
 
-            <div id="photographer-details" class="conditional-section" style="display: none;">
-                <div class="form-group">
-                    <label for="photographer-company-name">Company Name</label>
-                    <input type="text" id="photographer-company-name" name="photographer-company-name">
-                </div>
+                    <!-- Amington Suite Wall Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Amington Suite Wall Screen (16:9 ratio) (768 X 512px W x H) Landscape</h4>
+                        <div class="radio-group">
+                            
+                            <label class="radio-label">
+                                <input type="radio" name="amington-wall-screen" value="Photo slideshows">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Photo slideshows</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="amington-wall-screen" value="To play a video">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="amington-wall-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
+                            </label>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="photographer-contact-name">Contact Name</label>
-                    <input type="text" id="photographer-contact-name" name="photographer-contact-name">
-                </div>
+                    <!-- Serenity Suite Wall Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Serenity Suite Wall Screen (16:9 ratio) (768 X 512px W x H) Landscape</h4>
+                        <div class="radio-group">
+                            
+                            <label class="radio-label">
+                                <input type="radio" name="serenity-wall-screen" value="Photo slideshows">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Photo slideshows</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="serenity-wall-screen" value="To play a video">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="serenity-wall-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
+                            </label>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="photographer-contact-number">Contact Number</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="photographer-contact-number-prefix" name="photographer-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="photographer-contact-number" name="photographer-contact-number" class="phone-number">
+                    <!-- Foyer Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Foyer screen (need details)</h4>
+                        <div class="radio-group">
+                            
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="Photo slideshows">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Photo slideshows</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="To play a video">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Shared Upload Section -->
+                    <div id="screen-upload-section" style="display: none; margin-top: 30px; padding: 20px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; background: rgba(212, 175, 55, 0.05);">
+                        <label for="screen-upload-file" style="display: block; margin-bottom: 10px; font-weight: 600;">Upload Video/Images for Photo Slideshows:</label>
+                        <input type="file" id="screen-upload-file" name="screen-upload-file" accept="video/*,image/*" multiple>
                     </div>
                 </div>
 
-                <div class="info-notice">
-                    <strong>Important:</strong> Please ensure your chosen photographer has Public Liability Insurance cover before booking them for your event. We do not allow photographers on site without this in place.
-                </div>
-            </div>
-
-            <!-- Videographer Section -->
-            <div class="form-group">
-                <label class="required">Will you be having a Videographer?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="videographer" value="Yes" required>
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="videographer" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="videographer-details" class="conditional-section" style="display: none;">
+                <!-- Additional Details -->
                 <div class="form-group">
-                    <label for="videographer-company-name">Company Name</label>
-                    <input type="text" id="videographer-company-name" name="videographer-company-name">
+                    <label for="screen-details" class="field-label">
+                        Please provide any details below should you have any specific requirements for images / videos to be displayed on any of our screens. We will discuss this further in your Walkthrough Meeting:
+                    </label>
+                    <textarea id="screen-details" name="screen-details" rows="6" placeholder="Enter any specific requirements or details..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="videographer-contact-name">Contact Name</label>
-                    <input type="text" id="videographer-contact-name" name="videographer-contact-name">
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="submit" class="nav-btn next-btn">Next</button>
                 </div>
 
-                <div class="form-group">
-                    <label for="videographer-contact-number">Contact Number</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="videographer-contact-number-prefix" name="videographer-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="videographer-contact-number" name="videographer-contact-number" class="phone-number">
-                    </div>
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 7 of 11</span>
                 </div>
-
-                <div class="info-notice">
-                    <strong>Important:</strong> Please ensure your chosen videographer has Public Liability Insurance cover before booking them for your event. We do not allow videographers on site without this in place.
-                </div>
-            </div>
-
-            <!-- Cinematography Equipment Section -->
-            <div class="form-group">
-                <label class="required">Will you be having any Cinematography Equipment?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="Yes" required>
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="Crane Only" required>
-                        <span>Crane Only</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="Drone Only" required>
-                        <span>Drone Only</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="Crane & Drone" required>
-                        <span>Crane & Drone</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="info-notice">
-                <strong>Note:</strong> If you are having a Drone on site on the day of your event, you are responsible for ensuring your videographer has all the relevant and required documentation and licenses to fly a drone commercially.
-            </div>
-
-            <!-- Camera Crew Access Notice -->
-            <div class="info-notice">
-                <strong>Camera Crew Access:</strong> Please note that your camera crew will only be allowed access to the venue 30 minutes before your booking start time.
-            </div>
-
-
-            <!-- DJ/Sound System Section -->
-            <h3 class="section-subtitle mt-40 mb-20">6th Page - Sound & Audio</h3>
+            </form>
             
-            <div class="form-group">
-                <label class="required">Which of the following will you be having for your event?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="sound-system" value="DJ" required>
-                        <span class="radio-custom"></span>
-                        <span class="radio-text">DJ</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="sound-system" value="In-house DJ" required>
-                        <span class="radio-custom"></span>
-                        <span class="radio-text">In-house DJ</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="sound-system" value="In – house sound system – This is only allowed if you are playing Nasheeds or Instrumentals" required>
-                        <span class="radio-custom"></span>
-                        <span class="radio-text">In – house sound system – This is only allowed if you are playing Nasheeds or Instrumentals</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- DJ Section -->
-            <div class="form-group">
-                <label for="dj-name">DJ - Name:</label>
-                <input type="text" id="dj-name" name="dj-name">
-            </div>
-
-            <div class="form-group">
-                <label for="dj-contact-number">Contact Number:</label>
-                <div class="phone-input-wrapper">
-                    <input type="text" id="dj-contact-number-prefix" name="dj-contact-number-prefix" value="+44" class="phone-prefix">
-                    <input type="tel" id="dj-contact-number" name="dj-contact-number" class="phone-number">
-                </div>
-            </div>
-
-            <!-- In-house System Section -->
-            <h3 class="section-subtitle mt-30 mb-15">In-house System</h3>
-            <div class="info-notice mb-25">
-                <p>It is required for you to send the general playlist and the key songs from Spotify via email. We do not accept any other music apps. The other alternative is for these to be provided on a USB.</p>
-                <p class="mt-10"><strong>In-house</strong> DJ contact number 07720289789. You will need to get in touch with this DJ and discuss with him your music for your event. This is only if you have booked them with the venue.</p>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="form-navigation">
-                <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
-                <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
-                <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
-                <button type="submit" class="nav-btn submit-btn">Submit Form</button>
-            </div>
-
-            <!-- Progress Indicator -->
-            <div class="progress-indicator">
-                <span class="page-info">Page 7 of 7</span>
-            </div>
-        </form>
-        
-        <footer class="form-footer">
-            <p>&copy; 2025 Amington Hall. All rights reserved.</p>
-            <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
-        </footer>
-    </div>
-</div>
-
-    <!-- Exit Modal -->
-    <div class="modal" id="exit-modal">
-        <div class="modal-content">
-            <h3>Before you go...</h3>
-            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
-            <div class="form-group">
-                <label for="modal-phone">Phone Number (Optional)</label>
-                <div class="phone-input-wrapper">
-                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
-                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
-                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
-                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal" id="success-modal">
-        <div class="modal-content success-modal-content">
-            <div class="success-icon">✓</div>
-            <h2>Submission Successful!</h2>
-            <p>Thank you for completing the Amington Hall Walkthrough Register.</p>
-            <p class="success-subtext">Your submission has been received and is being processed. We will contact you shortly to confirm your event details.</p>
-            <button type="button" class="modal-btn primary-modal-btn" id="success-ok-btn">Done</button>
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
         </div>
     </div>
 
     <!-- Notification Toast -->
     <div class="notification" id="notification"></div>
 
-    <script src="data-utils.js"></script>
     <script src="page7.js"></script>
 </body>
 </html>

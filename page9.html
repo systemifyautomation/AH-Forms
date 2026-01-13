@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Additional Services - Amington Hall</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page9-form" class="wedding-form">
+                <h2 class="page-title">Additional Services</h2>
+
+                <!-- Additional Services Question -->
+                <div class="form-group">
+                    <label class="required">Will you be having any additional services?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="additional-services" value="Yes" required>
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="additional-services" value="No" required>
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="additional-services-content" class="conditional-section" style="display: none;">
+                    <div class="info-notice">
+                        <p>If you are having any additional services, please add the details below. If the locations or timings have not yet been confirmed, leave boxes blank and the event organizer will discuss this further with you on your Walkthrough Meeting:</p>
+                    </div>
+
+                    <div class="info-notice">
+                        <p>Depending on the nature of the service provided by your chosen vendors, we would require them to provide us with copies of either their Public Liability Insurance cover, PAT certification for their equipment or Health & Hygiene certification.</p>
+                    </div>
+
+                    <!-- Venue Services Section -->
+                    <h3 class="section-subtitle mt-40 mb-20">Will you be having any of the following additional services from us as a venue:</h3>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-welcome-drinks" value="Welcome Drinks">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Welcome Drinks</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-nikkah-partition" value="Nikkah Partition">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Nikkah Partition</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-low-fog" value="Low Fog – 1 Time use">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Low Fog – 1 Time use</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-sparklers" value="Sparklers – 1 Time use">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Sparklers – 1 Time use</span>
+                        </label>
+
+                        <!-- Pancake Cart -->
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-pancake-cart" value="Pancake Cart – 2 Hour Service" id="pancake-cart-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Pancake Cart – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="pancake-cart-timing" class="sub-options" style="display: none; margin-left: 30px;">
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="pancake-cart-timing" value="Before Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Before Food Service</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="pancake-cart-timing" value="After Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">After Food Service</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <!-- 360 Booth -->
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-360-booth" value="360 Booth – 2 Hour Service" id="booth-360-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">360 Booth – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="booth-360-timing" class="sub-options" style="display: none; margin-left: 30px;">
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="booth-360-timing" value="Before Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Before Food Service</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="booth-360-timing" value="After Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">After Food Service</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <!-- Vintage Photobooth -->
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-vintage-photobooth" value="Vintage Photobooth – 2 Hour Service" id="vintage-photobooth-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Vintage Photobooth – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="vintage-photobooth-timing" class="sub-options" style="display: none; margin-left: 30px;">
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="vintage-photobooth-timing" value="Before Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Before Food Service</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="vintage-photobooth-timing" value="After Food Service">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">After Food Service</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="info-notice">
+                        <p><strong>Above:</strong> Once they're ticked an additional option of before food or after food option should be given.</p>
+                    </div>
+
+                    <div class="info-notice">
+                        <p>Following the above please add drop boxes of each additional services</p>
+                    </div>
+
+                    <!-- Third Party Services Section -->
+                    <h3 class="section-subtitle mt-40 mb-20">Additional Services: Third Party Service Providers</h3>
+                    <p class="mb-20">E.g. Dessert Tables, Welcome Signs, Chocolate Fountain, Photobooth, Guestbook, Audio Phonebook etc</p>
+
+                    <div id="third-party-services-container">
+                        <!-- Services will be added dynamically here -->
+                    </div>
+
+                    <button type="button" class="nav-btn next-btn" id="add-service-btn">+ Service</button>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 9 of 11</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Exit Modal -->
+    <div class="modal" id="exit-modal">
+        <div class="modal-content">
+            <h3>Before you go...</h3>
+            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
+            <div class="form-group">
+                <label for="modal-phone">Phone Number (Optional)</label>
+                <div class="phone-input-wrapper">
+                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
+                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
+                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
+                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal-content">
+            <div class="success-icon">✓</div>
+            <h2>Submission Successful!</h2>
+            <p>Thank you for completing the Amington Hall Walkthrough Register.</p>
+            <p class="success-subtext">Your submission has been received and is being processed. We will contact you shortly to confirm your event details.</p>
+            <button type="button" class="modal-btn primary-modal-btn" id="success-ok-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="data-utils.js"></script>
+    <script src="page9.js"></script>
+</body>
+</html>

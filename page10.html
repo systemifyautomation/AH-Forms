@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catering - Amington Hall</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page10-form" class="wedding-form">
+                <h2 class="page-title">Catering</h2>
+
+                <!-- Catering Company Name -->
+                <div class="form-group">
+                    <label for="catering-company-name">Catering Company Name:</label>
+                    <input type="text" id="catering-company-name" name="catering-company-name">
+                </div>
+
+                <!-- Contact Name & Number -->
+                <div class="form-group">
+                    <label for="catering-contact-name">Contact Name & Number:</label>
+                    <input type="text" id="catering-contact-name" name="catering-contact-name">
+                </div>
+
+                <!-- Has Company Worked at Amington Hall Before -->
+                <div class="form-group">
+                    <label class="required">Has the Company Worked at Amington Hall before?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="company-worked-before" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="company-worked-before" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info-notice">
+                    <p>If your chosen caterer has not worked at Amington Hall before they will need to organise a site visit with the Venue. It is vital that the caterer inspects the kitchen facilities on site and understands how our kitchen equipment is operated well before your event.</p>
+                </div>
+
+                <div class="info-notice">
+                    <p>Please note: the Venue does NOT provide any serving dishes. These will need to be provided by your chosen caterer and be white in colour. Please see our Party Catering leaflet for more information.</p>
+                </div>
+
+                <div class="info-notice">
+                    <p>Prior to your event it is important for you to discuss with your caterer the arrangements of the leftover food and drinks. Please discuss the following:</p>
+                </div>
+
+                <!-- Who is taking leftover Food & Drinks -->
+                <div class="form-group">
+                    <label class="required">Who is taking the leftover Food & Drinks?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Charity (Must be arranged by client)" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Charity (Must be arranged by client)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Who will provide Containers for leftover food -->
+                <div class="form-group">
+                    <label class="required">Who will provide the Containers for leftover food?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-containers" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-containers" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Drinks</h3>
+
+                <div class="form-group">
+                    <label class="required">Who will be providing the drinks?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Third Party Company" required id="drinks-third-party">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Third Party Company</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="drinks-third-party-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="drinks-third-party-name">Name:</label>
+                        <input type="text" id="drinks-third-party-name" name="drinks-third-party-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="drinks-third-party-contact">Contact Number:</label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" id="drinks-third-party-contact-prefix" name="drinks-third-party-contact-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="drinks-third-party-contact" name="drinks-third-party-contact" class="phone-number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reception Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Reception Drinks</h3>
+
+                <div class="form-group">
+                    <label class="required">Will you be having reception drinks?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="reception-drinks" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="reception-drinks" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="reception-drinks-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label class="required">Who is your supplier?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Amington Hall">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Amington Hall</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Client">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Client</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Third Party">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Third Party</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hot Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Hot Drinks</h3>
+
+                <div class="form-group">
+                    <label class="required">Who is your Supplier?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="hot-drinks-supplier" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="hot-drinks-supplier" value="Third Party Company" required id="hot-drinks-third-party">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Third Party Company</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="hot-drinks-third-party-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="hot-drinks-contact-name">Contact Name:</label>
+                        <input type="text" id="hot-drinks-contact-name" name="hot-drinks-contact-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hot-drinks-contact-number">Contact Number:</label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" id="hot-drinks-contact-number-prefix" name="hot-drinks-contact-number-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="hot-drinks-contact-number" name="hot-drinks-contact-number" class="phone-number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 10 of 11</span>
+                </div>
+            </form>
+            
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Exit Modal -->
+    <div class="modal" id="exit-modal">
+        <div class="modal-content">
+            <h3>Before you go...</h3>
+            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
+            <div class="form-group">
+                <label for="modal-phone">Phone Number (Optional)</label>
+                <div class="phone-input-wrapper">
+                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
+                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
+                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
+                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal-content">
+            <div class="success-icon">✓</div>
+            <h2>Submission Successful!</h2>
+            <p>Thank you for completing the Amington Hall Walkthrough Register.</p>
+            <p class="success-subtext">Your submission has been received and is being processed. We will contact you shortly to confirm your event details.</p>
+            <button type="button" class="modal-btn primary-modal-btn" id="success-ok-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="data-utils.js"></script>
+    <script src="page10.js"></script>
+</body>
+</html>

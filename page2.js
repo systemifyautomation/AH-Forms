@@ -23,7 +23,6 @@ function setupContactToggle() {
         document.getElementById('secondary-contact-phone').value = '';
         document.getElementById('secondary-contact-phone-prefix').value = '+44';
         document.getElementById('secondary-contact-relationship').value = '';
-        document.getElementById('secondary-contact-email').value = '';
         
         secondarySection.style.display = 'none';
         addBtn.style.display = 'inline-block';
@@ -34,7 +33,6 @@ function setupContactToggle() {
         delete formData['secondary-contact-phone'];
         delete formData['secondary-contact-phone-prefix'];
         delete formData['secondary-contact-relationship'];
-        delete formData['secondary-contact-email'];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     });
 }
@@ -190,8 +188,7 @@ function loadSavedData() {
     // Show secondary contact section if data exists
     const hasSecondaryData = savedData['secondary-contact-name'] || 
                               savedData['secondary-contact-phone'] || 
-                              savedData['secondary-contact-relationship'] ||
-                              savedData['secondary-contact-email'];
+                              savedData['secondary-contact-relationship'];
     
     if (hasSecondaryData) {
         document.getElementById('secondary-contact-section').style.display = 'block';

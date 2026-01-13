@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visuals & External - Amington Hall</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <header class="form-header">
+                <div class="header-content">
+                    <img src="logo.png" alt="Amington Hall Logo" class="logo">
+                    <div class="header-text">
+                        <h1>Amington Hall</h1>
+                        <p class="tagline">Walkthrough Register</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form id="page8-form" class="wedding-form">
+                <h2 class="page-title">Visuals & External</h2>
+
+            <!-- Photographer Section -->
+            <div class="form-group">
+                <label class="required">Will you be having a Photographer?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="photographer" value="Yes" required>
+                        <span>Yes</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="photographer" value="No" required>
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="photographer-details" class="conditional-section" style="display: none;">
+                <div class="form-group">
+                    <label for="photographer-company-name">Company Name</label>
+                    <input type="text" id="photographer-company-name" name="photographer-company-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="photographer-contact-name">Contact Name</label>
+                    <input type="text" id="photographer-contact-name" name="photographer-contact-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="photographer-contact-number">Contact Number</label>
+                    <div class="phone-input-wrapper">
+                        <input type="text" id="photographer-contact-number-prefix" name="photographer-contact-number-prefix" value="+44" class="phone-prefix">
+                        <input type="tel" id="photographer-contact-number" name="photographer-contact-number" class="phone-number">
+                    </div>
+                </div>
+
+                <div class="info-notice">
+                    <strong>Important:</strong> Please ensure your chosen photographer has Public Liability Insurance cover before booking them for your event. We do not allow photographers on site without this in place.
+                </div>
+            </div>
+
+            <!-- Videographer Section -->
+            <div class="form-group">
+                <label class="required">Will you be having a Videographer?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="videographer" value="Yes" required>
+                        <span>Yes</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="videographer" value="No" required>
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="videographer-details" class="conditional-section" style="display: none;">
+                <div class="form-group">
+                    <label for="videographer-company-name">Company Name</label>
+                    <input type="text" id="videographer-company-name" name="videographer-company-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="videographer-contact-name">Contact Name</label>
+                    <input type="text" id="videographer-contact-name" name="videographer-contact-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="videographer-contact-number">Contact Number</label>
+                    <div class="phone-input-wrapper">
+                        <input type="text" id="videographer-contact-number-prefix" name="videographer-contact-number-prefix" value="+44" class="phone-prefix">
+                        <input type="tel" id="videographer-contact-number" name="videographer-contact-number" class="phone-number">
+                    </div>
+                </div>
+
+                <div class="info-notice">
+                    <strong>Important:</strong> Please ensure your chosen videographer has Public Liability Insurance cover before booking them for your event. We do not allow videographers on site without this in place.
+                </div>
+            </div>
+
+            <!-- Cinematography Equipment Section -->
+            <div class="form-group">
+                <label class="required">Will you be having any Cinematography Equipment?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="cinematography-equipment" value="Yes" required>
+                        <span>Yes</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="cinematography-equipment" value="No" required>
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="cinematography-options" style="display: none;">
+                <div class="form-group">
+                    <label class="required">Please select the type of equipment:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="cinematography-type" value="Crane Only">
+                            <span>Crane Only</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="cinematography-type" value="Drone Only">
+                            <span>Drone Only</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="cinematography-type" value="Crane & Drone">
+                            <span>Crane & Drone</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-notice">
+                <strong>Note:</strong> If you are having a Drone on site on the day of your event, you are responsible for ensuring your videographer has all the relevant and required documentation and licenses to fly a drone commercially.
+            </div>
+
+            <!-- Camera Crew Access Notice -->
+            <div class="info-notice">
+                <strong>Camera Crew Access:</strong> Please note that your camera crew will only be allowed access to the venue 30 minutes before your booking start time.
+            </div>
+
+
+            <!-- DJ/Sound System Section -->
+            <h3 class="section-subtitle mt-40 mb-20">Sound & Audio</h3>
+            
+            <div class="form-group">
+                <label class="required">Which of the following will you be having for your event?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="sound-system" value="DJ" required>
+                        <span class="radio-custom"></span>
+                        <span class="radio-text">DJ</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="sound-system" value="In-house DJ" required>
+                        <span class="radio-custom"></span>
+                        <span class="radio-text">In-house DJ</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- DJ Section -->
+            <div id="dj-details" class="conditional-section" style="display: none;">
+                <div class="form-group">
+                    <label for="dj-name">DJ - Name:</label>
+                    <input type="text" id="dj-name" name="dj-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="dj-contact-number">Contact Number:</label>
+                    <div class="phone-input-wrapper">
+                        <input type="text" id="dj-contact-number-prefix" name="dj-contact-number-prefix" value="+44" class="phone-prefix">
+                        <input type="tel" id="dj-contact-number" name="dj-contact-number" class="phone-number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- In-house DJ Section -->
+            <div id="inhouse-dj-details" class="conditional-section" style="display: none;">
+                <h3 class="section-subtitle mt-30 mb-15">In-house DJ</h3>
+                <div class="info-notice mb-25">
+                    <p class="mt-10"><strong>In-house</strong> DJ contact number 07720289789. You will need to get in touch with this DJ and discuss with him your music for your event. This is only if you have booked them with the venue.</p>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+                <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <span class="page-info">Page 8 of 11</span>
+            </div>
+        </form>
+        
+        <footer class="form-footer">
+            <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+            <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+        </footer>
+    </div>
+</div>
+
+    <!-- Exit Modal -->
+    <div class="modal" id="exit-modal">
+        <div class="modal-content">
+            <h3>Before you go...</h3>
+            <p>Don't lose your progress! Would you like us to remind you to complete this form later?</p>
+            <div class="form-group">
+                <label for="modal-phone">Phone Number (Optional)</label>
+                <div class="phone-input-wrapper">
+                    <input type="text" class="phone-prefix" id="modal-phone-prefix" value="+44" placeholder="+44">
+                    <input type="tel" id="modal-phone" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn primary-modal-btn" id="save-and-exit">Save & Exit</button>
+                <button type="button" class="modal-btn secondary-modal-btn" id="exit-without-saving">Exit Without Saving</button>
+                <button type="button" class="modal-btn tertiary-modal-btn" id="continue-form">Continue Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal-content">
+            <div class="success-icon">✓</div>
+            <h2>Submission Successful!</h2>
+            <p>Thank you for completing the Amington Hall Walkthrough Register.</p>
+            <p class="success-subtext">Your submission has been received and is being processed. We will contact you shortly to confirm your event details.</p>
+            <button type="button" class="modal-btn primary-modal-btn" id="success-ok-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script src="data-utils.js"></script>
+    <script src="page8.js"></script>
+</body>
+</html>

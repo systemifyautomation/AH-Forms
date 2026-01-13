@@ -16,7 +16,7 @@ function setupEventListeners() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         saveFormData();
-        window.location.href = 'page5-new.html';
+        window.location.href = 'page6.html';
     });
 
     // Previous button

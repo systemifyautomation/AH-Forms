@@ -663,7 +663,7 @@ input[type="text"]#event-date:focus {
 
 /* Flatpickr Custom Styling */
 .flatpickr-calendar {
-    background: linear-gradient(145deg, rgba(20, 20, 20, 0.98) 0%, rgba(10, 10, 10, 1) 100%) !important;
+    background: #000000 !important;
     border: 1px solid rgba(212, 175, 55, 0.4) !important;
     border-radius: 12px !important;
     box-shadow: 
@@ -672,7 +672,7 @@ input[type="text"]#event-date:focus {
 }
 
 .flatpickr-months {
-    background: transparent !important;
+    background: #000000 !important;
     padding: 15px 10px !important;
 }
 
@@ -681,14 +681,14 @@ input[type="text"]#event-date:focus {
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
-    background: rgba(212, 175, 55, 0.1) !important;
+    background: #000000 !important;
     color: #d4af37 !important;
     border: 1px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 6px !important;
 }
 
 .flatpickr-current-month input.cur-year {
-    background: rgba(212, 175, 55, 0.1) !important;
+    background: #000000 !important;
     color: #d4af37 !important;
     border: 1px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 6px !important;
@@ -1355,4 +1355,58 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 .info-notice-subtle {
     margin-bottom: 30px;
     background: rgba(212, 175, 55, 0.05);
+}
+
+/* Third Party Service Styles */
+.third-party-service {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.service-header h4 {
+    color: #d4af37;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.remove-service-btn {
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    min-width: auto !important;
+    flex: 0 0 auto !important;
+    max-width: 100px !important;
+}
+
+/* Enhanced Checkbox Styles for Page 9 */
+.checkbox-group .checkbox-custom {
+    width: 24px;
+    height: 24px;
+    background: #000000;
+    border: 2px solid #d4af37;
+}
+
+.checkbox-group .checkbox-label {
+    padding: 15px 18px;
+}
+
+.checkbox-group .checkbox-text {
+    font-size: 1rem;
+}
+
+/* Add spacing between checkbox groups */
+.checkbox-group + .sub-options + .checkbox-group {
+    margin-top: 20px;
 }

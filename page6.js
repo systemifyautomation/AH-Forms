@@ -1,10 +1,54 @@
-// Page 6 - LED/LCD Screen JavaScript
+// Page 5 (New) - Additional Extras JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 document.addEventListener('DOMContentLoaded', function() {
     loadSavedData();
     setupEventListeners();
+    setupConditionalFields();
+    setupDancefloorToggle();
 });
+
+function setupConditionalFields() {
+    // Table "Other" checkbox toggle
+    const tableOtherCheckbox = document.getElementById('table-other-checkbox');
+    const tableOtherText = document.getElementById('table-other-text');
+    
+    if (tableOtherCheckbox) {
+        tableOtherCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                tableOtherText.style.display = 'block';
+            } else {
+                tableOtherText.style.display = 'none';
+                tableOtherText.value = '';
+            }
+        });
+        
+        // Initialize display state
+        if (tableOtherCheckbox.checked) {
+            tableOtherText.style.display = 'block';
+        }
+    }
+}
+
+function setupDancefloorToggle() {
+    const dancefloorRadios = document.querySelectorAll('input[name="dancefloor"]');
+    const dancefloorOptions = document.getElementById('dancefloor-options');
+    const dancefloorType = document.querySelectorAll('input[name="dancefloor-type"]');
+    const dancefloorSize = document.getElementById('dancefloor-size');
+    
+    dancefloorRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                dancefloorOptions.style.display = 'block';
+            } else {
+                dancefloorOptions.style.display = 'none';
+                // Clear selections
+                dancefloorType.forEach(type => type.checked = false);
+                if (dancefloorSize) dancefloorSize.value = '';
+            }
+        });
+    });
+}
 
 function setupEventListeners() {
     const form = document.getElementById('page6-form');
@@ -12,11 +56,11 @@ function setupEventListeners() {
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
 
-    // Form submission (Next button)
+    // Form submission (navigation to next page)
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         saveFormData();
-        window.location.href = 'page7.html';
+        window.location.href = 'page7.html'; // Navigate to LED/LCD Screen page
     });
 
     // Previous button
@@ -43,11 +87,9 @@ function setupEventListeners() {
 function saveFormData() {
     const formData = getStoredData() || {};
     
-    // Save text, number, tel, email inputs and textareas
-    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
-        if (input.value) {
-            formData[input.name || input.id] = input.value;
-        }
+    // Save all text, number, tel, email, time, textarea, file inputs
+    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="time"], input[type="email"], textarea').forEach(input => {
+        formData[input.name || input.id] = input.value || '';
     });
     
     // Save radio buttons
@@ -55,9 +97,18 @@ function saveFormData() {
         formData[radio.name] = radio.value;
     });
     
-    // Save timestamp
-    formData.lastSaved = new Date().toISOString();
+    // Save checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        formData[checkbox.name || checkbox.id] = checkbox.checked ? 'on' : 'off';
+    });
     
+    // Save file input info (just the filename)
+    const fileInput = document.getElementById('decor-upload');
+    if (fileInput && fileInput.files.length > 0) {
+        formData['decor-upload-filename'] = fileInput.files[0].name;
+    }
+    
+    formData.lastSaved = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     console.log('Form data saved:', formData);
 }
@@ -71,10 +122,10 @@ function loadSavedData() {
     
     console.log('Loading saved data:', savedData);
     
-    // Load all inputs
+    // Load all text inputs
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key);
-        if (element && element.type !== 'radio') {
+        if (element && element.type !== 'radio' && element.type !== 'checkbox') {
             element.value = savedData[key];
         }
     });
@@ -84,6 +135,16 @@ function loadSavedData() {
         const radio = document.querySelector(`input[name="${key}"][value="${savedData[key]}"]`);
         if (radio) {
             radio.checked = true;
+            radio.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Load checkboxes
+    Object.keys(savedData).forEach(key => {
+        const checkbox = document.getElementById(key);
+        if (checkbox && checkbox.type === 'checkbox') {
+            checkbox.checked = savedData[key] === 'on';
+            checkbox.dispatchEvent(new Event('change'));
         }
     });
 }

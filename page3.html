@@ -52,8 +52,8 @@
                     <label for="guest-count">
                         How many guests? <span class="required">*</span>
                     </label>
-                    <input type="number" id="guest-count" name="guest-count" placeholder="Enter number of guests" min="1" max="650" required>
-                    <p class="field-note">Maximum: 400 for Amington Suite, 250 for Serenity Suite, 650 for Both</p>
+                    <input type="number" id="guest-count" name="guest-count" placeholder="Enter number of guests" min="1" max="600" required>
+                    <p class="field-note">Maximum: 400 for Amington Suite, 200 for Serenity Suite, 600 for Both</p>
                 </div>
 
                 <!-- Types of Tables -->
@@ -231,12 +231,59 @@
                     <p>If you intend to create a seating plan for your guests, you will need to decide the seating arrangement and arrange for guests to be ushered to their set seats on the event day by your own appointees. Please note you will need to provide us with any seating stationery to be placed on the tables in order for guests to identify where they will be sitting.</p>
                 </div>
 
-                <!-- Reserved Seatings -->
+                <!-- Reserved Tables -->
+                <h3 class="section-subtitle">Reserved Tables</h3>
+                
+                <!-- Groom's Side Reserved Tables -->
                 <div class="form-group">
-                    <label for="reserved-seatings">
-                        How many seats would you like to reserve any seatings (example: 3 seatings for the Groom's Family)
+                    <label for="reserved-tables-groom">
+                        How many tables would you like to reserve for the Groom's Family?
                     </label>
-                    <input type="number" id="reserved-seatings" name="reserved-seatings" placeholder="Enter number of reserved seatings" min="0">
+                    <input type="number" id="reserved-tables-groom" name="reserved-tables-groom" placeholder="Enter number of reserved tables" min="0">
+                </div>
+
+                <div class="form-group" id="reserved-table-type-groom-section" style="display: none;">
+                    <label>
+                        Type of reserved tables for Groom's Family
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="reserved-table-type-groom" value="Round Tables">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Round Tables</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="reserved-table-type-groom" value="VIP Tables">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">VIP Tables</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Bride's Side Reserved Tables -->
+                <div class="form-group">
+                    <label for="reserved-tables-bride">
+                        How many tables would you like to reserve for the Bride's Family?
+                    </label>
+                    <input type="number" id="reserved-tables-bride" name="reserved-tables-bride" placeholder="Enter number of reserved tables" min="0">
+                </div>
+
+                <div class="form-group" id="reserved-table-type-bride-section" style="display: none;">
+                    <label>
+                        Type of reserved tables for Bride's Family
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="reserved-table-type-bride" value="Round Tables">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Round Tables</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="reserved-table-type-bride" value="VIP Tables">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">VIP Tables</span>
+                        </label>
+                    </div>
                     <div class="info-notice" style="margin-top: 15px;">
                         <p><strong>Disclaimer:</strong> We have 2 types of reserved signs:</p>
                         <ol style="margin-left: 20px; margin-top: 10px;">
@@ -262,30 +309,6 @@
                             <input type="radio" name="head-table" value="No" required>
                             <span class="radio-custom"></span>
                             <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Dance Floor -->
-                <div class="form-group">
-                    <label>
-                        Will you be having a dance floor? (this needs prior approval if you require this.) <span class="required">*</span>
-                    </label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="dance-floor" value="Yes" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="dance-floor" value="No" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="dance-floor" value="Maybe" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Maybe</span>
                         </label>
                     </div>
                 </div>
@@ -330,7 +353,7 @@
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 3 of 8</span>
+                    <span class="page-info">Page 3 of 11</span>
                 </div>
             </form>
             
