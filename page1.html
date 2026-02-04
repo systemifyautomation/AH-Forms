@@ -71,34 +71,34 @@
                     </label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="event-type" value="Walima" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Walima</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="event-type" value="Nikkah" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Nikkah</span>
-                        </label>
-                        <label class="radio-label">
                             <input type="radio" name="event-type" value="Joint Day" required>
                             <span class="radio-custom"></span>
                             <span class="radio-text">Joint Day</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="event-type" value="Wedding Reception" required>
+                            <input type="radio" name="event-type" value="Baraat" required>
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Wedding Reception</span>
+                            <span class="radio-text">Baraat</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="event-type" value="Corporate Event" required>
+                            <input type="radio" name="event-type" value="Walima" required>
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Corporate Event</span>
+                            <span class="radio-text">Walima</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="event-type" value="Wedding Reception (NON Asian)" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Wedding Reception (NON Asian)</span>
                         </label>
                         <label class="radio-label">
                             <input type="radio" name="event-type" value="Mehndi" required>
                             <span class="radio-custom"></span>
                             <span class="radio-text">Mehndi</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="event-type" value="Corporate Event" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Corporate Event</span>
                         </label>
                     </div>
                 </div>
@@ -130,6 +130,17 @@
                             <span class="radio-text">Other</span>
                         </label>
                     </div>
+                    <select id="event-timings-allday" name="event-timings-allday" style="margin-top: 12px; display: none;">
+                        <option value="">Select timing...</option>
+                        <option value="10am - 4pm">10am – 4pm</option>
+                        <option value="11am - 5pm">11am – 5pm</option>
+                        <option value="12pm - 6pm">12pm – 6pm</option>
+                        <option value="1pm - 7pm">1pm – 7pm</option>
+                        <option value="2pm - 8pm">2pm – 8pm</option>
+                        <option value="3pm - 9pm">3pm – 9pm</option>
+                        <option value="4pm - 10pm">4pm – 10pm</option>
+                        <option value="5pm - 11pm">5pm – 11pm</option>
+                    </select>
                     <input type="text" id="event-timings-other" name="event-timings-other" placeholder="Please Specify timings." style="margin-top: 12px; display: none;">
                 </div>
 

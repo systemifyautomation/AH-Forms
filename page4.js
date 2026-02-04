@@ -4,6 +4,7 @@ const STORAGE_KEY = 'amington-hall-form-data';
 document.addEventListener('DOMContentLoaded', function() {
     loadSavedData();
     setupEventListeners();
+    setupThirdPartyDecorToggle();
 });
 
 function setupEventListeners() {
@@ -47,6 +48,27 @@ function setupEventListeners() {
     });
 }
 
+function setupThirdPartyDecorToggle() {
+    const thirdPartyDecorRadios = document.querySelectorAll('input[name="third-party-decor"]');
+    const thirdPartyDecorDetails = document.getElementById('third-party-decor-details');
+    
+    thirdPartyDecorRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                thirdPartyDecorDetails.style.display = 'block';
+            } else {
+                thirdPartyDecorDetails.style.display = 'none';
+                // Clear the fields when hiding
+                document.getElementById('decor-company-name').value = '';
+                document.getElementById('decor-contact-name').value = '';
+                document.getElementById('decor-contact-number').value = '';
+                document.getElementById('decor-contact-number-prefix').value = '+44';
+                document.getElementById('decor-contact-email').value = '';
+            }
+        });
+    });
+}
+
 function validatePage() {
     console.log('=== Starting Page 4 Validation ===');
     
@@ -63,6 +85,11 @@ function saveFormData() {
     // Save all text, number, tel, email inputs (including empty optional fields)
     document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
         formData[input.name || input.id] = input.value || '';
+    });
+    
+    // Save radio buttons
+    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+        formData[radio.name] = radio.value;
     });
     
     // Save timestamp
@@ -84,8 +111,18 @@ function loadSavedData() {
     // Load all inputs
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key);
-        if (element) {
+        if (element && element.type !== 'radio') {
             element.value = savedData[key];
+        }
+    });
+    
+    // Load radio buttons
+    Object.keys(savedData).forEach(key => {
+        const radio = document.querySelector(`input[name="${key}"][value="${savedData[key]}"]`);
+        if (radio) {
+            radio.checked = true;
+            // Trigger change event to show/hide conditional sections
+            radio.dispatchEvent(new Event('change'));
         }
     });
 }

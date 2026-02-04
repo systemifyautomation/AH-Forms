@@ -225,65 +225,45 @@
                     </div>
                 </div>
 
-                <!-- Seating Plan Disclaimer -->
-                <div class="info-notice">
-                    <p>Your event organiser will go through this with you in more detail during your Walkthrough Meeting.</p>
-                    <p>If you intend to create a seating plan for your guests, you will need to decide the seating arrangement and arrange for guests to be ushered to their set seats on the event day by your own appointees. Please note you will need to provide us with any seating stationery to be placed on the tables in order for guests to identify where they will be sitting.</p>
-                </div>
-
-                <!-- Reserved Tables -->
-                <h3 class="section-subtitle">Reserved Tables</h3>
+                <!-- Seating Arrangements Section -->
+                <h3 class="section-subtitle" style="margin-top: 40px;">Seating Arrangements</h3>
                 
-                <!-- Groom's Side Reserved Tables -->
+                <!-- Reserved Tables -->
+                <h4 style="margin-top: 20px; margin-bottom: 15px; font-size: 1.1rem; color: #d4af37;">Reserved Tables</h4>
+                
                 <div class="form-group">
-                    <label for="reserved-tables-groom">
-                        How many tables would you like to reserve for the Groom's Family?
-                    </label>
-                    <input type="number" id="reserved-tables-groom" name="reserved-tables-groom" placeholder="Enter number of reserved tables" min="0">
-                </div>
-
-                <div class="form-group" id="reserved-table-type-groom-section" style="display: none;">
-                    <label>
-                        Type of reserved tables for Groom's Family
-                    </label>
+                    <label>Would you like to reserve any tables?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="reserved-table-type-groom" value="Round Tables">
+                            <input type="radio" name="want-reserved-tables" value="Yes">
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Round Tables</span>
+                            <span class="radio-text">Yes</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="reserved-table-type-groom" value="VIP Tables">
+                            <input type="radio" name="want-reserved-tables" value="No">
                             <span class="radio-custom"></span>
-                            <span class="radio-text">VIP Tables</span>
+                            <span class="radio-text">No</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Bride's Side Reserved Tables -->
-                <div class="form-group">
-                    <label for="reserved-tables-bride">
-                        How many tables would you like to reserve for the Bride's Family?
-                    </label>
-                    <input type="number" id="reserved-tables-bride" name="reserved-tables-bride" placeholder="Enter number of reserved tables" min="0">
-                </div>
-
-                <div class="form-group" id="reserved-table-type-bride-section" style="display: none;">
-                    <label>
-                        Type of reserved tables for Bride's Family
-                    </label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="reserved-table-type-bride" value="Round Tables">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Round Tables</span>
+                <div id="reserved-tables-section" style="display: none;">
+                    <!-- Groom's Side Reserved Tables -->
+                    <div class="form-group">
+                        <label for="reserved-tables-groom">
+                            How many tables would you like to reserve for the Groom's Family?
                         </label>
-                        <label class="radio-label">
-                            <input type="radio" name="reserved-table-type-bride" value="VIP Tables">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">VIP Tables</span>
-                        </label>
+                        <input type="number" id="reserved-tables-groom" name="reserved-tables-groom" placeholder="Enter number of reserved tables" min="0">
                     </div>
+
+                    <!-- Bride's Side Reserved Tables -->
+                    <div class="form-group">
+                        <label for="reserved-tables-bride">
+                            How many tables would you like to reserve for the Bride's Family?
+                        </label>
+                        <input type="number" id="reserved-tables-bride" name="reserved-tables-bride" placeholder="Enter number of reserved tables" min="0">
+                    </div>
+
                     <div class="info-notice" style="margin-top: 15px;">
                         <p><strong>Disclaimer:</strong> We have 2 types of reserved signs:</p>
                         <ol style="margin-left: 20px; margin-top: 10px;">
@@ -291,6 +271,32 @@
                             <li>Reserved for Bride's Family</li>
                         </ol>
                         <p style="margin-top: 10px;">If you require any signs with any specific group names, you will need to provide these yourselves.</p>
+                    </div>
+                </div>
+
+                <!-- Table Plan -->
+                <h4 style="margin-top: 30px; margin-bottom: 15px; font-size: 1.1rem; color: #d4af37;">Table Plan</h4>
+                
+                <div class="form-group">
+                    <label>Will you be creating a seating plan/table plan for your guests?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="table-plan" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="table-plan" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="table-plan-details" style="display: none;">
+                    <div class="info-notice">
+                        <p>Your event organiser will go through this with you in more detail during your Walkthrough Meeting.</p>
+                        <p>If you intend to create a seating plan for your guests, you will need to decide the seating arrangement and arrange for guests to be ushered to their set seats on the event day by your own appointees. Please note you will need to provide us with any seating stationery to be placed on the tables in order for guests to identify where they will be sitting.</p>
                     </div>
                 </div>
 
@@ -314,33 +320,41 @@
                 </div>
 
                 <!-- Additional Tables -->
+                <h3 class="section-subtitle" style="margin-top: 40px;">Tables</h3>
+                
                 <div class="form-group">
-                    <label>
-                        Do you require any additional tables set up on your event day?
-                    </label>
+                    <label>Do you require any additional tables for your event? (6 ft Rectangle Table, dressed in white cloth)</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="additional-tables" value="Nendra Table (2 seater)">
+                            <input type="checkbox" name="table-nendra" value="on">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Nendra Table (2 seater)</span>
+                            <span class="checkbox-text">Nendra Table (2 Seater)</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="additional-tables" value="Gift Table (6ft Rectangle Table)">
+                            <input type="checkbox" name="table-gift" value="on">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Gift Table (6ft Rectangle Table)</span>
+                            <span class="checkbox-text">Gift Table</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="additional-tables" value="Drink station (6f Rectangle table)">
+                            <input type="checkbox" name="table-drink" value="on">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Drink station (6f Rectangle table)</span>
+                            <span class="checkbox-text">Drink Station</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" id="additional-tables-other" name="additional-tables" value="Other">
+                            <input type="checkbox" name="table-other" id="table-other-checkbox">
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Other:</span>
                         </label>
                     </div>
-                    <input type="text" id="additional-tables-other-text" name="additional-tables-other-text" placeholder="Please specify other table requirements" style="margin-top: 12px; display: none;">
+                    <input type="text" id="table-other-text" name="table-other-text" placeholder="Please specify" class="conditional-input">
+                </div>
+
+                <div class="info-notice" style="margin-bottom: 30px;">
+                    <p>Please note: We do not provide tables for vendors and other service providers. This will have to be provided by themselves or arranged by yourselves.</p>
+                </div>
+
+                <div class="info-notice" style="margin-bottom: 30px;">
+                    <p style="margin-top: 15px;"><em>Please note: The above options are at an additional price. This will be discussed with you during your Walk through meeting.</em></p>
                 </div>
 
                 <!-- Navigation Buttons -->

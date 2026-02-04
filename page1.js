@@ -30,16 +30,29 @@ function initializePage() {
 function setupOtherTimingToggle() {
     const timingRadios = document.querySelectorAll('input[name="event-timings"]');
     const otherTimingInput = document.getElementById('event-timings-other');
+    const alldayTimingSelect = document.getElementById('event-timings-allday');
     
     timingRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'Other') {
                 otherTimingInput.style.display = 'block';
                 otherTimingInput.required = true;
+                alldayTimingSelect.style.display = 'none';
+                alldayTimingSelect.required = false;
+                alldayTimingSelect.value = '';
+            } else if (this.value === 'All day (6 Hours)') {
+                alldayTimingSelect.style.display = 'block';
+                alldayTimingSelect.required = true;
+                otherTimingInput.style.display = 'none';
+                otherTimingInput.required = false;
+                otherTimingInput.value = '';
             } else {
                 otherTimingInput.style.display = 'none';
                 otherTimingInput.required = false;
                 otherTimingInput.value = '';
+                alldayTimingSelect.style.display = 'none';
+                alldayTimingSelect.required = false;
+                alldayTimingSelect.value = '';
             }
         });
     });
@@ -117,6 +130,11 @@ function validatePage() {
         const otherInput = document.getElementById('event-timings-other');
         if (!otherInput.value.trim()) {
             missingFields.push('Other Event Timing (please specify)');
+        }
+    } else if (timingChecked.value === 'All day (6 Hours)') {
+        const alldaySelect = document.getElementById('event-timings-allday');
+        if (!alldaySelect.value) {
+            missingFields.push('All Day Timing (please select)');
         }
     }
     

@@ -72,73 +72,12 @@
                     </div>
                 </div>
 
-                <div class="info-notice" style="margin-bottom: 30px;">
-                    <p style="margin-top: 15px;"><em>Please note: The above options are at an additional price. This will be discussed with you during your Walk through meeting.</em></p>
-                </div>
-
-                <!-- Tables Section -->
-                <h3 class="section-subtitle">Tables</h3>
-                
-                <div class="form-group">
-                    <label>Do you require any additional tables for your event? (6 ft Rectangle Table, dressed in white cloth)</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="table-nendra" value="on">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Nendra Table (2 Seater)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="table-gift" value="on">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Gift Table</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="table-drink" value="on">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Drink Station</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="table-other" id="table-other-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Other:</span>
-                        </label>
-                    </div>
-                    <input type="text" id="table-other-text" name="table-other-text" placeholder="Please specify" class="conditional-input">
-                </div>
-
-                <div class="info-notice" style="margin-bottom: 30px;">
-                    <p>Please note: We do not provide tables for vendors and other service providers. This will have to be provided by themselves or arranged by yourselves.</p>
-                </div>
-
-                <!-- Décor Section -->
-                <h3 class="section-subtitle">Décor</h3>
-                
-
-                <div class="form-group">
-                    <label for="decor-description">Please describe any décor changes or additions:</label>
-                    <textarea id="decor-description" name="decor-description" rows="6" placeholder="Describe what is being changed or added..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Would you like to upload a picture/document of your décor plans?</label>
-                    <p class="field-note">Click option to take/upload picture</p>
-                    <input type="file" id="decor-upload" name="decor-upload" accept="image/*,.pdf">
-                </div>
-
                 <!-- Cake Section -->
                 <h3 class="section-subtitle">Cake</h3>
-                <div class="info-notice" style="margin-bottom: 20px;">
-                    <p><strong>Add answer lines under each question</strong></p>
-                </div>
 
                 <div class="form-group">
                     <label for="cake-company">Cake Company name:</label>
                     <input type="text" id="cake-company" name="cake-company">
-                </div>
-
-                <div class="form-group">
-                    <label for="cake-tiers">Number of tiers:</label>
-                    <input type="number" id="cake-tiers" name="cake-tiers" min="1">
                 </div>
 
                 <div class="form-group">
@@ -152,6 +91,11 @@
                         <input type="text" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" class="phone-prefix">
                         <input type="tel" id="cake-contact-number" name="cake-contact-number" class="phone-number">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cake-tiers">Number of tiers:</label>
+                    <input type="number" id="cake-tiers" name="cake-tiers" min="1">
                 </div>
 
                 <div class="form-group">
@@ -224,73 +168,19 @@
                             <span class="radio-text">No</span>
                         </label>
                     </div>
-                    <div class="radio-group radio-subgroup">
-                        <label class="radio-label">
-                            <input type="radio" name="menu-cards-placement" value="1 per plate">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">1 per plate</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="menu-cards-placement" value="2 per table">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">2 per table</span>
-                        </label>
+                </div>
+
+                <div id="menu-cards-placement-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="menu-cards-placement">Menu card placement:</label>
+                        <select id="menu-cards-placement" name="menu-cards-placement" class="select-input">
+                            <option value="">Select placement</option>
+                            <option value="1 per plate">1 per plate</option>
+                            <option value="2 per table">2 per table</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Additional Services Section -->
-                <h3 class="section-subtitle">Additional Services</h3>
-                <div class="info-notice" style="margin-bottom: 20px;">
-                    <p><strong>Include separate drop down options for the following:</strong></p>
-                </div>
-
-                <!-- Special Effects -->
-                <div class="form-group">
-                    <label class="subsection-title">Special Effects</label>
-                    <label for="special-effects-company">Name of Company:</label>
-                    <input type="text" id="special-effects-company" name="special-effects-company">
-                </div>
-
-                <div class="form-group">
-                    <label for="special-effects-contact">Contact Number:</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="special-effects-contact-prefix" name="special-effects-contact-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="special-effects-contact" name="special-effects-contact" class="phone-number">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="special-effects-type">Type of Effects:</label>
-                    <input type="text" id="special-effects-type" name="special-effects-type">
-                </div>
-
-                <div class="form-group">
-                    <label for="special-effects-time">When will this be used:</label>
-                    <input type="text" id="special-effects-time" name="special-effects-time">
-                </div>
-
-                <!-- Sweet Setups -->
-                <div class="form-group subsection-group">
-                    <label class="subsection-title">Sweet setups</label>
-                    <label for="sweet-setups-type">Type of Service:</label>
-                    <input type="text" id="sweet-setups-type" name="sweet-setups-type">
-                </div>
-
-                <div class="form-group">
-                    <label for="sweet-setups-time">Service Start Time:</label>
-                    <input type="time" id="sweet-setups-time" name="sweet-setups-time">
-                </div>
-
-                <!-- 360/Photobooth -->
-                <div class="form-group subsection-group">
-                    <label class="subsection-title">360/Photobooth</label>
-                    <label for="photobooth-type">Type of Service:</label>
-                    <input type="text" id="photobooth-type" name="photobooth-type">
-                </div>
-
-                <div class="form-group">
-                    <label for="photobooth-time">Service Start Time:</label>
-                    <input type="time" id="photobooth-time" name="photobooth-time">
+                    <input type="text" id="menu-cards-placement-other-text" name="menu-cards-placement-other-text" placeholder="Please specify" style="margin-top: 12px; display: none;">
                 </div>
 
                 <!-- Navigation Buttons -->

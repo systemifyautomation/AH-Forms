@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupConditionalFields();
     setupDancefloorToggle();
+    setupMenuCardsToggle();
 });
 
 function setupConditionalFields() {
@@ -48,6 +49,41 @@ function setupDancefloorToggle() {
             }
         });
     });
+}
+
+function setupMenuCardsToggle() {
+    const menuCardsRadios = document.querySelectorAll('input[name="menu-cards"]');
+    const menuCardsPlacementSection = document.getElementById('menu-cards-placement-section');
+    const menuCardsPlacement = document.getElementById('menu-cards-placement');
+    const menuCardsPlacementOtherText = document.getElementById('menu-cards-placement-other-text');
+    
+    menuCardsRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                menuCardsPlacementSection.style.display = 'block';
+            } else {
+                menuCardsPlacementSection.style.display = 'none';
+                // Clear selections
+                if (menuCardsPlacement) menuCardsPlacement.value = '';
+                if (menuCardsPlacementOtherText) {
+                    menuCardsPlacementOtherText.style.display = 'none';
+                    menuCardsPlacementOtherText.value = '';
+                }
+            }
+        });
+    });
+    
+    // Handle "Other" option in placement dropdown
+    if (menuCardsPlacement) {
+        menuCardsPlacement.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                menuCardsPlacementOtherText.style.display = 'block';
+            } else {
+                menuCardsPlacementOtherText.style.display = 'none';
+                menuCardsPlacementOtherText.value = '';
+            }
+        });
+    }
 }
 
 function setupEventListeners() {
@@ -109,6 +145,11 @@ function saveFormData() {
         formData[input.name || input.id] = input.value || '';
     });
     
+    // Save select dropdowns
+    document.querySelectorAll('select').forEach(select => {
+        formData[select.name || select.id] = select.value || '';
+    });
+    
     // Save radio buttons
     document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
         formData[radio.name] = radio.value;
@@ -139,11 +180,15 @@ function loadSavedData() {
     
     console.log('Loading saved data:', savedData);
     
-    // Load all text inputs
+    // Load all text inputs and selects
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key);
         if (element && element.type !== 'radio' && element.type !== 'checkbox') {
             element.value = savedData[key];
+            // Trigger change event for selects to show conditional fields
+            if (element.tagName === 'SELECT') {
+                element.dispatchEvent(new Event('change'));
+            }
         }
     });
     

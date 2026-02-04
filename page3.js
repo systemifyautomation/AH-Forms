@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupSegregationToggle();
     setupAdditionalTablesToggle();
-    setupReservedTablesToggle();
+    setupSuiteTableTypeToggle();
+    setupReservedTablesConditional();
+    setupTablePlanConditional();
 });
 
 function setupAdditionalTablesToggle() {
@@ -27,41 +29,38 @@ function setupAdditionalTablesToggle() {
     }
 }
 
-function setupReservedTablesToggle() {
-    // Groom's reserved tables toggle
-    const groomTablesInput = document.getElementById('reserved-tables-groom');
-    const groomTypeSection = document.getElementById('reserved-table-type-groom-section');
-    const groomTypeRadios = document.querySelectorAll('input[name="reserved-table-type-groom"]');
+function setupSuiteTableTypeToggle() {
+    const suiteRadios = document.querySelectorAll('input[name="suite-hired"]');
+    const tableTypeRadios = document.querySelectorAll('input[name="table-type"]');
+    const vipTableOption = document.querySelector('input[name="table-type"][value="VIP"]');
+    const vipLabel = vipTableOption ? vipTableOption.closest('.radio-label') : null;
     
-    if (groomTablesInput && groomTypeSection) {
-        groomTablesInput.addEventListener('input', function() {
-            const count = parseInt(this.value);
-            if (count > 0) {
-                groomTypeSection.style.display = 'block';
-            } else {
-                groomTypeSection.style.display = 'none';
-                // Clear selection when hiding
-                groomTypeRadios.forEach(radio => radio.checked = false);
-            }
+    if (suiteRadios && vipLabel) {
+        suiteRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Serenity Suite') {
+                    // Hide VIP option for Serenity Suite
+                    vipLabel.style.display = 'none';
+                    // If VIP was selected, deselect it and select Round Tables
+                    if (vipTableOption.checked) {
+                        vipTableOption.checked = false;
+                        const roundTableOption = document.querySelector('input[name="table-type"][value="Round Tables"]');
+                        if (roundTableOption) {
+                            roundTableOption.checked = true;
+                        }
+                    }
+                } else {
+                    // Show VIP option for Amington Suite or Both
+                    vipLabel.style.display = '';
+                }
+            });
         });
-    }
-    
-    // Bride's reserved tables toggle
-    const brideTablesInput = document.getElementById('reserved-tables-bride');
-    const brideTypeSection = document.getElementById('reserved-table-type-bride-section');
-    const brideTypeRadios = document.querySelectorAll('input[name="reserved-table-type-bride"]');
-    
-    if (brideTablesInput && brideTypeSection) {
-        brideTablesInput.addEventListener('input', function() {
-            const count = parseInt(this.value);
-            if (count > 0) {
-                brideTypeSection.style.display = 'block';
-            } else {
-                brideTypeSection.style.display = 'none';
-                // Clear selection when hiding
-                brideTypeRadios.forEach(radio => radio.checked = false);
-            }
-        });
+        
+        // Trigger on page load if a suite is already selected
+        const selectedSuite = document.querySelector('input[name="suite-hired"]:checked');
+        if (selectedSuite) {
+            selectedSuite.dispatchEvent(new Event('change'));
+        }
     }
 }
 
@@ -83,6 +82,39 @@ function setupSegregationToggle() {
                 womenCount.required = false;
                 menCount.value = '';
                 womenCount.value = '';
+            }
+        });
+    });
+}
+
+function setupReservedTablesConditional() {
+    const reservedTablesRadios = document.querySelectorAll('input[name="want-reserved-tables"]');
+    const reservedTablesSection = document.getElementById('reserved-tables-section');
+    
+    reservedTablesRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                reservedTablesSection.style.display = 'block';
+            } else {
+                reservedTablesSection.style.display = 'none';
+                // Clear reserved table inputs
+                document.getElementById('reserved-tables-groom').value = '';
+                document.getElementById('reserved-tables-bride').value = '';
+            }
+        });
+    });
+}
+
+function setupTablePlanConditional() {
+    const tablePlanRadios = document.querySelectorAll('input[name="table-plan"]');
+    const tablePlanDetails = document.getElementById('table-plan-details');
+    
+    tablePlanRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                tablePlanDetails.style.display = 'block';
+            } else {
+                tablePlanDetails.style.display = 'none';
             }
         });
     });
@@ -211,25 +243,6 @@ function validatePage() {
         if (selectedSuite.value === 'Amington Suite' && guestCount > 350) {
             console.log('Segregated event in Amington Suite exceeds 350 guests');
             return 'For segregated events in the Amington Suite only, the maximum guest count is 350. Please reduce your guest count or select Both Suites.';
-        }
-    }
-    
-    // Check reserved tables validation
-    const reservedTablesGroom = parseInt(document.getElementById('reserved-tables-groom').value) || 0;
-    if (reservedTablesGroom > 0) {
-        const groomTableType = document.querySelector('input[name="reserved-table-type-groom"]:checked');
-        if (!groomTableType) {
-            console.log('Groom reserved table type not selected');
-            return 'Please select the type of reserved tables for the Groom\'s Family.';
-        }
-    }
-    
-    const reservedTablesBride = parseInt(document.getElementById('reserved-tables-bride').value) || 0;
-    if (reservedTablesBride > 0) {
-        const brideTableType = document.querySelector('input[name="reserved-table-type-bride"]:checked');
-        if (!brideTableType) {
-            console.log('Bride reserved table type not selected');
-            return 'Please select the type of reserved tables for the Bride\'s Family.';
         }
     }
     

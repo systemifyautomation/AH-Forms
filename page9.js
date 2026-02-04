@@ -48,44 +48,85 @@ function setupAdditionalServicesToggle() {
 }
 
 function setupTimingToggles() {
+    // Low Fog toggle
+    const lowFogCheckbox = document.getElementById('low-fog-checkbox');
+    const lowFogOptions = document.getElementById('low-fog-options');
+    const lowFogTiming = document.getElementById('low-fog-timing');
+    
+    if (lowFogCheckbox) {
+        lowFogCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                lowFogOptions.style.display = 'block';
+            } else {
+                lowFogOptions.style.display = 'none';
+                if (lowFogTiming) lowFogTiming.value = '';
+            }
+        });
+    }
+
+    // Sparklers toggle
+    const sparklersCheckbox = document.getElementById('sparklers-checkbox');
+    const sparklersOptions = document.getElementById('sparklers-options');
+    const sparklersTiming = document.getElementById('sparklers-timing');
+    
+    if (sparklersCheckbox) {
+        sparklersCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                sparklersOptions.style.display = 'block';
+            } else {
+                sparklersOptions.style.display = 'none';
+                if (sparklersTiming) sparklersTiming.value = '';
+            }
+        });
+    }
+
     // Pancake Cart timing toggle
     const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
+    const pancakeCartOptions = document.getElementById('pancake-cart-options');
     const pancakeCartTiming = document.getElementById('pancake-cart-timing');
     
-    pancakeCartCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            pancakeCartTiming.style.display = 'block';
-        } else {
-            pancakeCartTiming.style.display = 'none';
-            document.querySelectorAll('input[name="pancake-cart-timing"]').forEach(radio => radio.checked = false);
-        }
-    });
+    if (pancakeCartCheckbox) {
+        pancakeCartCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                pancakeCartOptions.style.display = 'block';
+            } else {
+                pancakeCartOptions.style.display = 'none';
+                if (pancakeCartTiming) pancakeCartTiming.value = '';
+            }
+        });
+    }
 
     // 360 Booth timing toggle
     const booth360Checkbox = document.getElementById('booth-360-checkbox');
+    const booth360Options = document.getElementById('booth-360-options');
     const booth360Timing = document.getElementById('booth-360-timing');
     
-    booth360Checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            booth360Timing.style.display = 'block';
-        } else {
-            booth360Timing.style.display = 'none';
-            document.querySelectorAll('input[name="booth-360-timing"]').forEach(radio => radio.checked = false);
-        }
-    });
+    if (booth360Checkbox) {
+        booth360Checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                booth360Options.style.display = 'block';
+            } else {
+                booth360Options.style.display = 'none';
+                if (booth360Timing) booth360Timing.value = '';
+            }
+        });
+    }
 
     // Vintage Photobooth timing toggle
     const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
+    const vintagePhotoboothOptions = document.getElementById('vintage-photobooth-options');
     const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
     
-    vintagePhotoboothCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            vintagePhotoboothTiming.style.display = 'block';
-        } else {
-            vintagePhotoboothTiming.style.display = 'none';
-            document.querySelectorAll('input[name="vintage-photobooth-timing"]').forEach(radio => radio.checked = false);
-        }
-    });
+    if (vintagePhotoboothCheckbox) {
+        vintagePhotoboothCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                vintagePhotoboothOptions.style.display = 'block';
+            } else {
+                vintagePhotoboothOptions.style.display = 'none';
+                if (vintagePhotoboothTiming) vintagePhotoboothTiming.value = '';
+            }
+        });
+    }
 }
 
 function setupEventListeners() {
@@ -185,30 +226,48 @@ function validatePage() {
     
     // If additional services is Yes, check conditional timing fields
     if (additionalServices.value === 'Yes') {
+        // Check low fog timing
+        const lowFogCheckbox = document.getElementById('low-fog-checkbox');
+        if (lowFogCheckbox && lowFogCheckbox.checked) {
+            const lowFogTiming = document.getElementById('low-fog-timing');
+            if (!lowFogTiming || !lowFogTiming.value) {
+                return 'Please select when Low Fog will be used.';
+            }
+        }
+        
+        // Check sparklers timing
+        const sparklersCheckbox = document.getElementById('sparklers-checkbox');
+        if (sparklersCheckbox && sparklersCheckbox.checked) {
+            const sparklersTiming = document.getElementById('sparklers-timing');
+            if (!sparklersTiming || !sparklersTiming.value) {
+                return 'Please select when Sparklers will be used.';
+            }
+        }
+        
         // Check pancake cart timing
         const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
         if (pancakeCartCheckbox && pancakeCartCheckbox.checked) {
-            const pancakeCartTiming = document.querySelector('input[name="pancake-cart-timing"]:checked');
-            if (!pancakeCartTiming) {
-                return 'Please select the timing for Pancake Cart service (Before or After Food Service).';
+            const pancakeCartTiming = document.getElementById('pancake-cart-timing');
+            if (!pancakeCartTiming || !pancakeCartTiming.value) {
+                return 'Please select the timing for Pancake Cart service.';
             }
         }
         
         // Check 360 booth timing
         const booth360Checkbox = document.getElementById('booth-360-checkbox');
         if (booth360Checkbox && booth360Checkbox.checked) {
-            const booth360Timing = document.querySelector('input[name="booth-360-timing"]:checked');
-            if (!booth360Timing) {
-                return 'Please select the timing for 360 Booth service (Before or After Food Service).';
+            const booth360Timing = document.getElementById('booth-360-timing');
+            if (!booth360Timing || !booth360Timing.value) {
+                return 'Please select the timing for 360 Booth service.';
             }
         }
         
         // Check vintage photobooth timing
         const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
         if (vintagePhotoboothCheckbox && vintagePhotoboothCheckbox.checked) {
-            const vintagePhotoboothTiming = document.querySelector('input[name="vintage-photobooth-timing"]:checked');
-            if (!vintagePhotoboothTiming) {
-                return 'Please select the timing for Vintage Photobooth service (Before or After Food Service).';
+            const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
+            if (!vintagePhotoboothTiming || !vintagePhotoboothTiming.value) {
+                return 'Please select the timing for Vintage Photobooth service.';
             }
         }
     }
@@ -246,18 +305,28 @@ function saveFormData() {
         }
     });
 
-    // Save timing options
-    const pancakeCartTiming = document.querySelector('input[name="pancake-cart-timing"]:checked');
+    // Save timing options from dropdowns
+    const lowFogTiming = document.getElementById('low-fog-timing');
+    if (lowFogTiming) {
+        formData['low-fog-timing'] = lowFogTiming.value;
+    }
+
+    const sparklersTiming = document.getElementById('sparklers-timing');
+    if (sparklersTiming) {
+        formData['sparklers-timing'] = sparklersTiming.value;
+    }
+
+    const pancakeCartTiming = document.getElementById('pancake-cart-timing');
     if (pancakeCartTiming) {
         formData['pancake-cart-timing'] = pancakeCartTiming.value;
     }
 
-    const booth360Timing = document.querySelector('input[name="booth-360-timing"]:checked');
+    const booth360Timing = document.getElementById('booth-360-timing');
     if (booth360Timing) {
         formData['booth-360-timing'] = booth360Timing.value;
     }
 
-    const vintagePhotoboothTiming = document.querySelector('input[name="vintage-photobooth-timing"]:checked');
+    const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
     if (vintagePhotoboothTiming) {
         formData['vintage-photobooth-timing'] = vintagePhotoboothTiming.value;
     }
@@ -311,20 +380,30 @@ function loadSavedData() {
         }
     });
 
-    // Load timing options
+    // Load timing options from dropdowns
+    if (formData['low-fog-timing']) {
+        const select = document.getElementById('low-fog-timing');
+        if (select) select.value = formData['low-fog-timing'];
+    }
+
+    if (formData['sparklers-timing']) {
+        const select = document.getElementById('sparklers-timing');
+        if (select) select.value = formData['sparklers-timing'];
+    }
+
     if (formData['pancake-cart-timing']) {
-        const radio = document.querySelector(`input[name="pancake-cart-timing"][value="${formData['pancake-cart-timing']}"]`);
-        if (radio) radio.checked = true;
+        const select = document.getElementById('pancake-cart-timing');
+        if (select) select.value = formData['pancake-cart-timing'];
     }
 
     if (formData['booth-360-timing']) {
-        const radio = document.querySelector(`input[name="booth-360-timing"][value="${formData['booth-360-timing']}"]`);
-        if (radio) radio.checked = true;
+        const select = document.getElementById('booth-360-timing');
+        if (select) select.value = formData['booth-360-timing'];
     }
 
     if (formData['vintage-photobooth-timing']) {
-        const radio = document.querySelector(`input[name="vintage-photobooth-timing"][value="${formData['vintage-photobooth-timing']}"]`);
-        if (radio) radio.checked = true;
+        const select = document.getElementById('vintage-photobooth-timing');
+        if (select) select.value = formData['vintage-photobooth-timing'];
     }
 
     // Load third party services

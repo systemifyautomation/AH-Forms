@@ -52,30 +52,59 @@
 
                     <div class="checkbox-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-welcome-drinks" value="Welcome Drinks">
+                            <input type="checkbox" name="venue-service-welcome-drinks" value="Welcome Drinks" id="welcome-drinks-checkbox">
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Welcome Drinks</span>
                         </label>
 
                         <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-nikkah-partition" value="Nikkah Partition">
+                            <input type="checkbox" name="venue-service-nikkah-partition" value="Nikkah Partition" id="nikkah-partition-checkbox">
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Nikkah Partition</span>
                         </label>
 
                         <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-low-fog" value="Low Fog – 1 Time use">
+                            <input type="checkbox" name="venue-service-low-fog" value="Low Fog – 1 Time use" id="low-fog-checkbox">
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Low Fog – 1 Time use</span>
                         </label>
+                    </div>
 
+                    <div id="low-fog-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="low-fog-timing">When will this be used:</label>
+                            <select id="low-fog-timing" name="low-fog-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Bride's Entrance">Bride's Entrance</option>
+                                <option value="Baraat Entrance">Baraat Entrance</option>
+                                <option value="Bride & Groom Entrance">Bride & Groom Entrance</option>
+                                <option value="Cake Ceremony">Cake Ceremony</option>
+                                <option value="First Dance">First Dance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-sparklers" value="Sparklers – 1 Time use">
+                            <input type="checkbox" name="venue-service-sparklers" value="Sparklers – 1 Time use" id="sparklers-checkbox">
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Sparklers – 1 Time use</span>
                         </label>
+                    </div>
 
-                        <!-- Pancake Cart -->
+                    <div id="sparklers-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="sparklers-timing">When will this be used:</label>
+                            <select id="sparklers-timing" name="sparklers-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Bride & Groom on Stage">Bride & Groom on Stage</option>
+                                <option value="Cake Ceremony">Cake Ceremony</option>
+                                <option value="First Dance">First Dance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="venue-service-pancake-cart" value="Pancake Cart – 2 Hour Service" id="pancake-cart-checkbox">
                             <span class="checkbox-custom"></span>
@@ -83,23 +112,18 @@
                         </label>
                     </div>
 
-                    <div id="pancake-cart-timing" class="sub-options" style="display: none; margin-left: 30px;">
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="pancake-cart-timing" value="Before Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Before Food Service</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="pancake-cart-timing" value="After Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">After Food Service</span>
-                            </label>
+                    <div id="pancake-cart-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="pancake-cart-timing">Service Time:</label>
+                            <select id="pancake-cart-timing" name="pancake-cart-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <!-- 360 Booth -->
                         <label class="checkbox-label">
                             <input type="checkbox" name="venue-service-360-booth" value="360 Booth – 2 Hour Service" id="booth-360-checkbox">
                             <span class="checkbox-custom"></span>
@@ -107,23 +131,18 @@
                         </label>
                     </div>
 
-                    <div id="booth-360-timing" class="sub-options" style="display: none; margin-left: 30px;">
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="booth-360-timing" value="Before Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Before Food Service</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="booth-360-timing" value="After Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">After Food Service</span>
-                            </label>
+                    <div id="booth-360-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="booth-360-timing">Service Time:</label>
+                            <select id="booth-360-timing" name="booth-360-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <!-- Vintage Photobooth -->
                         <label class="checkbox-label">
                             <input type="checkbox" name="venue-service-vintage-photobooth" value="Vintage Photobooth – 2 Hour Service" id="vintage-photobooth-checkbox">
                             <span class="checkbox-custom"></span>
@@ -131,27 +150,15 @@
                         </label>
                     </div>
 
-                    <div id="vintage-photobooth-timing" class="sub-options" style="display: none; margin-left: 30px;">
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="vintage-photobooth-timing" value="Before Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Before Food Service</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="vintage-photobooth-timing" value="After Food Service">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">After Food Service</span>
-                            </label>
+                    <div id="vintage-photobooth-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="vintage-photobooth-timing">Service Time:</label>
+                            <select id="vintage-photobooth-timing" name="vintage-photobooth-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
                         </div>
-                    </div>
-
-                    <div class="info-notice">
-                        <p><strong>Above:</strong> Once they're ticked an additional option of before food or after food option should be given.</p>
-                    </div>
-
-                    <div class="info-notice">
-                        <p>Following the above please add drop boxes of each additional services</p>
                     </div>
 
                     <!-- Third Party Services Section -->
