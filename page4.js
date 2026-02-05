@@ -49,12 +49,12 @@ function setupEventListeners() {
 }
 
 function setupThirdPartyDecorToggle() {
-    const thirdPartyDecorRadios = document.querySelectorAll('input[name="third-party-decor"]');
+    const decorProviderRadios = document.querySelectorAll('input[name="decor-provider"]');
     const thirdPartyDecorDetails = document.getElementById('third-party-decor-details');
     
-    thirdPartyDecorRadios.forEach(radio => {
+    decorProviderRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
+            if (this.value === 'Third Party') {
                 thirdPartyDecorDetails.style.display = 'block';
             } else {
                 thirdPartyDecorDetails.style.display = 'none';
