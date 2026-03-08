@@ -128,12 +128,10 @@ function validatePage() {
     
     // Check required radio groups
     const requiredFields = [
-        { name: 'company-worked-before', label: 'Has the Company Worked at Amington Hall before' },
         { name: 'leftover-food-drinks', label: 'Who is taking the leftover Food & Drinks' },
         { name: 'leftover-containers', label: 'Who will provide the Containers for leftover food' },
         { name: 'drinks-provider', label: 'Who will be providing the drinks' },
-        { name: 'reception-drinks', label: 'Will you be having reception drinks' },
-        { name: 'hot-drinks-supplier', label: 'Hot Drinks Supplier' }
+        { name: 'reception-drinks', label: 'Will you be having reception drinks' }
     ];
     
     for (const field of requiredFields) {

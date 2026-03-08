@@ -5,8 +5,8 @@
  * Setup Instructions:
  * 1. Create a new Google Apps Script project
  * 2. Copy this code into Code.gs
- * 3. Update TEMPLATE_DOC_ID with your template document ID
- * 4. Update OUTPUT_FOLDER_ID with your destination folder ID
+ * 3. Set TEMPLATE in Script Properties with your template document ID
+ * 4. Set OUTPUT_FOLDER_ID in Script Properties with your destination folder ID
  * 5. Deploy as Web App with Execute as: Me, Access: Anyone
  * 6. Copy the web app URL to your form's APPSCRIPT_URL
  */
@@ -20,20 +20,14 @@ const CONFIG = {
 };
 
 /**
- * Gets configuration from Script Properties
+ * Gets template document ID from Script Properties
  * Set these in Project Settings > Script Properties:
- * - TEMPLATE_WALIMA: Document ID for Walima events
- * - TEMPLATE_NIKKAH: Document ID for Nikkah events
- * - TEMPLATE_JOINT: Document ID for Joint Day events
+ * - TEMPLATE: Document ID for the staff itinerary template
  * - OUTPUT_FOLDER_ID: Folder ID where generated documents will be saved
  */
-function getTemplateIds() {
+function getTemplateId() {
   const scriptProperties = PropertiesService.getScriptProperties();
-  return {
-    WALIMA: scriptProperties.getProperty('TEMPLATE_WALIMA') || '1l5nuot7quE3jYdzuGgBbVpgvQhwW3PMl',
-    NIKKAH: scriptProperties.getProperty('TEMPLATE_NIKKAH') || '',
-    JOINT: scriptProperties.getProperty('TEMPLATE_JOINT') || ''
-  };
+  return scriptProperties.getProperty('TEMPLATE') || '1l5nuot7quE3jYdzuGgBbVpgvQhwW3PMl';
 }
 
 /**
@@ -61,6 +55,7 @@ const QUESTION_MAPPING = {
   'Date of the Event': 'event-date',
   'Event Type': 'event-type',
   'Date of your Walkthrough': 'walkthrough-date',
+  'Attendees': 'attendees',
   'Event Timings': 'event-timings',
   'Event Timings - All day': 'event-timings-allday',
   'Event Timings - Other': 'event-timings-other',
@@ -80,8 +75,8 @@ const QUESTION_MAPPING = {
   'How many guests?': 'guest-count',
   'Types of tables – Applies to front tables only': 'table-type',
   'Guest Arrangements': 'guest-arrangements',
-  'How many guests will you have in the groom's section?': 'male-guests',
-  'How many guests will you have in the bride's section?': 'female-guests',
+  'How many guests will you have in the groom\'s section?': 'male-guests',
+  'How many guests will you have in the bride\'s section?': 'female-guests',
   'How many Reserved Seatings?': 'reserved-seatings',
   'Have you got a table plan by chance?': 'table-plan',
   'Tables': 'tables',
@@ -119,6 +114,7 @@ const QUESTION_MAPPING = {
   'Cake Contact Number': 'cake-contact-number',
   'Cake Contact Number - Prefix': 'cake-contact-number-prefix',
   'Number of Tiers': 'cake-tiers',
+  'Arrangements of the cake': 'cake-served',
   'Favours (CCLG)': 'favours',
   'Favours Type': 'favours-type',
   'Head Table': 'head-table',
@@ -159,6 +155,12 @@ const QUESTION_MAPPING = {
   'Hot Drinks Contact Number': 'hot-drinks-contact-number',
   'Hot Drinks Contact Number - Prefix': 'hot-drinks-contact-number-prefix',
   
+  // LCD/LED Screens
+  'Amington Wall Screen': 'amington-wall-screen',
+  'Serenity Wall Screen': 'serenity-wall-screen',
+  'Foyer Screen': 'foyer-screen',
+  'Screen Details': 'screen-details',
+
   // Page 11 - Car Parking
   'VIP Parking Passes': 'vip-parking-passes',
   'Priority Parking Section 1': 'priority-parking-section1',
@@ -318,7 +320,7 @@ function listTriggers() {
 function testPermissions() {
   try {
     Logger.log('Testing Drive access...');
-    const templateDocId = getTemplateDocId('Walima'); // Test with Walima template
+    const templateDocId = getTemplateId();
     const templateDoc = DriveApp.getFileById(templateDocId);
     Logger.log('✓ Template found: ' + templateDoc.getName());
     
@@ -505,9 +507,8 @@ function testSetup() {
  */
 function createStaffItinerary(formData) {
   try {
-    // Get the appropriate template based on event type
-    const eventType = formData['event-type'] || 'Walima';
-    const templateDocId = getTemplateDocId(eventType);
+    // Get the template document ID
+    const templateDocId = getTemplateId();
     
     // Make a copy of the template
     const templateDoc = DriveApp.getFileById(templateDocId);
@@ -587,7 +588,8 @@ function buildVariables(data) {
     '{{seatingArrangement}}': data['guest-arrangements'] || '',
     '{{brideName}}': data['bride-name'] || '',
     '{{groomName}}': data['groom-name'] || '',
-    
+    '{{attendees}}': data['attendees'] ? `Attendees: ${data['attendees']}` : '',
+
     // MPC Information
     '{{mpcName}}': data['primary-contact-name'] || '',
     '{{mpcRelationship}}': data['primary-contact-relationship'] || '',
@@ -600,7 +602,7 @@ function buildVariables(data) {
     // Venue Setup - Complete Sections
     '{{suiteSection}}': buildSuiteSection(data),
     '{{serenitySuiteSection}}': buildSerenitySuiteSection(data),
-    '{{foyerNendraTable}}': data['table-nendra'] ? 'Nendra table' : 'No Nendra',
+    '{{foyerNendraTable}}': (data['table-nendra'] === 'on' || data['table-nendra'] === true) ? 'Nendra table' : 'No Nendra',
     
     // Legacy individual variables (keeping for backward compatibility)
     '{{reservedTablesLHS}}': getReservedTablesLHS(data),
@@ -691,7 +693,13 @@ function buildVariables(data) {
     '{{prioritySection1}}': data['priority-parking-section1'] || '0',
     '{{prioritySection2}}': data['priority-parking-section2'] || '0',
     '{{totalPriorityParking}}': data['total-priority-parking'] || '0',
-    '{{parkingNotes}}': data['parking-notes'] || 'None'
+    '{{parkingNotes}}': data['parking-notes'] || 'None',
+
+    // Key Notes
+    '{{keyNotes}}': buildKeyNotes(data),
+
+    // LCD/LED Screens
+    '{{lcdLedSection}}': buildLCDLEDSection(data)
   };
 }
 
@@ -775,60 +783,92 @@ function calculateTables(guestCount) {
  */
 function buildSuiteSection(data) {
   const suiteHired = data['suite-hired'] || '';
-  
+
   // Only show suite section if Amington Suite or Both are hired
   if (suiteHired !== 'Amington Suite' && suiteHired !== 'Both') {
     return '';
   }
-  
+
   let section = 'Suite';
-  
+
   // Guest tables
   const guestCount = parseInt(data['guest-count']) || 0;
   const guestTables = calculateTables(data['guest-count']);
-  
+
   if (suiteHired === 'Both') {
-    // Split guests between suites
-    const halfGuests = Math.ceil(guestCount / 2);
-    const halfTables = Math.ceil(halfGuests / 10);
-    section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+    // If segregation is selected and men/women counts are provided, show split
+    if (data['guest-arrangements'] === 'Men & Women Segregation' && data['men-count'] && data['women-count']) {
+      const menCount = parseInt(data['men-count']) || 0;
+      const womenCount = parseInt(data['women-count']) || 0;
+      const menTables = Math.ceil(menCount / 10);
+      const womenTables = Math.ceil(womenCount / 10);
+      section += `\nGuest tables:\n\t${menTables} round tables of 10 = ${menCount} seats (Men)\n\t${womenTables} round tables of 10 = ${womenCount} seats (Women)`;
+    } else {
+      // Split guests evenly between suites
+      const halfGuests = Math.ceil(guestCount / 2);
+      const halfTables = Math.ceil(halfGuests / 10);
+      section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+    }
   } else {
     section += `\nGuest tables:\n\t${guestTables} round tables of 10 = ${guestCount} seats`;
   }
-  
+
   // Reserved tables
-  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  const groomReserved = parseInt(data['reserved-tables-groom']) || 0;
+  const brideReserved = parseInt(data['reserved-tables-bride']) || 0;
+  const reservedCount = groomReserved + brideReserved || parseInt(data['reserved-seatings']) || 0;
   if (reservedCount > 0) {
     section += '\n\nReserved tables';
-    
+
     if (data['guest-arrangements'] === 'Men & Women Segregation') {
-      const tablesLHS = Math.ceil(reservedCount / 2 / 10);
-      const tablesRHS = Math.ceil(reservedCount / 2 / 10);
-      section += `\n\t${tablesLHS} round tables on LHS of stage`;
-      section += `\n\t${tablesRHS} round tables on RHS of stage`;
+      const tablesLHS = groomReserved || Math.ceil(reservedCount / 2 / 10);
+      const tablesRHS = brideReserved || Math.ceil(reservedCount / 2 / 10);
+      // VIP + Round Tables format
+      if (data['table-type'] === 'VIP' && tablesLHS >= 1) {
+        const remainingLHS = tablesLHS - 1;
+        section += `\n\tGroom's side: 1 VIP table`;
+        if (remainingLHS > 0) section += `\n\t${remainingLHS} Round tables on LHS of stage`;
+      } else {
+        section += `\n\t${tablesLHS} round tables on LHS of stage`;
+      }
+      if (data['table-type'] === 'VIP' && tablesRHS >= 1) {
+        const remainingRHS = tablesRHS - 1;
+        section += `\n\tBride's side: 1 VIP table`;
+        if (remainingRHS > 0) section += `\n\t${remainingRHS} Round tables on RHS of stage`;
+      } else {
+        section += `\n\t${tablesRHS} round tables on RHS of stage`;
+      }
     } else {
       const reservedTables = Math.ceil(reservedCount / 10);
-      section += `\n\t${reservedTables} round tables`;
+      if (data['table-type'] === 'VIP' && reservedTables >= 1) {
+        const remainingRoundTables = reservedTables - 1;
+        section += `\n\t1 VIP table`;
+        if (remainingRoundTables > 0) section += `\n\t${remainingRoundTables} Round tables`;
+      } else {
+        section += `\n\t${reservedTables} round tables`;
+      }
     }
   }
-  
+
   // Extra tables
   const extraTables = [];
   if (data['table-gift']) extraTables.push('6ft table for gifts – Envelope box on this table');
   if (data['table-drink']) extraTables.push('Drink station (6ft Rectangle table)');
   if (data['table-other-text']) extraTables.push(data['table-other-text']);
-  
+
   if (extraTables.length > 0) {
     section += '\n\nExtra tables\n\t' + extraTables.join('\n\t');
   }
-  
-  // CCLG & Favours
+
+  // Type of favour (Changes 8 & 12)
   if (data['favours'] === 'Yes' && data['favours-type']) {
-    section += `\n\nCCLG & Favours?\n\t${data['favours-type']}`;
+    section += `\n\nType of favour\n\t${data['favours-type']}`;
   } else if (data['favours'] === 'Yes') {
-    section += '\n\nCCLG & Favours?';
+    section += '\n\nType of favour';
+  } else if (data['favours'] === 'No') {
+    section += '\n\nFavours – NO';
   }
-  
+
   // Head table
   if (data['head-table'] === 'Yes') {
     section += '\n\nHead table - YES\n\t2 seater';
@@ -838,11 +878,11 @@ function buildSuiteSection(data) {
   } else {
     section += '\n\nHead table - NO';
   }
-  
+
   // Cake table
   const hasWeddingCake = data['wedding-cake'] === 'Yes';
   const hasCakeCompany = data['cake-company'] || data['cake-company-name'];
-  
+
   if (hasWeddingCake || hasCakeCompany) {
     section += '\n\nCake table - YES';
     if (data['guest-arrangements'] === 'Men & Women Segregation') {
@@ -851,7 +891,7 @@ function buildSuiteSection(data) {
   } else {
     section += '\n\nCake table - NO';
   }
-  
+
   // Decor
   section += '\n\nDecor -';
   if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
@@ -868,12 +908,19 @@ function buildSuiteSection(data) {
     if (data['decor-description']) {
       section += `\n\t${data['decor-description']}`;
     }
+  } else if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    section += '\n\tStage: Humsafar Wedding Services';
+    section += '\n\tCentrepieces: Humsafar Wedding Services';
+    section += '\n\tWalkway: Humsafar Wedding Services';
+    if (data['decor-description']) {
+      section += `\n\t${data['decor-description']}`;
+    }
   } else {
     section += '\n\tStage: Standard';
     section += '\n\tCentrepieces: Standard';
     section += '\n\tWalkway: Standard';
   }
-  
+
   return section;
 }
 
@@ -882,36 +929,54 @@ function buildSuiteSection(data) {
  */
 function buildSerenitySuiteSection(data) {
   const suiteHired = data['suite-hired'] || '';
-  
+
   // Only show Serenity section if Serenity Suite or Both are hired
   if (suiteHired !== 'Serenity Suite' && suiteHired !== 'Both') {
     return '';
   }
-  
+
   let section = 'Serenity Suite';
-  
+
   // Guest tables
   const guestCount = parseInt(data['guest-count']) || 0;
-  
+
   if (suiteHired === 'Serenity Suite') {
     const guestTables = calculateTables(data['guest-count']);
     section += `\nGuest tables:\n\t${guestTables} round tables of 10 = ${guestCount} seats`;
   } else if (suiteHired === 'Both') {
-    const halfGuests = Math.ceil(guestCount / 2);
-    const halfTables = Math.ceil(halfGuests / 10);
-    section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+    // If segregation is selected and men/women counts are provided, show split
+    if (data['guest-arrangements'] === 'Men & Women Segregation' && data['men-count'] && data['women-count']) {
+      const menCount = parseInt(data['men-count']) || 0;
+      const womenCount = parseInt(data['women-count']) || 0;
+      const menTables = Math.ceil(menCount / 10);
+      const womenTables = Math.ceil(womenCount / 10);
+      section += `\nGuest tables:\n\t${menTables} round tables of 10 = ${menCount} seats (Men)\n\t${womenTables} round tables of 10 = ${womenCount} seats (Women)`;
+    } else {
+      const halfGuests = Math.ceil(guestCount / 2);
+      const halfTables = Math.ceil(halfGuests / 10);
+      section += `\nGuest tables:\n\t${halfTables} round tables of 10 = ${halfGuests} seats`;
+    }
   }
-  
+
   // Reserved tables
-  const reservedCount = parseInt(data['reserved-seatings']) || 0;
+  const groomReserved = parseInt(data['reserved-tables-groom']) || 0;
+  const brideReserved = parseInt(data['reserved-tables-bride']) || 0;
+  const reservedCount = groomReserved + brideReserved || parseInt(data['reserved-seatings']) || 0;
   if (reservedCount > 0) {
     section += '\n\nReserved tables';
-    const tablesLeft = Math.ceil(reservedCount / 2 / 10);
-    const tablesRight = Math.ceil(reservedCount / 2 / 10);
-    section += `\n\t${tablesLeft} round tables on left side of stage`;
-    section += `\n\t${tablesRight} round tables on right side of stage`;
+    if (data['guest-arrangements'] === 'Men & Women Segregation') {
+      const tablesLeft = groomReserved || Math.ceil(reservedCount / 2 / 10);
+      const tablesRight = brideReserved || Math.ceil(reservedCount / 2 / 10);
+      section += `\n\t${tablesLeft} round tables on left side of stage (Men)`;
+      section += `\n\t${tablesRight} round tables on right side of stage (Women)`;
+    } else {
+      const tablesLeft = Math.ceil(reservedCount / 2 / 10);
+      const tablesRight = Math.ceil(reservedCount / 2 / 10);
+      section += `\n\t${tablesLeft} round tables on left side of stage`;
+      section += `\n\t${tablesRight} round tables on right side of stage`;
+    }
   }
-  
+
   return section;
 }
 
@@ -944,7 +1009,7 @@ function buildExtraTablesInfo(data) {
   const extras = [];
   
   // Additional tables from page 5-new
-  if (data['table-nendra']) {
+  if (data['table-nendra'] === 'on' || data['table-nendra'] === true) {
     extras.push('Nendra Table (2 seater)');
   }
   if (data['table-gift']) {
@@ -1018,7 +1083,7 @@ function buildCakeTableInfo(data) {
  */
 function buildDecorInfo(data) {
   let info = '\nDecor -';
-  
+
   // Check decor provider
   if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     info += ` ${data['decor-company-name']}`;
@@ -1034,17 +1099,26 @@ function buildDecorInfo(data) {
     if (data['decor-description']) {
       info += `\n\t${data['decor-description']}`;
     }
+  } else if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    info += '\n\tStage: Humsafar Wedding Services';
+    info += '\n\tCentrepieces: Humsafar Wedding Services';
+    if (data['suite-hired'] === 'Amington Suite' || data['suite-hired'] === 'Both') {
+      info += '\n\tWalkway: Humsafar Wedding Services';
+    }
+    if (data['decor-description']) {
+      info += `\n\t${data['decor-description']}`;
+    }
   } else {
     // Standard decor
     info += '\n\tStage: Standard';
     info += '\n\tCentrepieces: Standard';
-    
+
     // Walkway only for Amington Suite
     if (data['suite-hired'] === 'Amington Suite' || data['suite-hired'] === 'Both') {
       info += '\n\tWalkway: Standard';
     }
   }
-  
+
   return info;
 }
 
@@ -1052,7 +1126,7 @@ function buildDecorInfo(data) {
  * Builds foyer setup information
  */
 function buildFoyerSetup(data) {
-  if (data['table-nendra']) {
+  if (data['table-nendra'] === 'on' || data['table-nendra'] === true) {
     return 'Nendra table';
   }
   return 'No Nendra';
@@ -1099,9 +1173,21 @@ function buildInHouseServices(data) {
   
   // Dancefloor
   if (data['dancefloor'] === 'Yes') {
-    services.push('| Dancefloor | Setup required |');
+    const dancefloorType = data['dancefloor-type'] || '';
+    const dancefloorSize = data['dancefloor-size'] || '';
+    let dancefloorInfo = 'Dancefloor';
+    if (dancefloorType) dancefloorInfo += ` – ${dancefloorType}`;
+    if (dancefloorSize) dancefloorInfo += ` (${dancefloorSize})`;
+    services.push(`| ${dancefloorInfo} | Setup required |`);
+  } else if (data['dancefloor'] === 'No') {
+    services.push('| Dancefloor | N/A |');
   }
-  
+
+  // Reception drinks from Amington Hall
+  if (data['reception-drinks'] === 'Yes' && data['reception-drinks-supplier'] === 'Amington Hall') {
+    services.push('| Reception Drinks | Amington Hall |');
+  }
+
   return services.join('\n');
 }
 
@@ -1139,8 +1225,10 @@ function buildExternalVendors(data) {
   if (cakeCompany) {
     const contact = data['cake-contact-name'] || '';
     const phone = formatPhone(data['cake-contact-number-prefix'], data['cake-contact-number']);
-    const tiers = data['cake-tiers'] ? ` – ${data['cake-tiers']} tiers` : '';
-    vendors.push(`|  | Cake | ${cakeCompany}${contact ? ' – ' + contact : ''}${phone ? ' - ' + phone : ''}${tiers} |  |`);
+    const notes = getVendorCakeNotes(data);
+    vendors.push(`|  | Cake | ${cakeCompany}${contact ? ' – ' + contact : ''}${phone ? ' - ' + phone : ''} | ${notes} |`);
+  } else {
+    vendors.push('|  | Cake | N/A |  |');
   }
   
   // Decor (external)
@@ -1151,19 +1239,51 @@ function buildExternalVendors(data) {
     vendors.push(`|  | Decor | ${company}${contact ? ' – ' + contact : ''}${phone ? ' - ' + phone : ''} |  |`);
   } else if (data['decor-provider'] === 'Elegant Moments') {
     vendors.push('|  | Decor | Elegant Moments (In-house) |  |');
+  } else if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    vendors.push('|  | Decor | Humsafar Wedding Services (In-house) |  |');
   }
-  
+
   // Special effects (external)
   if (data['special-effects-company']) {
     const company = data['special-effects-company'];
     const phone = formatPhone(data['special-effects-contact-prefix'], data['special-effects-contact']);
     vendors.push(`|  | Special Effects | ${company}${phone ? ' - ' + phone : ''} |  |`);
   }
-  
-  // Add placeholder for caterer (not in form)
-  vendors.push('|  | Caterer |  |  |');
-  vendors.push('|  | Table Drinks |  |  |');
-  
+
+  // Catering company
+  const cateringCompany = data['catering-company-name'] || '';
+  if (cateringCompany) {
+    const cateringContact = data['catering-contact-name'] || '';
+    vendors.push(`|  | Catering, Table Drinks | ${cateringCompany}${cateringContact ? ' - ' + cateringContact : ''} |  |`);
+  } else {
+    vendors.push('|  | Catering, Table Drinks |  |  |');
+  }
+
+  // Table drinks provider (if Client)
+  if (data['drinks-provider'] === 'Client') {
+    vendors.push('|  | Table Drinks | Client |  |');
+  } else if (data['drinks-provider'] === 'Third Party Company' && data['drinks-third-party-name']) {
+    const thirdPartyPhone = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
+    vendors.push(`|  | Table Drinks | ${data['drinks-third-party-name']}${thirdPartyPhone ? ' - ' + thirdPartyPhone : ''} |  |`);
+  }
+
+  // Reception drinks (if Client or Third Party)
+  if (data['reception-drinks'] === 'Yes') {
+    const supplier = data['reception-drinks-supplier'] || '';
+    if (supplier === 'Client') {
+      vendors.push('|  | Reception Drinks | Client |  |');
+    } else if (supplier === 'Third Party') {
+      vendors.push('|  | Reception Drinks | Third Party Company |  |');
+    }
+  }
+
+  // Hot drinks (if Third Party)
+  if (data['hot-drinks-supplier'] === 'Third Party Company') {
+    const contactName = data['hot-drinks-contact-name'] || '';
+    const phone = formatPhone(data['hot-drinks-contact-number-prefix'], data['hot-drinks-contact-number']);
+    vendors.push(`|  | Hot Drinks | ${contactName}${phone ? ' - ' + phone : ''} |  |`);
+  }
+
   return vendors.join('\n');
 }
 
@@ -1252,10 +1372,13 @@ function getExtraTableInfo(data) {
  */
 function getCCLGFavoursInfo(data) {
   if (data['favours'] === 'Yes' && data['favours-type']) {
-    return `CCLG & Favours?\n\t${data['favours-type']}`;
+    return `Type of favour\n\t${data['favours-type']}`;
   }
   if (data['favours'] === 'Yes') {
-    return 'CCLG & Favours?';
+    return 'Type of favour';
+  }
+  if (data['favours'] === 'No') {
+    return 'Favours – NO';
   }
   return '';
 }
@@ -1318,6 +1441,9 @@ function getDecorStage(data) {
   if (data['decor-provider'] === 'Elegant Moments') {
     return 'Elegant Moments';
   }
+  if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    return 'Humsafar Wedding Services';
+  }
   return 'Standard';
 }
 
@@ -1330,6 +1456,9 @@ function getDecorCentrepieces(data) {
   }
   if (data['decor-provider'] === 'Elegant Moments') {
     return 'Elegant Moments';
+  }
+  if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    return 'Humsafar Wedding Services';
   }
   return 'Standard';
 }
@@ -1346,6 +1475,9 @@ function getDecorWalkway(data) {
   }
   if (data['decor-provider'] === 'Elegant Moments') {
     return 'Elegant Moments';
+  }
+  if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    return 'Humsafar Wedding Services';
   }
   return 'Standard';
 }
@@ -1440,12 +1572,17 @@ function getVendorCake(data) {
 }
 
 /**
- * Gets cake vendor notes
+ * Gets cake vendor notes (includes tiers and arrangement)
  */
 function getVendorCakeNotes(data) {
-  const tiers = data['cake-tiers'];
-  if (!tiers) return '';
-  return `${tiers} tiers`;
+  const notes = [];
+  if (data['cake-tiers']) {
+    notes.push(`${data['cake-tiers']} tiers`);
+  }
+  if (data['cake-served']) {
+    notes.push(data['cake-served']);
+  }
+  return notes.join(' – ');
 }
 
 /**
@@ -1500,6 +1637,9 @@ function getVendorExtra2Service(data) {
   if (data['decor-provider'] === 'Elegant Moments') {
     return 'Decor';
   }
+  if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    return 'Decor';
+  }
   return '';
 }
 
@@ -1510,17 +1650,20 @@ function getVendorExtra2Company(data) {
   if (data['decor-provider'] === 'Elegant Moments') {
     return 'Elegant Moments (In-house décor company)';
   }
-  
+  if (data['decor-provider'] === 'Humsafar Wedding Services') {
+    return 'Humsafar Wedding Services (In-house décor company)';
+  }
+
   const company = data['decor-company-name'] || '';
   if (!company) return '';
-  
+
   const contact = data['decor-contact-name'] || '';
   const phone = formatPhone(data['decor-contact-number-prefix'], data['decor-contact-number']);
-  
+
   let info = company;
   if (contact) info += ` – ${contact}`;
   if (phone) info += ` - ${phone}`;
-  
+
   return info;
 }
 
@@ -1790,6 +1933,69 @@ function getHotDrinksSupplier(data) {
 }
 
 // ============================================================================
+// KEY NOTES BUILDER FUNCTION
+// ============================================================================
+
+/**
+ * Builds Key Notes section from catering/operational data
+ */
+function buildKeyNotes(data) {
+  const notes = [];
+
+  // Has catering company worked with venue before
+  if (data['company-worked-before']) {
+    notes.push(`Catering Company worked at Amington Hall before: ${data['company-worked-before']}`);
+  }
+
+  // Leftover food
+  if (data['leftover-food-drinks']) {
+    notes.push(`Leftover Food & Drinks: ${data['leftover-food-drinks']}`);
+  }
+
+  // Leftover containers
+  if (data['leftover-containers']) {
+    notes.push(`Leftover Containers provided by: ${data['leftover-containers']}`);
+  }
+
+  return notes.length > 0 ? notes.join('\n') : '';
+}
+
+// ============================================================================
+// LCD/LED SCREEN BUILDER FUNCTION
+// ============================================================================
+
+/**
+ * Builds LCD/LED screen section
+ */
+function buildLCDLEDSection(data) {
+  const suiteHired = data['suite-hired'] || '';
+  const lines = [];
+
+  // Amington Suite Wall Screen
+  if (suiteHired === 'Amington Suite' || suiteHired === 'Both') {
+    const amingtonScreen = data['amington-wall-screen'] || '';
+    lines.push(`Amington Suite Wall Screen: ${amingtonScreen || 'NON'}`);
+  }
+
+  // Serenity Suite Wall Screen
+  if (suiteHired === 'Serenity Suite' || suiteHired === 'Both') {
+    const serenityScreen = data['serenity-wall-screen'] || '';
+    lines.push(`Serenity Suite Wall Screen: ${serenityScreen || 'NON'}`);
+  }
+
+  // Foyer Screen
+  const foyerScreen = data['foyer-screen'] || '';
+  lines.push(`Foyer Screen: ${foyerScreen || 'NON'}`);
+
+  // Screen details/description
+  if (data['screen-details']) {
+    lines.push(`Screen Details: ${data['screen-details']}`);
+  }
+
+  return lines.join('\n') || 'LED/LCD - NON';
+}
+
+// ============================================================================
 // PAGE 11 - CAR PARKING BUILDER FUNCTIONS
 // ============================================================================
 
@@ -1820,33 +2026,6 @@ function buildParkingSection(data) {
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
-
-/**
- * Gets the appropriate template document ID based on event type
- */
-function getTemplateDocId(eventType) {
-  const templates = getTemplateIds();
-  
-  switch(eventType) {
-    case 'Walima':
-      return templates.WALIMA;
-    case 'Nikkah':
-      if (!templates.NIKKAH) {
-        Logger.log('Warning: TEMPLATE_NIKKAH not set in Script Properties, using Walima template');
-        return templates.WALIMA;
-      }
-      return templates.NIKKAH;
-    case 'Joint Day':
-      if (!templates.JOINT) {
-        Logger.log('Warning: TEMPLATE_JOINT not set in Script Properties, using Walima template');
-        return templates.WALIMA;
-      }
-      return templates.JOINT;
-    default:
-      Logger.log('Warning: Unknown event type "' + eventType + '", using Walima template');
-      return templates.WALIMA;
-  }
-}
 
 /**
  * Logs formatted data for debugging

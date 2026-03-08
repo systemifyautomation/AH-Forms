@@ -178,7 +178,9 @@ function validatePage() {
         { name: 'table-type', label: 'Table Type' },
         { name: 'guest-arrangements', label: 'Guest Arrangements' },
         { name: 'table-settings', label: 'Table Settings' },
-        { name: 'head-table', label: 'Head Table' }
+        { name: 'want-reserved-tables', label: 'Reserved Tables' },
+        { name: 'table-plan', label: 'Table Plan' },
+        { name: 'head-table', label: 'Head Table for Bride & Groom' }
     ];
     
     for (const group of radioGroups) {

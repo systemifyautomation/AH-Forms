@@ -1,7 +1,7 @@
 // Amington Hall Wedding Form - JavaScript
 
 // Configuration
-const APPSCRIPT_URL = 'YOUR_APPSCRIPT_WEB_APP_URL_HERE'; // Replace with your actual AppScript URL
+const APPSCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec'; // Replace with your actual AppScript URL
 const STORAGE_KEY = 'amington-hall-form-data';
 const PHONE_STORAGE_KEY = 'amington-hall-reminder-phone';
 

@@ -2,7 +2,7 @@
 const STORAGE_KEY = 'amington-hall-form-data';
 
 // Load endpoints from JSON file
-let APPSCRIPT_ENDPOINTS = [];
+let APPSCRIPT_ENDPOINTS = ["https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec"];
 
 // Load endpoints on page load
 async function loadAppScriptEndpoints() {
@@ -174,7 +174,13 @@ async function handleFormSubmit() {
     isSubmitting = true;
     saveFormData();
     
-    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const fieldData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    
+    // Transform field names to question text for API submission
+    const submissionData = prepareFormDataForSubmission(fieldData);
+    
+    console.log('Original form data (field names):', fieldData);
+    console.log('Transformed data (question text):', submissionData);
     
     if (APPSCRIPT_ENDPOINTS.length === 0) {
         showNotification('Error: No submission endpoints configured. Please contact support.', 'error');
@@ -196,7 +202,7 @@ async function handleFormSubmit() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(submissionData)
             })
         );
 
