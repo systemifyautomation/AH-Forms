@@ -15,15 +15,35 @@ function initializePage() {
     // Initialize flatpickr for event date
     eventDatePicker = flatpickr("#event-date", {
         dateFormat: "d/m/Y",
+        altInput: true,
+        altFormat: "d/m/Y",
         minDate: "today",
-        theme: "dark"
+        theme: "dark",
+        onChange: function(selectedDates, dateStr, instance) {
+            // Store in YYYY-MM-DD format for backend processing
+            if (selectedDates.length > 0) {
+                const date = selectedDates[0];
+                const isoDate = date.toISOString().split('T')[0];
+                instance.element.setAttribute('data-iso-date', isoDate);
+            }
+        }
     });
 
     // Initialize flatpickr for walkthrough date
     walkthroughDatePicker = flatpickr("#walkthrough-date", {
         dateFormat: "d/m/Y",
+        altInput: true,
+        altFormat: "d/m/Y",
         minDate: "today",
-        theme: "dark"
+        theme: "dark",
+        onChange: function(selectedDates, dateStr, instance) {
+            // Store in YYYY-MM-DD format for backend processing
+            if (selectedDates.length > 0) {
+                const date = selectedDates[0];
+                const isoDate = date.toISOString().split('T')[0];
+                instance.element.setAttribute('data-iso-date', isoDate);
+            }
+        }
     });
 }
 
@@ -152,7 +172,12 @@ function saveFormData() {
     // Save text inputs
     document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
         if (input.value) {
-            formData[input.name || input.id] = input.value;
+            // For date fields with ISO data attribute, save in YYYY-MM-DD format
+            if (input.hasAttribute('data-iso-date')) {
+                formData[input.name || input.id] = input.getAttribute('data-iso-date');
+            } else {
+                formData[input.name || input.id] = input.value;
+            }
         }
     });
     
@@ -178,7 +203,16 @@ function loadSavedData() {
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
         if (element && element.type !== 'radio') {
-            element.value = savedData[key];
+            // For date fields, set the date picker
+            if (key === 'event-date' && eventDatePicker) {
+                eventDatePicker.setDate(savedData[key], false);
+                element.setAttribute('data-iso-date', savedData[key]);
+            } else if (key === 'walkthrough-date' && walkthroughDatePicker) {
+                walkthroughDatePicker.setDate(savedData[key], false);
+                element.setAttribute('data-iso-date', savedData[key]);
+            } else {
+                element.value = savedData[key];
+            }
         }
     });
     
