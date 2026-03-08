@@ -45,6 +45,153 @@ function getOutputFolderId() {
 }
 
 // ============================================================================
+// QUESTION TO FIELD NAME MAPPING
+// ============================================================================
+
+/**
+ * Maps question text to internal field names
+ * This allows the form to send natural question text as keys
+ */
+const QUESTION_MAPPING = {
+  // Page 1 - Event Details
+  'Name of Client': 'client-name',
+  "Groom's Name": 'groom-name',
+  "Bride's Name": 'bride-name',
+  'Ethnicity / Cultural Background': 'ethnicity',
+  'Date of the Event': 'event-date',
+  'Event Type': 'event-type',
+  'Date of your Walkthrough': 'walkthrough-date',
+  'Event Timings': 'event-timings',
+  'Event Timings - All day': 'event-timings-allday',
+  'Event Timings - Other': 'event-timings-other',
+  
+  // Page 2 - Key Contacts
+  'Name of First Main Point of Contact': 'primary-contact-name',
+  'Phone Number of First Main Point of Contact': 'primary-contact-phone',
+  'Phone Number of First Main Point of Contact - Prefix': 'primary-contact-phone-prefix',
+  'Relationship of First Main Point of Contact with the Bride/Groom': 'primary-contact-relationship',
+  'Name of Second Main Point of Contact': 'secondary-contact-name',
+  'Phone Number of Second Main Point of Contact': 'secondary-contact-phone',
+  'Phone Number of Second Main Point of Contact - Prefix': 'secondary-contact-phone-prefix',
+  'Relationship of Second Main Point of Contact with the Bride/Groom': 'secondary-contact-relationship',
+  
+  // Page 3 - Seating and Hall Arrangements
+  'Suite(s) Hired': 'suite-hired',
+  'How many guests?': 'guest-count',
+  'Types of tables – Applies to front tables only': 'table-type',
+  'Guest Arrangements': 'guest-arrangements',
+  'How many guests will you have in the groom's section?': 'male-guests',
+  'How many guests will you have in the bride's section?': 'female-guests',
+  'How many Reserved Seatings?': 'reserved-seatings',
+  'Have you got a table plan by chance?': 'table-plan',
+  'Tables': 'tables',
+  'Nendra Table': 'table-nendra',
+  'Gift Table': 'table-gift',
+  'Drink Station': 'table-drink',
+  'Other Table': 'table-other',
+  'Other Table - Please specify': 'table-other-text',
+  
+  // Page 4 - Décor
+  'Which of the following will you be having for your event?': 'decor-provider',
+  'Décor Company Name': 'decor-company-name',
+  'Contact Name': 'decor-contact-name',
+  'Contact Number': 'decor-contact-number',
+  'Contact Number - Prefix': 'decor-contact-number-prefix',
+  'Contact Email': 'decor-contact-email',
+  'Décor Plans': 'decor-description',
+  
+  // Page 5 - Vendors
+  'Photography': 'photographer',
+  'Company Name': 'photographer-company-name',
+  'Videography': 'videographer',
+  'DJ or Sound System': 'sound-system',
+  'DJ Name/Company': 'dj-name',
+  'DJ Contact Number': 'dj-contact-number',
+  'DJ Contact Number - Prefix': 'dj-contact-number-prefix',
+  
+  // Page 6 - Additional Extras
+  'Dancefloor': 'dancefloor',
+  'Type': 'dancefloor-type',
+  'Size': 'dancefloor-size',
+  'Wedding Cake': 'wedding-cake',
+  'Cake Company Name': 'cake-company-name',
+  'Cake Contact Name': 'cake-contact-name',
+  'Cake Contact Number': 'cake-contact-number',
+  'Cake Contact Number - Prefix': 'cake-contact-number-prefix',
+  'Number of Tiers': 'cake-tiers',
+  'Favours (CCLG)': 'favours',
+  'Favours Type': 'favours-type',
+  'Head Table': 'head-table',
+  'Menu Cards': 'menu-cards',
+  'Menu Cards Placement': 'menu-cards-placement',
+  'Menu Cards Placement - Other': 'menu-cards-placement-other-text',
+  
+  // Page 9 - Additional Services
+  'Additional Services': 'additional-services',
+  'Welcome Drinks': 'venue-service-welcome-drinks',
+  'Nikkah Partition': 'venue-service-nikkah-partition',
+  'Low Fog': 'venue-service-low-fog',
+  'Low Fog Timing': 'low-fog-timing',
+  'Sparklers': 'venue-service-sparklers',
+  'Sparklers Timing': 'sparklers-timing',
+  'Pancake Cart': 'venue-service-pancake-cart',
+  'Pancake Cart Timing': 'pancake-cart-timing',
+  '360 Booth': 'venue-service-360-booth',
+  '360 Booth Timing': 'booth-360-timing',
+  'Vintage Photobooth': 'venue-service-vintage-photobooth',
+  'Vintage Photobooth Timing': 'vintage-photobooth-timing',
+  'Third Party Services': 'third-party-services',
+  
+  // Page 10 - Catering
+  'Catering Company Name': 'catering-company-name',
+  'Catering Contact Name': 'catering-contact-name',
+  'Company Worked with Venue Before': 'company-worked-before',
+  'Leftover Food & Drinks': 'leftover-food-drinks',
+  'Leftover Containers': 'leftover-containers',
+  'Drinks Provider': 'drinks-provider',
+  'Third Party Company Name': 'drinks-third-party-name',
+  'Third Party Contact': 'drinks-third-party-contact',
+  'Third Party Contact - Prefix': 'drinks-third-party-contact-prefix',
+  'Reception Drinks': 'reception-drinks',
+  'Reception Drinks Supplier': 'reception-drinks-supplier',
+  'Hot Drinks Supplier': 'hot-drinks-supplier',
+  'Hot Drinks Contact Name': 'hot-drinks-contact-name',
+  'Hot Drinks Contact Number': 'hot-drinks-contact-number',
+  'Hot Drinks Contact Number - Prefix': 'hot-drinks-contact-number-prefix',
+  
+  // Page 11 - Car Parking
+  'VIP Parking Passes': 'vip-parking-passes',
+  'Priority Parking Section 1': 'priority-parking-section1',
+  'Priority Parking Section 2': 'priority-parking-section2',
+  'Total Priority Parking': 'total-priority-parking',
+  'Parking Notes': 'parking-notes'
+};
+
+/**
+ * Transforms form data from question-text keys to field-name keys
+ * @param {Object} questionData - Data with question text as keys
+ * @returns {Object} - Data with field names as keys
+ */
+function transformQuestionData(questionData) {
+  const fieldData = {};
+  
+  for (const [question, value] of Object.entries(questionData)) {
+    const fieldName = QUESTION_MAPPING[question];
+    
+    if (fieldName) {
+      // Map question to field name
+      fieldData[fieldName] = value;
+    } else {
+      // If no mapping found, log warning and use original key
+      Logger.log('Warning: No mapping found for question: ' + question);
+      fieldData[question] = value;
+    }
+  }
+  
+  return fieldData;
+}
+
+// ============================================================================
 // WEB APP ENDPOINT
 // ============================================================================
 
@@ -57,8 +204,11 @@ function getOutputFolderId() {
  */
 function doPost(e) {
   try {
-    // Parse the incoming data
-    const formData = JSON.parse(e.postData.contents);
+    // Parse the incoming data (with question text as keys)
+    const questionData = JSON.parse(e.postData.contents);
+    
+    // Transform from question text to field names
+    const formData = transformQuestionData(questionData);
     
     // Store form data in Script Properties for the permanent trigger to process
     const timestamp = new Date().getTime();
@@ -210,6 +360,8 @@ function testSetup() {
     'event-date': '2025-12-25',
     'event-type': 'Walima',
     'event-timings': '6:30pm - 11pm',
+    'event-timings-allday': '',
+    'event-timings-other': '',
     'suite-hired': 'Both',
     'guest-count': '200',
     'guest-arrangements': 'Men & Women Segregation',
@@ -258,6 +410,7 @@ function testSetup() {
     'dj-contact-number': '7700900654',
     
     // Decor
+    'decor-provider': 'Third Party',
     'decor-company-name': 'Royal Decorations Ltd',
     'decor-contact-name': 'Aisha Malik',
     'decor-contact-number-prefix': '+44',
@@ -289,12 +442,15 @@ function testSetup() {
     'venue-service-welcome-drinks': true,
     'venue-service-nikkah-partition': false,
     'venue-service-low-fog': true,
+    'low-fog-timing': "Bride's Entrance",
     'venue-service-sparklers': true,
+    'sparklers-timing': 'First Dance',
     'venue-service-pancake-cart': true,
-    'pancake-cart-timing': 'Before Food Service',
+    'pancake-cart-timing': 'Guest Arrival',
     'venue-service-360-booth': true,
     'booth-360-timing': 'After Food Service',
-    'venue-service-vintage-photobooth': false,
+    'venue-service-vintage-photobooth': true,
+    'vintage-photobooth-timing': 'Guest Arrival',
     'third-party-services': [
       {
         id: '1',
@@ -577,13 +733,20 @@ function getOrdinalSuffix(num) {
 }
 
 /**
- * Gets event time, handling "Other" option
+ * Gets event time, handling "Other" and "All day" options
  */
 function getEventTime(data) {
-  if (data['event-timings'] === 'Other' && data['event-timings-other']) {
+  const timings = data['event-timings'] || '';
+  
+  if (timings === 'All day (6 Hours)' && data['event-timings-allday']) {
+    return data['event-timings-allday'];
+  }
+  
+  if (timings === 'Other' && data['event-timings-other']) {
     return data['event-timings-other'];
   }
-  return data['event-timings'] || '';
+  
+  return timings;
 }
 
 /**
@@ -691,10 +854,17 @@ function buildSuiteSection(data) {
   
   // Decor
   section += '\n\nDecor -';
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     section += `\n\tStage: ${data['decor-company-name']}`;
     section += '\n\tCentrepieces: Custom';
     section += '\n\tWalkway: Custom';
+    if (data['decor-description']) {
+      section += `\n\t${data['decor-description']}`;
+    }
+  } else if (data['decor-provider'] === 'Elegant Moments') {
+    section += '\n\tStage: Elegant Moments';
+    section += '\n\tCentrepieces: Elegant Moments';
+    section += '\n\tWalkway: Elegant Moments';
     if (data['decor-description']) {
       section += `\n\t${data['decor-description']}`;
     }
@@ -849,9 +1019,18 @@ function buildCakeTableInfo(data) {
 function buildDecorInfo(data) {
   let info = '\nDecor -';
   
-  // Check if custom decor company
-  if (data['decor-company-name']) {
+  // Check decor provider
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     info += ` ${data['decor-company-name']}`;
+    if (data['decor-description']) {
+      info += `\n\t${data['decor-description']}`;
+    }
+  } else if (data['decor-provider'] === 'Elegant Moments') {
+    info += '\n\tStage: Elegant Moments';
+    info += '\n\tCentrepieces: Elegant Moments';
+    if (data['suite-hired'] === 'Amington Suite' || data['suite-hired'] === 'Both') {
+      info += '\n\tWalkway: Elegant Moments';
+    }
     if (data['decor-description']) {
       info += `\n\t${data['decor-description']}`;
     }
@@ -965,11 +1144,13 @@ function buildExternalVendors(data) {
   }
   
   // Decor (external)
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     const company = data['decor-company-name'];
     const contact = data['decor-contact-name'] || '';
     const phone = formatPhone(data['decor-contact-number-prefix'], data['decor-contact-number']);
     vendors.push(`|  | Decor | ${company}${contact ? ' – ' + contact : ''}${phone ? ' - ' + phone : ''} |  |`);
+  } else if (data['decor-provider'] === 'Elegant Moments') {
+    vendors.push('|  | Decor | Elegant Moments (In-house) |  |');
   }
   
   // Special effects (external)
@@ -1131,8 +1312,11 @@ function getCakeTableYesNo(data) {
  * Gets decor stage information
  */
 function getDecorStage(data) {
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     return data['decor-company-name'];
+  }
+  if (data['decor-provider'] === 'Elegant Moments') {
+    return 'Elegant Moments';
   }
   return 'Standard';
 }
@@ -1141,8 +1325,11 @@ function getDecorStage(data) {
  * Gets decor centrepieces information
  */
 function getDecorCentrepieces(data) {
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     return 'Custom';
+  }
+  if (data['decor-provider'] === 'Elegant Moments') {
+    return 'Elegant Moments';
   }
   return 'Standard';
 }
@@ -1154,8 +1341,11 @@ function getDecorWalkway(data) {
   if (data['suite-hired'] !== 'Amington Suite' && data['suite-hired'] !== 'Both') {
     return 'N/A';
   }
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
     return 'Custom';
+  }
+  if (data['decor-provider'] === 'Elegant Moments') {
+    return 'Elegant Moments';
   }
   return 'Standard';
 }
@@ -1304,7 +1494,10 @@ function getVendorExtra1Company(data) {
  * Gets Extra 2 service name (Decor)
  */
 function getVendorExtra2Service(data) {
-  if (data['decor-company-name']) {
+  if (data['decor-provider'] === 'Third Party' && data['decor-company-name']) {
+    return 'Decor';
+  }
+  if (data['decor-provider'] === 'Elegant Moments') {
     return 'Decor';
   }
   return '';
@@ -1314,6 +1507,10 @@ function getVendorExtra2Service(data) {
  * Gets Extra 2 company (Decor)
  */
 function getVendorExtra2Company(data) {
+  if (data['decor-provider'] === 'Elegant Moments') {
+    return 'Elegant Moments (In-house décor company)';
+  }
+  
   const company = data['decor-company-name'] || '';
   if (!company) return '';
   
@@ -1396,11 +1593,13 @@ function buildVenueServicesSection(data) {
   }
   
   if (data['venue-service-low-fog']) {
-    services.push('• Low Fog – 1 Time use');
+    const timing = data['low-fog-timing'] || 'Timing not specified';
+    services.push(`• Low Fog – 1 Time use (${timing})`);
   }
   
   if (data['venue-service-sparklers']) {
-    services.push('• Sparklers – 1 Time use');
+    const timing = data['sparklers-timing'] || 'Timing not specified';
+    services.push(`• Sparklers – 1 Time use (${timing})`);
   }
   
   if (data['venue-service-pancake-cart']) {
