@@ -25,34 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loadAppScriptEndpoints();
     loadSavedData();
     setupEventListeners();
-    setupParkingCalculations();
     setupExitWarnings();
     setupModalListeners();
 });
 
-function setupParkingCalculations() {
-    const section1Input = document.getElementById('priority-parking-section1');
-    const section2Input = document.getElementById('priority-parking-section2');
-    const totalInput = document.getElementById('total-priority-parking');
-
-    function updateTotal() {
-        const section1 = parseInt(section1Input.value) || 0;
-        const section2 = parseInt(section2Input.value) || 0;
-        const total = section1 + section2;
-        totalInput.value = total;
-
-        // Validate total doesn't exceed 30
-        if (total > 30) {
-            showNotification('Total Priority Parking cannot exceed 30 spaces', 'error');
-        }
-    }
-
-    section1Input.addEventListener('input', updateTotal);
-    section2Input.addEventListener('input', updateTotal);
-
-    // Initial calculation
-    updateTotal();
-}
 
 function setupEventListeners() {
     const form = document.getElementById('page11-form');
@@ -97,71 +73,24 @@ function setupEventListeners() {
 
 function validatePage() {
     console.log('=== Starting Page 11 Validation ===');
-    
-    const vipPasses = parseInt(document.getElementById('vip-parking-passes').value) || 0;
-    const section1 = parseInt(document.getElementById('priority-parking-section1').value) || 0;
-    const section2 = parseInt(document.getElementById('priority-parking-section2').value) || 0;
-
-    // Validate VIP parking
-    if (vipPasses > 6) {
-        return 'VIP parking cannot exceed 6 spaces';
-    }
-
-    // Validate Priority Section 1
-    if (section1 > 14) {
-        return 'Priority Parking Section 1 (Venue Level) cannot exceed 14 spaces';
-    }
-
-    // Validate Priority Section 2
-    if (section2 > 16) {
-        return 'Priority Parking Section 2 (Top Level) cannot exceed 16 spaces';
-    }
-
-    // Validate total priority parking
-    const totalPriority = section1 + section2;
-    if (totalPriority > 30) {
-        return 'Total Priority Parking cannot exceed 30 spaces';
-    }
-    
     console.log('Page 11 validation passed');
     return true;
 }
 
 function saveFormData() {
     console.log('Saving Page 11 data...');
-    
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    
-    // Save parking passes
     formData['vip-parking-passes'] = document.getElementById('vip-parking-passes').value;
-    formData['priority-parking-section1'] = document.getElementById('priority-parking-section1').value;
-    formData['priority-parking-section2'] = document.getElementById('priority-parking-section2').value;
-    formData['total-priority-parking'] = document.getElementById('total-priority-parking').value;
-    formData['parking-notes'] = document.getElementById('parking-notes').value;
-
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     console.log('Page 11 data saved:', formData);
 }
 
 function loadSavedData() {
     console.log('Loading saved data for Page 11...');
-    
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    
-    // Load parking passes
     if (formData['vip-parking-passes']) {
         document.getElementById('vip-parking-passes').value = formData['vip-parking-passes'];
     }
-    if (formData['priority-parking-section1']) {
-        document.getElementById('priority-parking-section1').value = formData['priority-parking-section1'];
-    }
-    if (formData['priority-parking-section2']) {
-        document.getElementById('priority-parking-section2').value = formData['priority-parking-section2'];
-    }
-    if (formData['parking-notes']) {
-        document.getElementById('parking-notes').value = formData['parking-notes'];
-    }
-
     console.log('Page 11 data loaded');
 }
 
