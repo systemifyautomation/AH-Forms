@@ -1,9 +1,8 @@
 #!/bin/bash
 # Test curls for Amington Hall Staff Itinerary Automation
-# Uses the first endpoint from appscript-endpoints.json
 # Run individual curls or source this file
 
-URL="https://script.google.com/macros/s/AKfycbxCL85BYJkp9xbmR8ETEi5zrVzXpLHNWpLQ-GFKXTBzANIDvNkxUtfAZvrMKM5CI1eX/exec"
+URL="https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec"
 
 echo "==================================================="
 echo " TEST 1: Baraat - Amington Suite, VIP + Segregation"
@@ -15,7 +14,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Ahmed Khan",
     "Bride'\''s Name": "Fatima Malik",
     "Ethnicity / Cultural Background": "Pakistani",
-    "Date of the Event": "15/09/2025",
+    "Date of the Event": "2025-09-15",
     "Event Type": "Baraat",
     "Event Timings": "6:30pm - 11pm",
     "Attendees": "Sarah (AH), James (AH)",
@@ -54,14 +53,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Catering company providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "6",
-    "Priority Parking Section 1": "12",
-    "Priority Parking Section 2": "8",
-    "Total Priority Parking": "20",
-    "Parking Notes": "Large coach expected from mosque"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "6"
   }'
 echo -e "\n"
 
@@ -75,7 +71,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Bilal Rahman",
     "Bride'\''s Name": "Aisha Patel",
     "Ethnicity / Cultural Background": "Bangladeshi",
-    "Date of the Event": "22/11/2025",
+    "Date of the Event": "2025-11-22",
     "Event Type": "Walima",
     "Event Timings": "12pm - 4:30pm",
     "Attendees": "Claire (AH), Tom (AH)",
@@ -109,14 +105,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "No",
     "Leftover Food & Drinks": "Catering company taking back",
     "Leftover Containers": "Catering company providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "4",
-    "Priority Parking Section 1": "15",
-    "Priority Parking Section 2": "15",
-    "Total Priority Parking": "30",
-    "Parking Notes": "Two separate families arriving"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "4"
   }'
 echo -e "\n"
 
@@ -130,7 +123,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Zain Hussain",
     "Bride'\''s Name": "Sana Mirza",
     "Ethnicity / Cultural Background": "Pakistani",
-    "Date of the Event": "05/04/2026",
+    "Date of the Event": "2026-04-05",
     "Event Type": "Joint Day",
     "Event Timings": "All day (6 Hours)",
     "Event Timings - All day": "12pm - 6pm",
@@ -178,14 +171,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Family bringing own containers",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "10",
-    "Priority Parking Section 1": "20",
-    "Priority Parking Section 2": "20",
-    "Total Priority Parking": "40",
-    "Parking Notes": "Two coaches and bridal cars"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "10"
   }'
 echo -e "\n"
 
@@ -199,7 +189,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Michael Johnson",
     "Bride'\''s Name": "Emily Carter",
     "Ethnicity / Cultural Background": "British",
-    "Date of the Event": "14/06/2025",
+    "Date of the Event": "2025-06-14",
     "Event Type": "Wedding Reception (NON Asian)",
     "Event Timings": "6:30pm - 11pm",
     "Attendees": "Helen (AH)",
@@ -241,14 +231,13 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "No",
     "Leftover Food & Drinks": "Caterer taking back",
     "Leftover Containers": "Caterer providing",
-    "Drinks Provider": "Third Party",
+    "Drinks Provider": "Third Party Company",
     "Third Party Company Name": "Premium Bar Services",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "3",
-    "Priority Parking Section 1": "8",
-    "Priority Parking Section 2": "5",
-    "Total Priority Parking": "13"
+    "Reception Drinks Supplier": "Client",
+    "Hot Drinks Supplier": "Third Party Company",
+    "Hot Drinks Contact Name": "Premium Bar Services",
+    "VIP Parking Passes": "3"
   }'
 echo -e "\n"
 
@@ -262,7 +251,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Omar Iqbal",
     "Bride'\''s Name": "Zara Sheikh",
     "Ethnicity / Cultural Background": "Pakistani",
-    "Date of the Event": "12/07/2025",
+    "Date of the Event": "2025-07-12",
     "Event Type": "Mehndi",
     "Event Timings": "6:30pm - 11pm",
     "Attendees": "Mark (AH)",
@@ -293,13 +282,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Family bringing own",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "2",
-    "Priority Parking Section 1": "5",
-    "Priority Parking Section 2": "5",
-    "Total Priority Parking": "10"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "2"
   }'
 echo -e "\n"
 
@@ -313,7 +300,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "N/A",
     "Bride'\''s Name": "N/A",
     "Ethnicity / Cultural Background": "N/A",
-    "Date of the Event": "18/03/2026",
+    "Date of the Event": "2026-03-18",
     "Event Type": "Corporate Event",
     "Event Timings": "12pm - 4:30pm",
     "Attendees": "Lisa (AH), Rob (AH)",
@@ -342,14 +329,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "No",
     "Leftover Food & Drinks": "Caterer taking back",
     "Leftover Containers": "Caterer providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "5",
-    "Priority Parking Section 1": "10",
-    "Priority Parking Section 2": "0",
-    "Total Priority Parking": "10",
-    "Parking Notes": "Shuttle bus from train station at 11:45 AM"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "5"
   }'
 echo -e "\n"
 
@@ -363,7 +347,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Hamza Chaudhry",
     "Bride'\''s Name": "Nadia Butt",
     "Ethnicity / Cultural Background": "Pakistani",
-    "Date of the Event": "28/02/2026",
+    "Date of the Event": "2026-02-28",
     "Event Type": "Baraat",
     "Event Timings": "6:30pm - 11pm",
     "Attendees": "Sam (AH)",
@@ -409,13 +393,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Catering company providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "8",
-    "Priority Parking Section 1": "18",
-    "Priority Parking Section 2": "15",
-    "Total Priority Parking": "33"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "8"
   }'
 echo -e "\n"
 
@@ -429,7 +411,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Yusuf Ali",
     "Bride'\''s Name": "Maryam Hassan",
     "Ethnicity / Cultural Background": "Somali",
-    "Date of the Event": "08/08/2025",
+    "Date of the Event": "2025-08-08",
     "Event Type": "Walima",
     "Event Timings": "12pm - 4:30pm",
     "Attendees": "Priya (AH)",
@@ -463,13 +445,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "No",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Family bringing own containers",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "3",
-    "Priority Parking Section 1": "6",
-    "Priority Parking Section 2": "4",
-    "Total Priority Parking": "10"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "3"
   }'
 echo -e "\n"
 
@@ -483,7 +463,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Danyal Malik",
     "Bride'\''s Name": "Hira Qureshi",
     "Ethnicity / Cultural Background": "Pakistani / Indian",
-    "Date of the Event": "21/03/2026",
+    "Date of the Event": "2026-03-21",
     "Event Type": "Joint Day",
     "Event Timings": "All day (6 Hours)",
     "Event Timings - All day": "11am - 5pm",
@@ -529,14 +509,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Catering company providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "7",
-    "Priority Parking Section 1": "15",
-    "Priority Parking Section 2": "10",
-    "Total Priority Parking": "25",
-    "Parking Notes": "Bridal car to park at front entrance"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "7"
   }'
 echo -e "\n"
 
@@ -550,7 +527,7 @@ curl -s -L -X POST "$URL" \
     "Groom'\''s Name": "Faisal Sheikh",
     "Bride'\''s Name": "Mariam Siddiqui",
     "Ethnicity / Cultural Background": "Pakistani",
-    "Date of the Event": "10/10/2025",
+    "Date of the Event": "2025-10-10",
     "Event Type": "Baraat",
     "Event Timings": "6:30pm - 11pm",
     "Attendees": "Anna (AH), Chris (AH)",
@@ -612,14 +589,11 @@ curl -s -L -X POST "$URL" \
     "Company Worked with Venue Before": "Yes",
     "Leftover Food & Drinks": "Family taking home",
     "Leftover Containers": "Catering company providing",
-    "Drinks Provider": "Amington Hall",
+    "Drinks Provider": "Caterer",
     "Reception Drinks": "Yes",
-    "Hot Drinks Supplier": "Amington Hall",
-    "VIP Parking Passes": "12",
-    "Priority Parking Section 1": "25",
-    "Priority Parking Section 2": "20",
-    "Total Priority Parking": "45",
-    "Parking Notes": "Three coaches expected, bridal car at main entrance, photographer van at side entrance"
+    "Reception Drinks Supplier": "Amington Hall",
+    "Hot Drinks Supplier": "Caterer",
+    "VIP Parking Passes": "12"
   }'
 echo -e "\n"
 
