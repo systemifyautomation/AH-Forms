@@ -168,16 +168,24 @@ function validatePage() {
 
 function saveFormData() {
     const formData = getStoredData() || {};
-    
-    // Save text inputs
+
+    // Save date fields directly from flatpickr instances (avoids altInput/hidden-input issues)
+    function toLocalISODate(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+    if (eventDatePicker && eventDatePicker.selectedDates.length > 0) {
+        formData['event-date'] = toLocalISODate(eventDatePicker.selectedDates[0]);
+    }
+    if (walkthroughDatePicker && walkthroughDatePicker.selectedDates.length > 0) {
+        formData['walkthrough-date'] = toLocalISODate(walkthroughDatePicker.selectedDates[0]);
+    }
+
+    // Save text inputs (skip flatpickr date inputs — handled above)
     document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
+        const fieldName = input.name || input.id;
+        if (!fieldName || fieldName === 'event-date' || fieldName === 'walkthrough-date') return;
         if (input.value) {
-            // For date fields with ISO data attribute, save in YYYY-MM-DD format
-            if (input.hasAttribute('data-iso-date')) {
-                formData[input.name || input.id] = input.getAttribute('data-iso-date');
-            } else {
-                formData[input.name || input.id] = input.value;
-            }
+            formData[fieldName] = input.value;
         }
     });
     
