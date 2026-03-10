@@ -123,27 +123,42 @@ async function handleFormSubmit() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
+    const TIMEOUT_MS = 30000;
+
+    function fetchWithTimeout(endpoint) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        return fetch(endpoint, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submissionData),
+            signal: controller.signal
+        }).finally(() => clearTimeout(timer));
+    }
+
     try {
-        const submissionPromises = APPSCRIPT_ENDPOINTS.map(endpoint => 
-            fetch(endpoint, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(submissionData)
-            })
+        const results = await Promise.allSettled(
+            APPSCRIPT_ENDPOINTS.map(fetchWithTimeout)
         );
 
-        await Promise.all(submissionPromises);
-        
-        console.log('Form submitted successfully to all endpoints');
-        
+        const anySuccess = results.some(r => r.status === 'fulfilled');
+        results.forEach((r, i) => {
+            if (r.status === 'rejected') {
+                console.warn(`Endpoint ${i + 1} failed:`, r.reason);
+            }
+        });
+
+        if (!anySuccess) {
+            throw new Error('All endpoints failed or timed out.');
+        }
+
+        console.log('Form submitted successfully');
         localStorage.removeItem(STORAGE_KEY);
-        
+
         const successModal = document.getElementById('success-modal');
         successModal.style.display = 'flex';
-        
+
     } catch (error) {
         console.error('Error submitting form:', error);
         showNotification('There was an error submitting the form. Please try again.', 'error');
