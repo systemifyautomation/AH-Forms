@@ -138,24 +138,23 @@ async function handleFormSubmit() {
     }
 
     try {
-        const results = await Promise.allSettled(
-            APPSCRIPT_ENDPOINTS.map(fetchWithTimeout)
-        );
-
-        const anySuccess = results.some(r => r.status === 'fulfilled');
-        results.forEach((r, i) => {
-            if (r.status === 'rejected') {
-                console.warn(`Endpoint ${i + 1} failed:`, r.reason);
+        let submitted = false;
+        for (let i = 0; i < APPSCRIPT_ENDPOINTS.length; i++) {
+            try {
+                await fetchWithTimeout(APPSCRIPT_ENDPOINTS[i]);
+                console.log(`Form submitted successfully via endpoint ${i + 1}`);
+                submitted = true;
+                break;
+            } catch (err) {
+                console.warn(`Endpoint ${i + 1} failed, trying next...`, err);
             }
-        });
+        }
 
-        if (!anySuccess) {
+        if (!submitted) {
             throw new Error('All endpoints failed or timed out.');
         }
 
-        console.log('Form submitted successfully');
         localStorage.removeItem(STORAGE_KEY);
-
         const successModal = document.getElementById('success-modal');
         successModal.style.display = 'flex';
 
