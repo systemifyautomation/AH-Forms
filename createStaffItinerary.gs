@@ -563,7 +563,6 @@ function createStaffItinerary(formData) {
 
     // Process the external vendors table: remove inapplicable rows, expand third-party rows
     processExternalVendorsTable(body, formData);
-    processVendorThirdPartyRows(body, formData);
 
     // Save and close
     doc.saveAndClose();
@@ -637,18 +636,23 @@ function buildVariables(data) {
     
     // External Vendors - cell data (ETA left blank for manual entry; rows removed if not applicable)
     '{{vendorPhotographyCompany}}':     getVendorPhotography(data),
-    '{{vendorPhotographyNotes}}':       '',
+    '{{vendorPhotographyNotes}}':       getVendorPhotographyNotes(data),
     '{{vendorVideographyCompany}}':     getVendorVideographyCompany(data),
+    '{{vendorVideographyNotes}}':       getVendorVideographyNotes(data),
     '{{vendorDJCompany}}':              getVendorDJ(data),
-    '{{vendorDJNotes}}':                '',
+    '{{vendorDJNotes}}':                getVendorDJNotes(data),
     '{{vendorCakeCompany}}':            getVendorCake(data),
     '{{vendorCakeNotes}}':              getVendorCakeNotes(data),
     '{{vendorDecorCompany}}':           getVendorDecorCompany(data),
     '{{vendorDecorNotes}}':             getVendorDecorNotes(data),
     '{{vendorCatererCompany}}':         getVendorCatererCompany(data),
+    '{{vendorCateringNotes}}':          getVendorCateringNotes(data),
     '{{vendorTableDrinksCompany}}':     getVendorTableDrinksCompany(data),
+    '{{vendorTableDrinksNotes}}':       getVendorTableDrinksNotes(data),
     '{{vendorReceptionDrinksCompany}}': getVendorReceptionDrinksCompany(data),
+    '{{vendorReceptionDrinksNotes}}':   getVendorReceptionDrinksNotes(data),
     '{{vendorHotDrinksCompany}}':       getVendorHotDrinksCompany(data),
+    '{{vendorHotDrinksNotes}}':         getVendorHotDrinksNotes(data),
     
     // Constructed Sections (keeping for backward compatibility)
     '{{reservedTablesInfo}}': buildReservedTablesInfo(data),
@@ -1822,6 +1826,77 @@ function getVendorHotDrinksCompany(data) {
   return name + (phone ? ` - ${phone}` : '');
 }
 
+// --- Vendor Notes functions ---
+
+function getVendorPhotographyNotes(data) {
+  if (data['photographer'] !== 'Yes') return '';
+  const parts = [];
+  const contact = data['photographer-contact-name'] || '';
+  const phone   = formatPhone(data['photographer-contact-number-prefix'], data['photographer-contact-number']);
+  if (contact) parts.push(`Contact: ${contact}`);
+  if (phone)   parts.push(`Tel: ${phone}`);
+  return parts.join(' | ');
+}
+
+function getVendorVideographyNotes(data) {
+  if (data['videographer'] !== 'Yes') return '';
+  const parts = [];
+  const contact = data['videographer-contact-name'] || '';
+  const phone   = formatPhone(data['videographer-contact-number-prefix'], data['videographer-contact-number']);
+  if (contact) parts.push(`Contact: ${contact}`);
+  if (phone)   parts.push(`Tel: ${phone}`);
+  return parts.join(' | ');
+}
+
+function getVendorDJNotes(data) {
+  if (data['sound-system'] !== 'DJ') return '';
+  const parts = [];
+  const phone = formatPhone(data['dj-contact-number-prefix'], data['dj-contact-number']);
+  if (phone) parts.push(`Tel: ${phone}`);
+  return parts.join(' | ');
+}
+
+function getVendorCateringNotes(data) {
+  const parts = [];
+  if (data['company-worked-before'])  parts.push(`Worked with venue before: ${data['company-worked-before']}`);
+  if (data['leftover-food-drinks'])   parts.push(`Leftover food & drinks: ${data['leftover-food-drinks']}`);
+  if (data['leftover-containers'])    parts.push(`Leftover containers: ${data['leftover-containers']}`);
+  const drinksProvider    = data['drinks-provider']    || '';
+  const hotDrinksSupplier = data['hot-drinks-supplier'] || '';
+  if (drinksProvider    === 'Caterer') parts.push('Also providing: Table Drinks');
+  if (hotDrinksSupplier === 'Caterer') parts.push('Also providing: Hot Drinks');
+  return parts.join(' | ');
+}
+
+function getVendorTableDrinksNotes(data) {
+  const provider = data['drinks-provider'] || '';
+  if (provider === 'Third Party Company') {
+    const contact = data['drinks-third-party-name'] || '';
+    const phone   = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
+    const parts   = [];
+    if (contact) parts.push(`Company: ${contact}`);
+    if (phone)   parts.push(`Tel: ${phone}`);
+    return parts.join(' | ');
+  }
+  return '';
+}
+
+function getVendorReceptionDrinksNotes(data) {
+  if (data['reception-drinks'] !== 'Yes') return '';
+  const supplier = data['reception-drinks-supplier'] || '';
+  return supplier ? `Supplier: ${supplier}` : '';
+}
+
+function getVendorHotDrinksNotes(data) {
+  if (data['hot-drinks-supplier'] !== 'Third Party Company') return '';
+  const parts   = [];
+  const contact = data['hot-drinks-contact-name'] || '';
+  const phone   = formatPhone(data['hot-drinks-contact-number-prefix'], data['hot-drinks-contact-number']);
+  if (contact) parts.push(`Contact: ${contact}`);
+  if (phone)   parts.push(`Tel: ${phone}`);
+  return parts.join(' | ');
+}
+
 /**
  * Gets Extra 1 service name (Videography)
  */
@@ -2158,25 +2233,23 @@ function buildServiceConfig(data) {
 // ============================================================================
 
 /**
- * Finds the External Vendors table (identified by {{ext:}} markers in ETA cells),
- * removes rows for vendors not present in the data, and clears the markers from
- * rows that are kept.  The dynamic third-party rows ({{ext:tp-}}) are handled
- * separately by processVendorThirdPartyRows.
+ * Finds the External Vendors table once, then in two passes:
+ *   1. Removes named vendor rows whose service was not selected, clears ETA markers on kept rows.
+ *   2. Expands the {{ext:tp-}} template row into one row per third-party service (or removes
+ *      it entirely when there are none).
+ * Using a single getTables() call avoids stale-reference issues from table mutation.
  */
 function processExternalVendorsTable(body, data) {
+  // --- Find the table ---
   const tables = body.getTables();
   let vendorsTable = null;
 
-  outer:
-  for (let t = 0; t < tables.length; t++) {
+  for (let t = 0; t < tables.length && !vendorsTable; t++) {
     const table = tables[t];
-    for (let r = 0; r < table.getNumRows(); r++) {
-      const row = table.getRow(r);
-      for (let c = 0; c < row.getNumCells(); c++) {
-        const txt = row.getCell(c).getText();
-        if (txt.indexOf('{{ext:') !== -1 && txt.indexOf('{{ext:tp-') === -1) {
+    for (let r = 0; r < table.getNumRows() && !vendorsTable; r++) {
+      for (let c = 0; c < table.getRow(r).getNumCells() && !vendorsTable; c++) {
+        if (table.getRow(r).getCell(c).getText().indexOf('{{ext:') !== -1) {
           vendorsTable = table;
-          break outer;
         }
       }
     }
@@ -2189,33 +2262,67 @@ function processExternalVendorsTable(body, data) {
 
   const conditions = buildVendorConditions(data);
 
-  // Iterate in reverse so row deletion doesn't shift indices
+  // --- Pass 1: named vendor rows (reverse to keep indices stable while deleting) ---
   for (let r = vendorsTable.getNumRows() - 1; r >= 0; r--) {
-    const row = vendorsTable.getRow(r);
-    const etaCell = row.getCell(0);
+    const etaCell = vendorsTable.getRow(r).getCell(0);
     const cellText = etaCell.getText();
-
-    // Only process rows with an {{ext:}} marker in column 0 (skip tp- rows)
     const match = cellText.match(/\{\{ext:([^}]+)\}\}/);
-    if (!match || match[1].startsWith('tp-')) continue;
+    if (!match) continue;
 
     const key = match[1];
+    if (key.startsWith('tp-')) continue;  // handled in pass 2
+
     if (!conditions[key]) {
       vendorsTable.removeRow(r);
     } else {
-      // Clear the marker so the ETA cell is blank (staff fill it in manually)
-      etaCell.setText('');
+      etaCell.setText('');  // clear marker; staff fill ETA manually
     }
   }
+
+  // --- Pass 2: tp- template row (find fresh index after pass 1 deletions) ---
+  let tpRowIndex = -1;
+  for (let r = 0; r < vendorsTable.getNumRows(); r++) {
+    if (vendorsTable.getRow(r).getCell(0).getText().indexOf('{{ext:tp-') !== -1) {
+      tpRowIndex = r;
+      break;
+    }
+  }
+
+  if (tpRowIndex === -1) {
+    Logger.log('processExternalVendorsTable: tp- marker row not found after pass 1');
+    return;
+  }
+
+  const services = Array.isArray(data['third-party-services'])
+    ? data['third-party-services'].filter(s => s.type || s.company)
+    : [];
+
+  if (services.length === 0) {
+    vendorsTable.removeRow(tpRowIndex);
+    return;
+  }
+
+  // Insert one row per service above the template row (reverse so order is preserved)
+  for (let i = services.length - 1; i >= 0; i--) {
+    const svc = services[i];
+    const newRow = vendorsTable.insertTableRow(tpRowIndex);
+    newRow.getCell(0).setText(svc.startTime || '');  // ETA
+    newRow.getCell(1).setText(svc.type      || '');  // Service
+    newRow.getCell(2).setText(svc.company   || '');  // Company & Contact
+    newRow.getCell(3).setText('');                    // Notes
+  }
+
+  // Remove template row (now shifted down by services.length)
+  vendorsTable.removeRow(tpRowIndex + services.length);
 }
 
 /**
  * Returns a map of ext: marker key → boolean (should this vendor row be kept?)
  */
 function buildVendorConditions(data) {
-  const cakeCompany = data['cake-company'] || data['cake-company-name'] || '';
+  const cakeCompany    = data['cake-company'] || data['cake-company-name'] || '';
   const drinksProvider = data['drinks-provider'] || '';
-  const receptionSupplier = data['reception-drinks-supplier'] || '';
+  const receptionSup   = data['reception-drinks-supplier'] || '';
 
   return {
     'photography':      data['photographer'] === 'Yes',
@@ -2223,65 +2330,11 @@ function buildVendorConditions(data) {
     'dj':               data['sound-system'] === 'DJ',
     'cake':             !!cakeCompany,
     'decor':            data['decor-provider'] === 'Third Party' && !!data['decor-company-name'],
-    'catering':         true,  // always show — catering is always relevant
+    'catering':         true,
     'table-drinks':     drinksProvider === 'Client' || drinksProvider === 'Third Party Company',
-    'reception-drinks': data['reception-drinks'] === 'Yes' && receptionSupplier !== 'Amington Hall',
+    'reception-drinks': data['reception-drinks'] === 'Yes' && receptionSup !== 'Amington Hall',
     'hot-drinks':       data['hot-drinks-supplier'] === 'Third Party Company',
   };
-}
-
-/**
- * Finds the External Vendors table (identified by the {{ext:tp-}} marker row),
- * then dynamically inserts one row per third-party service and removes the
- * marker template row.  If there are no third-party services the marker row
- * is simply deleted.
- */
-function processVendorThirdPartyRows(body, data) {
-  const tables = body.getTables();
-  let vendorsTable = null;
-  let templateRowIndex = -1;
-
-  // Find the table that contains the third-party marker row
-  outer:
-  for (let t = 0; t < tables.length; t++) {
-    const table = tables[t];
-    for (let r = 0; r < table.getNumRows(); r++) {
-      const row = table.getRow(r);
-      for (let c = 0; c < row.getNumCells(); c++) {
-        if (row.getCell(c).getText().indexOf('{{ext:tp-') !== -1) {
-          vendorsTable = table;
-          templateRowIndex = r;
-          break outer;
-        }
-      }
-    }
-  }
-
-  if (!vendorsTable || templateRowIndex === -1) {
-    Logger.log('processVendorThirdPartyRows: marker row not found');
-    return;
-  }
-
-  const services = Array.isArray(data['third-party-services']) ? data['third-party-services'] : [];
-
-  if (services.length === 0) {
-    vendorsTable.removeRow(templateRowIndex);
-    return;
-  }
-
-  // Insert rows above the template row in reverse order so they end up in the
-  // correct sequence (service 0 first, service N last).
-  for (let i = services.length - 1; i >= 0; i--) {
-    const service = services[i];
-    const newRow = vendorsTable.insertTableRow(templateRowIndex);
-    newRow.getCell(0).setText(service.startTime || '');  // ETA / Start Time
-    newRow.getCell(1).setText(service.type     || '');  // Service
-    newRow.getCell(2).setText(service.company  || '');  // Company & Contact
-    newRow.getCell(3).setText('');                       // Notes (left blank)
-  }
-
-  // Remove the marker template row (it has shifted down by services.length)
-  vendorsTable.removeRow(templateRowIndex + services.length);
 }
 
 // ============================================================================
