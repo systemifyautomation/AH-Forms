@@ -207,15 +207,15 @@ function validatePage() {
     
     switch(selectedSuite.value) {
         case 'Amington Suite':
-            maxCapacity = 400;
+            maxCapacity = 360;
             suiteName = 'Amington Suite';
             break;
         case 'Serenity Suite':
-            maxCapacity = 200;
+            maxCapacity = 180;
             suiteName = 'Serenity Suite';
             break;
         case 'Both':
-            maxCapacity = 600;
+            maxCapacity = 540;
             suiteName = 'Both Suites';
             break;
     }
@@ -241,10 +241,10 @@ function validatePage() {
             return 'Please select the number of women for segregated seating.';
         }
         
-        // Check Amington Suite segregation limit (350 max)
-        if (selectedSuite.value === 'Amington Suite' && guestCount > 350) {
-            console.log('Segregated event in Amington Suite exceeds 350 guests');
-            return 'For segregated events in the Amington Suite only, the maximum guest count is 350. Please reduce your guest count or select Both Suites.';
+        // Check Amington Suite segregation limit (310 max)
+        if (selectedSuite.value === 'Amington Suite' && guestCount > 310) {
+            console.log('Segregated event in Amington Suite exceeds 310 guests');
+            return 'For segregated events in the Amington Suite only, the maximum guest count is 310. Please reduce your guest count or select Both Suites.';
         }
     }
     

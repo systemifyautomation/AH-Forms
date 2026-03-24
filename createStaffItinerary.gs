@@ -524,7 +524,7 @@ function createStaffItinerary(formData) {
       folder = DriveApp.getFileById(templateDocId).getParents().next();
     }
     
-    const fileName = `Staff Itinerary - ${formData['client-name']} - ${formData['event-date']}`;
+    const fileName = `Staff Itinerary - ${formData['client-name']} - ${formatEventDateShort(formData['event-date'])} - ${getEventTime(formData)}`;
     const newDoc = templateDoc.makeCopy(fileName, folder);
     const newDocId = newDoc.getId();
     
@@ -557,7 +557,14 @@ function createStaffItinerary(formData) {
     
     // Replace all variables in the document
     replaceAllVariables(body, variables);
-    
+
+    // Process the services table: remove unselected rows, fill in timings
+    processServicesTable(body, formData);
+
+    // Process the external vendors table: remove inapplicable rows, expand third-party rows
+    processExternalVendorsTable(body, formData);
+    processVendorThirdPartyRows(body, formData);
+
     // Save and close
     doc.saveAndClose();
     
@@ -628,48 +635,20 @@ function buildVariables(data) {
     '{{serenityReservedTablesLeft}}': getSerenityReservedLeft(data),
     '{{serenityReservedTablesRight}}': getSerenityReservedRight(data),
     
-    // External Vendors - Table Drinks
-    '{{vendorTableDrinksETA}}': '',
-    '{{vendorTableDrinksCompany}}': '',
-    '{{vendorTableDrinksNotes}}': '',
-    
-    // External Vendors - Photography
-    '{{vendorPhotographyETA}}': '',
-    '{{vendorPhotographyCompany}}': getVendorPhotography(data),
-    '{{vendorPhotographyNotes}}': '',
-    
-    // External Vendors - Caterer
-    '{{vendorCatererETA}}': '',
-    '{{vendorCatererCompany}}': '',
-    '{{vendorCatererNotes}}': '',
-    
-    // External Vendors - Cake
-    '{{vendorCakeETA}}': '',
-    '{{vendorCakeCompany}}': getVendorCake(data),
-    '{{vendorCakeNotes}}': getVendorCakeNotes(data),
-    
-    // External Vendors - DJ
-    '{{vendorDJETA}}': '',
-    '{{vendorDJCompany}}': getVendorDJ(data),
-    '{{vendorDJNotes}}': '',
-    
-    // External Vendors - Extra 1 (Videography)
-    '{{vendorExtra1ETA}}': '',
-    '{{vendorExtra1Service}}': getVendorExtra1Service(data),
-    '{{vendorExtra1Company}}': getVendorExtra1Company(data),
-    '{{vendorExtra1Notes}}': '',
-    
-    // External Vendors - Extra 2 (Decor)
-    '{{vendorExtra2ETA}}': '',
-    '{{vendorExtra2Service}}': getVendorExtra2Service(data),
-    '{{vendorExtra2Company}}': getVendorExtra2Company(data),
-    '{{vendorExtra2Notes}}': '',
-    
-    // External Vendors - Extra 3 (Special Effects)
-    '{{vendorExtra3ETA}}': '',
-    '{{vendorExtra3Service}}': getVendorExtra3Service(data),
-    '{{vendorExtra3Company}}': getVendorExtra3Company(data),
-    '{{vendorExtra3Notes}}': '',
+    // External Vendors - cell data (ETA left blank for manual entry; rows removed if not applicable)
+    '{{vendorPhotographyCompany}}':     getVendorPhotography(data),
+    '{{vendorPhotographyNotes}}':       '',
+    '{{vendorVideographyCompany}}':     getVendorVideographyCompany(data),
+    '{{vendorDJCompany}}':              getVendorDJ(data),
+    '{{vendorDJNotes}}':                '',
+    '{{vendorCakeCompany}}':            getVendorCake(data),
+    '{{vendorCakeNotes}}':              getVendorCakeNotes(data),
+    '{{vendorDecorCompany}}':           getVendorDecorCompany(data),
+    '{{vendorDecorNotes}}':             getVendorDecorNotes(data),
+    '{{vendorCatererCompany}}':         getVendorCatererCompany(data),
+    '{{vendorTableDrinksCompany}}':     getVendorTableDrinksCompany(data),
+    '{{vendorReceptionDrinksCompany}}': getVendorReceptionDrinksCompany(data),
+    '{{vendorHotDrinksCompany}}':       getVendorHotDrinksCompany(data),
     
     // Constructed Sections (keeping for backward compatibility)
     '{{reservedTablesInfo}}': buildReservedTablesInfo(data),
@@ -683,11 +662,6 @@ function buildVariables(data) {
     // Service Tables
     '{{inHouseServices}}': buildInHouseServices(data),
     '{{externalVendors}}': buildExternalVendors(data),
-    
-    // Page 9 - Additional Services
-    '{{additionalServices}}': buildAdditionalServicesSection(data),
-    '{{venueServices}}': buildVenueServicesSection(data),
-    '{{thirdPartyServices}}': buildThirdPartyServicesSection(data),
     
     // Page 10 - Catering
     '{{cateringSection}}': buildCateringSection(data),
@@ -723,6 +697,31 @@ function buildVariables(data) {
 // ============================================================================
 // FORMATTING FUNCTIONS
 // ============================================================================
+
+/**
+ * Formats date to "Tues 24th March 2026" format for file names
+ */
+function formatEventDateShort(dateString) {
+  if (!dateString) return '';
+
+  try {
+    const parts = dateString.split('-');
+    if (parts.length !== 3) return dateString;
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    const date = new Date(year, month, day);
+
+    const shortDays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+    const dayName = shortDays[date.getDay()];
+    const suffix = getOrdinalSuffix(day);
+    const monthName = date.toLocaleDateString('en-GB', { month: 'long' });
+
+    return `${dayName} ${day}${suffix} ${monthName} ${year}`;
+  } catch (e) {
+    return dateString;
+  }
+}
 
 /**
  * Formats date to "Sunday 19 October 2025" format
@@ -1745,6 +1744,85 @@ function getVendorDJ(data) {
 }
 
 /**
+ * Gets videography vendor info
+ */
+function getVendorVideographyCompany(data) {
+  if (data['videographer'] !== 'Yes') return '';
+  const company = data['videographer-company-name'] || '';
+  const contact = data['videographer-contact-name'] || '';
+  const phone = formatPhone(data['videographer-contact-number-prefix'], data['videographer-contact-number']);
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone)   info += ` - ${phone}`;
+  return info;
+}
+
+/**
+ * Gets third-party decor vendor info (only when decor-provider === 'Third Party')
+ */
+function getVendorDecorCompany(data) {
+  if (data['decor-provider'] !== 'Third Party') return '';
+  const company = data['decor-company-name'] || '';
+  if (!company) return '';
+  const contact = data['decor-contact-name'] || '';
+  const phone   = formatPhone(data['decor-contact-number-prefix'], data['decor-contact-number']);
+  const email   = data['decor-contact-email'] || '';
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  if (phone)   info += ` - ${phone}`;
+  if (email)   info += ` - ${email}`;
+  return info;
+}
+
+function getVendorDecorNotes(data) {
+  if (data['decor-provider'] !== 'Third Party') return '';
+  return data['decor-description'] || '';
+}
+
+/**
+ * Gets catering company info
+ */
+function getVendorCatererCompany(data) {
+  const company = data['catering-company-name'] || '';
+  const contact = data['catering-contact-name']  || '';
+  let info = company;
+  if (contact) info += ` – ${contact}`;
+  return info;
+}
+
+/**
+ * Gets table drinks provider info
+ */
+function getVendorTableDrinksCompany(data) {
+  const provider = data['drinks-provider'] || '';
+  if (provider === 'Client') return 'Client';
+  if (provider === 'Third Party Company') {
+    const name  = data['drinks-third-party-name'] || '';
+    const phone = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
+    return name + (phone ? ` - ${phone}` : '');
+  }
+  return '';
+}
+
+/**
+ * Gets reception drinks supplier info
+ */
+function getVendorReceptionDrinksCompany(data) {
+  if (data['reception-drinks'] !== 'Yes') return '';
+  return data['reception-drinks-supplier'] || '';
+}
+
+/**
+ * Gets hot drinks supplier info
+ */
+function getVendorHotDrinksCompany(data) {
+  if (data['hot-drinks-supplier'] !== 'Third Party Company') return '';
+  const name  = data['hot-drinks-contact-name'] || '';
+  const phone = formatPhone(data['hot-drinks-contact-number-prefix'], data['hot-drinks-contact-number']);
+  return name + (phone ? ` - ${phone}` : '');
+}
+
+/**
  * Gets Extra 1 service name (Videography)
  */
 function getVendorExtra1Service(data) {
@@ -1929,6 +2007,281 @@ function buildThirdPartyServicesSection(data) {
   });
   
   return serviceLines.join('\n');
+}
+
+// ============================================================================
+// PAGE 9 - SERVICES TABLE PROCESSOR
+// ============================================================================
+
+/**
+ * Finds the services table in the document (identified by {{svc:...}} markers),
+ * removes rows for unselected services, and fills timing for selected ones.
+ */
+function processServicesTable(body, data) {
+  const tables = body.getTables();
+  let servicesTable = null;
+
+  // Find the table that contains {{svc: markers
+  outer:
+  for (let t = 0; t < tables.length; t++) {
+    const table = tables[t];
+    for (let r = 0; r < table.getNumRows(); r++) {
+      const row = table.getRow(r);
+      for (let c = 0; c < row.getNumCells(); c++) {
+        if (row.getCell(c).getText().indexOf('{{svc:') !== -1) {
+          servicesTable = table;
+          break outer;
+        }
+      }
+    }
+  }
+
+  if (!servicesTable) {
+    Logger.log('processServicesTable: services table not found');
+    return;
+  }
+
+  const serviceConfig = buildServiceConfig(data);
+
+  // Iterate rows in reverse so deletions don't shift indices
+  for (let r = servicesTable.getNumRows() - 1; r >= 0; r--) {
+    const row = servicesTable.getRow(r);
+    let markerCell = null;
+    let marker = null;
+
+    for (let c = 0; c < row.getNumCells(); c++) {
+      const cellText = row.getCell(c).getText();
+      const match = cellText.match(/\{\{svc:([^}]+)\}\}/);
+      if (match) {
+        markerCell = row.getCell(c);
+        marker = match[1];
+        break;
+      }
+    }
+
+    if (!marker) continue; // header row or unmarked row – leave untouched
+
+    const config = serviceConfig[marker];
+    if (!config || !config.show) {
+      servicesTable.removeRow(r);
+    } else {
+      // Fill in Service Time (clear the marker, write the timing value)
+      markerCell.setText(config.time || '');
+      // Update service name in column 0 if an override is provided
+      if (config.name) {
+        row.getCell(0).setText(config.name);
+      }
+      // Fill in Notes column (col 2) if additional info is available
+      if (config.notes && row.getNumCells() > 2) {
+        row.getCell(2).setText(config.notes);
+      }
+    }
+  }
+}
+
+/**
+ * Returns the display config for every possible service row.
+ * Keys match the {{svc:KEY}} markers in the template.
+ */
+function buildServiceConfig(data) {
+  const decorProvider = data['decor-provider'] || '';
+  const soundSystem   = data['sound-system']   || '';
+
+  return {
+    'decor': {
+      show: decorProvider === 'Elegant Moments' || decorProvider === 'Humsafar Wedding Services',
+      name: decorProvider === 'Humsafar Wedding Services'
+              ? 'Decor - Humsafar Wedding Services'
+              : 'Decor - Elegant Moments',
+      time: '',
+      notes: buildDecorInHouseNotes(data)
+    },
+    'nikkah': {
+      show: !!data['venue-service-nikkah-partition'],
+      name: 'Courtyard Nikkah setup',
+      time: '',
+      notes: ''
+    },
+    'dancefloor': {
+      show: data['dancefloor'] === 'Yes',
+      name: 'Dancefloor',
+      time: '',
+      notes: [data['dancefloor-type'], data['dancefloor-size']].filter(Boolean).join(' – ')
+    },
+    'welcome-drinks': {
+      show: !!data['venue-service-welcome-drinks'],
+      name: 'Welcome drinks',
+      time: '',
+      notes: 'Mango & Guava'
+    },
+    'dj': {
+      show: soundSystem === 'In-house DJ',
+      name: 'Bassheads DJ',
+      time: '',
+      notes: ''
+    },
+    'low-fog': {
+      show: !!data['venue-service-low-fog'],
+      name: 'Low fog – 1 Time use',
+      time: data['low-fog-timing'] || '',
+      notes: ''
+    },
+    'sparklers': {
+      show: !!data['venue-service-sparklers'],
+      name: 'Sparklers – 1 Time use',
+      time: data['sparklers-timing'] || '',
+      notes: ''
+    },
+    '360-booth': {
+      show: !!data['venue-service-360-booth'],
+      name: '360 Booth – 2 Hour Service',
+      time: data['booth-360-timing'] || '',
+      notes: ''
+    },
+    'vintage-photobooth': {
+      show: !!data['venue-service-vintage-photobooth'],
+      name: 'Vintage Photobooth – 2 Hour Service',
+      time: data['vintage-photobooth-timing'] || '',
+      notes: ''
+    },
+    'pancake-cart': {
+      show: !!data['venue-service-pancake-cart'],
+      name: 'Pancakes Station – 2 Hour Service',
+      time: data['pancake-cart-timing'] || '',
+      notes: ''
+    }
+  };
+}
+
+// ============================================================================
+// EXTERNAL VENDORS TABLE PROCESSOR
+// ============================================================================
+
+/**
+ * Finds the External Vendors table (identified by {{ext:}} markers in ETA cells),
+ * removes rows for vendors not present in the data, and clears the markers from
+ * rows that are kept.  The dynamic third-party rows ({{ext:tp-}}) are handled
+ * separately by processVendorThirdPartyRows.
+ */
+function processExternalVendorsTable(body, data) {
+  const tables = body.getTables();
+  let vendorsTable = null;
+
+  outer:
+  for (let t = 0; t < tables.length; t++) {
+    const table = tables[t];
+    for (let r = 0; r < table.getNumRows(); r++) {
+      const row = table.getRow(r);
+      for (let c = 0; c < row.getNumCells(); c++) {
+        const txt = row.getCell(c).getText();
+        if (txt.indexOf('{{ext:') !== -1 && txt.indexOf('{{ext:tp-') === -1) {
+          vendorsTable = table;
+          break outer;
+        }
+      }
+    }
+  }
+
+  if (!vendorsTable) {
+    Logger.log('processExternalVendorsTable: table not found');
+    return;
+  }
+
+  const conditions = buildVendorConditions(data);
+
+  // Iterate in reverse so row deletion doesn't shift indices
+  for (let r = vendorsTable.getNumRows() - 1; r >= 0; r--) {
+    const row = vendorsTable.getRow(r);
+    const etaCell = row.getCell(0);
+    const cellText = etaCell.getText();
+
+    // Only process rows with an {{ext:}} marker in column 0 (skip tp- rows)
+    const match = cellText.match(/\{\{ext:([^}]+)\}\}/);
+    if (!match || match[1].startsWith('tp-')) continue;
+
+    const key = match[1];
+    if (!conditions[key]) {
+      vendorsTable.removeRow(r);
+    } else {
+      // Clear the marker so the ETA cell is blank (staff fill it in manually)
+      etaCell.setText('');
+    }
+  }
+}
+
+/**
+ * Returns a map of ext: marker key → boolean (should this vendor row be kept?)
+ */
+function buildVendorConditions(data) {
+  const cakeCompany = data['cake-company'] || data['cake-company-name'] || '';
+  const drinksProvider = data['drinks-provider'] || '';
+  const receptionSupplier = data['reception-drinks-supplier'] || '';
+
+  return {
+    'photography':      data['photographer'] === 'Yes',
+    'videography':      data['videographer'] === 'Yes',
+    'dj':               data['sound-system'] === 'DJ',
+    'cake':             !!cakeCompany,
+    'decor':            data['decor-provider'] === 'Third Party' && !!data['decor-company-name'],
+    'catering':         true,  // always show — catering is always relevant
+    'table-drinks':     drinksProvider === 'Client' || drinksProvider === 'Third Party Company',
+    'reception-drinks': data['reception-drinks'] === 'Yes' && receptionSupplier !== 'Amington Hall',
+    'hot-drinks':       data['hot-drinks-supplier'] === 'Third Party Company',
+  };
+}
+
+/**
+ * Finds the External Vendors table (identified by the {{ext:tp-}} marker row),
+ * then dynamically inserts one row per third-party service and removes the
+ * marker template row.  If there are no third-party services the marker row
+ * is simply deleted.
+ */
+function processVendorThirdPartyRows(body, data) {
+  const tables = body.getTables();
+  let vendorsTable = null;
+  let templateRowIndex = -1;
+
+  // Find the table that contains the third-party marker row
+  outer:
+  for (let t = 0; t < tables.length; t++) {
+    const table = tables[t];
+    for (let r = 0; r < table.getNumRows(); r++) {
+      const row = table.getRow(r);
+      for (let c = 0; c < row.getNumCells(); c++) {
+        if (row.getCell(c).getText().indexOf('{{ext:tp-') !== -1) {
+          vendorsTable = table;
+          templateRowIndex = r;
+          break outer;
+        }
+      }
+    }
+  }
+
+  if (!vendorsTable || templateRowIndex === -1) {
+    Logger.log('processVendorThirdPartyRows: marker row not found');
+    return;
+  }
+
+  const services = Array.isArray(data['third-party-services']) ? data['third-party-services'] : [];
+
+  if (services.length === 0) {
+    vendorsTable.removeRow(templateRowIndex);
+    return;
+  }
+
+  // Insert rows above the template row in reverse order so they end up in the
+  // correct sequence (service 0 first, service N last).
+  for (let i = services.length - 1; i >= 0; i--) {
+    const service = services[i];
+    const newRow = vendorsTable.insertTableRow(templateRowIndex);
+    newRow.getCell(0).setText(service.startTime || '');  // ETA / Start Time
+    newRow.getCell(1).setText(service.type     || '');  // Service
+    newRow.getCell(2).setText(service.company  || '');  // Company & Contact
+    newRow.getCell(3).setText('');                       // Notes (left blank)
+  }
+
+  // Remove the marker template row (it has shifted down by services.length)
+  vendorsTable.removeRow(templateRowIndex + services.length);
 }
 
 // ============================================================================
