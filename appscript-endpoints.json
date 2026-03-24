@@ -1,5 +1,8 @@
 {
   "endpoints": [
-    "https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec"
+    "https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec",
+    "https://script.google.com/macros/s/AKfycbxCL85BYJkp9xbmR8ETEi5zrVzXpLHNWpLQ-GFKXTBzANIDvNkxUtfAZvrMKM5CI1eX/exec",
+    "https://script.google.com/macros/s/AKfycbw6lVVnebh2KHwdN0xO3yi3KGrZ9fFp3kyV4oTlTHLDkyWKKvq3SwvxsEPuR1sBambc/exec",
+    "https://script.google.com/macros/s/AKfycbzYgOb3K1OvYkia5VZ_l70H5HlPbM9-2M9n5zlSIh_dePslPdODCBEGN86OKAZsnAue/exec"
   ]
 }

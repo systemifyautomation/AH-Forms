@@ -1,0 +1,293 @@
+﻿Rectangle 
+
+ Staff Itinerary
+Client Name: {{clientName}}
+Event Date: {{eventDate}}
+Event Time: {{eventTime}} 
+Suite: {{suite}}
+Event Type: {{eventType}}
+Seating arrangement: {{seatingArrangement}}
+Brides Name: {{brideName}}
+Grooms Name: {{groomName}}
+AH Staff: {{attendees}}
+MPC: {{mpcName}} | {{mpcRelationship}} | {{mpcPhone}}
+
+
+Venue Setup
+	
+
+Suite
+	{{suiteSection}}
+	Serenity 
+Suite
+	{{serenitySuiteSection}}
+	Foyer
+	{{foyerSetup}}
+	
+
+Service
+	Service Time
+	Notes
+	Decor - Elegant Moments
+	{{svc:decor}}
+	
+
+	Courtyard Nikkah setup
+	{{svc:nikkah}}
+	
+
+	Dancefloor
+	{{svc:dancefloor}}
+	
+
+	Welcome drinks
+	{{svc:welcome-drinks}}
+	
+
+	Bassheads DJ
+	{{svc:dj}}
+	
+
+	Low fog
+	{{svc:low-fog}}
+	
+
+	Sparklers
+	{{svc:sparklers}}
+	
+
+	360 Booth
+	{{svc:360-booth}}
+	
+
+	Vintage Photobooth
+	{{svc:vintage-photobooth}}
+	
+
+	Pancakes Station
+	{{svc:pancake-cart}}
+	
+
+	
+
+
+
+ External Vendors &  Suppliers Details + Arrival Times
+	ETA
+	Service
+	Company & 
+Contact Details
+	Notes
+	
+
+	{{ext:photography}}
+	Photography
+	{{vendorPhotographyCompany}}
+	{{vendorPhotographyNotes}}
+	
+
+	{{ext:videography}}
+	Videography
+	{{vendorVideographyCompany}}
+	{{vendorVideographyNotes}}
+	
+
+	{{ext:dj}}
+	DJ
+	{{vendorDJCompany}}
+	{{vendorDJNotes}}
+	
+
+	{{ext:cake}}
+	Cake
+	{{vendorCakeCompany}}
+	{{vendorCakeNotes}}
+	
+
+	{{ext:decor}}
+	Decor
+	{{vendorDecorCompany}}
+	{{vendorDecorNotes}}
+	
+
+	{{ext:catering}}
+	Catering
+	{{vendorCatererCompany}}
+	{{vendorCateringNotes}}
+	
+
+	{{ext:table-drinks}}
+	Table Drinks
+	{{vendorTableDrinksCompany}}
+	{{vendorTableDrinksNotes}}
+	
+
+	{{ext:reception-drinks}}
+	Reception Drinks
+	{{vendorReceptionDrinksCompany}}
+	{{vendorReceptionDrinksNotes}}
+	
+
+	{{ext:hot-drinks}}
+	Hot Drinks
+	{{vendorHotDrinksCompany}}
+	{{vendorHotDrinksNotes}}
+	
+
+	{{ext:tp-eta}}
+	{{ext:tp-svc}}
+	{{ext:tp-co}}
+	{{ext:tp-notes}}
+	
+
+	
+
+
+
+Staff Programme
+	KEY NOTES: {{keyNotes}}
+
+
+LCD/LED Screens: {{lcdLedSection}}
+	Time Est
+	Activity 
+	Notes
+	REP
+	
+
+	Unlock doors - bridal suite, fire exit (foyer), waiters door, kitchen door
+	Water feature & garden lights switched on 
+	
+
+	
+
+	Make sure iPads and radios are charges 
+	
+
+	
+
+	
+
+	Put event props behind the bar and in respective areas 
+	
+
+	
+
+	
+
+	Call vendors to make sure they will be on time
+	Also call the MPC to check on arrival times 
+	
+
+	
+
+	Sound systems to be set up and ready for music & public dua
+
+
+Have music playing at this stage
+	Microphones to be placed in safe areas to quickly get for dua and announcements.
+	
+
+	
+
+	Do a final table check 
+	Make sure all tables have been setup correctly: favours, cutlery, crockery & centerpieces 
+
+
+Also have the cake table setup and reserved signs put out
+	
+
+	
+
+	Security & Floating Cleaner arrival - To be given fobs and walkie talkie
+	
+
+	Immediate family arrival for pre-event photos
+	
+
+	
+
+	
+
+	Have reception waiter setup drinks on the bar
+	
+
+	
+
+	Event Begins
+	
+
+	Guest arrival & reception drinks service
+	Drinks manned by waitering staff
+	
+
+	
+
+	Entrance
+	Format: 
+
+
+Song: 
+
+
+Special Effects:
+	
+
+	
+
+	Food Service start
+
+
+** Switch suite ventilation on ** 
+	Starter plates cleared before mains service 
+
+
+**cutlery only changed on request 
+
+
+Mains plates cleared before dessert service
+	
+
+	
+
+	Main AH gate to be closed 
+	
+
+	
+
+	
+
+	Check in on dishwashers in kitchen and toilets 
+	Make sure plates are being cleared in kitchen and rolled over to dishwashers
+	
+
+	
+
+	Food Service End
+	** Switch suite ventilation on ** 
+
+
+	
+
+	
+
+	Have the getaway car ready 
+	
+
+	
+
+	
+
+	Waiters to start final clean up
+	
+
+	
+
+	
+
+	Handover with family of props, food, drinks and other items 
+	
+
+	
+
+	End of Programme

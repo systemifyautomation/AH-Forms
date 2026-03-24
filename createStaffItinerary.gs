@@ -246,49 +246,52 @@ function doPost(e) {
  * See SETUP-TRIGGER-INSTRUCTIONS.md for setup steps
  */
 function processScheduledDocuments() {
-  const scriptProperties = PropertiesService.getScriptProperties();
-  const allProperties = scriptProperties.getProperties();
-  
-  let processedCount = 0;
-  let errorCount = 0;
-  
-  // Find all pending documents
-  for (const [key, value] of Object.entries(allProperties)) {
-    if (key.startsWith('pending_')) {
-      try {
-        const formData = JSON.parse(value);
-        Logger.log('Processing: ' + key + ' - Client: ' + formData['client-name']);
-        
-        const docUrl = createStaffItinerary(formData);
-        Logger.log('✓ Document created successfully: ' + docUrl);
-        
-        // Remove from pending after successful creation
-        scriptProperties.deleteProperty(key);
-        processedCount++;
-        
-        // Optionally send email notification here
-        // sendEmailNotification(formData, docUrl);
-        
-      } catch (error) {
-        errorCount++;
-        Logger.log('✗ Error processing ' + key + ': ' + error.toString());
-        Logger.log('Stack: ' + error.stack);
-        
-        // Check if item is too old (>24 hours) and remove it
-        const timestamp = parseInt(key.replace('pending_', ''));
-        const oneDayAgo = new Date().getTime() - (24 * 60 * 60 * 1000);
-        
-        if (timestamp < oneDayAgo) {
-          Logger.log('Removing old failed item: ' + key);
+  // Prevent two trigger instances from processing the same pending item simultaneously
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000); // wait up to 30s; if another instance holds it, skip this run
+  } catch (e) {
+    Logger.log('Could not acquire lock – another instance is already running. Skipping.');
+    return;
+  }
+
+  try {
+    const scriptProperties = PropertiesService.getScriptProperties();
+    const allProperties = scriptProperties.getProperties();
+
+    let processedCount = 0;
+    let errorCount = 0;
+
+    for (const [key, value] of Object.entries(allProperties)) {
+      if (key.startsWith('pending_')) {
+        try {
+          const formData = JSON.parse(value);
+          Logger.log('Processing: ' + key + ' - Client: ' + formData['client-name']);
+
+          // Delete BEFORE creating the document.
+          // If we deleted after, a GAS execution timeout between doc creation and deleteProperty
+          // would leave the item in place and cause the trigger to create infinite duplicate documents.
+          // Deleting first means a crash during creation loses this submission (won't retry),
+          // which is far preferable to generating unbounded duplicates.
           scriptProperties.deleteProperty(key);
+
+          const docUrl = createStaffItinerary(formData);
+          Logger.log('✓ Document created successfully: ' + docUrl);
+          processedCount++;
+
+        } catch (error) {
+          errorCount++;
+          Logger.log('✗ Error processing ' + key + ': ' + error.toString());
+          Logger.log('Stack: ' + error.stack);
         }
-        // Otherwise keep the property for retry on next trigger
       }
     }
-  }
-  
-  if (processedCount > 0 || errorCount > 0) {
-    Logger.log('=== Summary: Processed ' + processedCount + ', Errors: ' + errorCount + ' ===');
+
+    if (processedCount > 0 || errorCount > 0) {
+      Logger.log('=== Summary: Processed ' + processedCount + ', Errors: ' + errorCount + ' ===');
+    }
+  } finally {
+    lock.releaseLock();
   }
 }
 
@@ -1418,16 +1421,8 @@ function buildExternalVendors(data) {
     vendors.push(`|  | Hot Drinks | ${contactName}${phone ? ' - ' + phone : ''} |  |`);
   }
 
-  // Additional third party services (page 9)
-  const thirdPartyServices = data['third-party-services'];
-  if (Array.isArray(thirdPartyServices)) {
-    thirdPartyServices.forEach(service => {
-      const type = service.type || 'Service';
-      const company = service.company || '';
-      const startTime = service.startTime ? `Start Time: ${service.startTime}` : '';
-      vendors.push(`|  | ${type} | ${company} | ${startTime} |`);
-    });
-  }
+  // Third party services are handled dynamically by processExternalVendorsTable
+  // (they are inserted as actual table rows, not text)
 
   return vendors.join('\n');
 }
@@ -2279,41 +2274,92 @@ function processExternalVendorsTable(body, data) {
     }
   }
 
-  // --- Pass 2: tp- template row (find fresh index after pass 1 deletions) ---
-  let tpRowIndex = -1;
-  for (let r = 0; r < vendorsTable.getNumRows(); r++) {
-    if (vendorsTable.getRow(r).getCell(0).getText().indexOf('{{ext:tp-') !== -1) {
-      tpRowIndex = r;
-      break;
-    }
-  }
-
-  if (tpRowIndex === -1) {
-    Logger.log('processExternalVendorsTable: tp- marker row not found after pass 1');
-    return;
-  }
-
+  // --- Build the services list early so both paths can use it ---
   const services = Array.isArray(data['third-party-services'])
     ? data['third-party-services'].filter(s => s.type || s.company)
     : [];
 
-  if (services.length === 0) {
-    vendorsTable.removeRow(tpRowIndex);
+  // --- Pass 2: tp- template row (find fresh index after pass 1 deletions) ---
+  // Search ALL cells in each row (not just cell 0) in case the template layout varies
+  let tpRowIndex = -1;
+  for (let r = 0; r < vendorsTable.getNumRows(); r++) {
+    const row = vendorsTable.getRow(r);
+    for (let c = 0; c < row.getNumCells(); c++) {
+      if (row.getCell(c).getText().indexOf('{{ext:tp-') !== -1) {
+        tpRowIndex = r;
+        break;
+      }
+    }
+    if (tpRowIndex !== -1) break;
+  }
+
+  if (tpRowIndex === -1) {
+    Logger.log('processExternalVendorsTable: tp- marker row not found. Appending third-party rows at end of table.');
+
+    if (services.length === 0) {
+      body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');
+      return;
+    }
+
+    // Copy text formatting from the last data row
+    const lastRowIdx = vendorsTable.getNumRows() - 1;
+    const refRow = vendorsTable.getRow(lastRowIdx);
+    const refAttrs = [];
+    for (let c = 0; c < refRow.getNumCells(); c++) {
+      refAttrs.push(refRow.getCell(c).getAttributes());
+    }
+
+    // Append one row per third-party service at the bottom of the table
+    for (let i = 0; i < services.length; i++) {
+      const svc = services[i];
+      const newRow = vendorsTable.appendTableRow();
+      const texts = [svc.startTime || '', svc.type || '', svc.company || '', ''];
+      for (let c = 0; c < 4; c++) {
+        while (newRow.getNumCells() <= c) newRow.appendTableCell();
+        const cell = newRow.getCell(c);
+        cell.setText(texts[c]);
+        if (refAttrs[c]) cell.setAttributes(refAttrs[c]);
+      }
+    }
+
+    body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');
     return;
   }
 
-  // Insert one row per service above the template row (reverse so order is preserved)
+  if (services.length === 0) {
+    vendorsTable.removeRow(tpRowIndex);
+    // Safety net in case removeRow didn't fully clear the markers
+    body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');
+    return;
+  }
+
+  // Read template row's cell attributes (including borders) BEFORE mutating the table.
+  // insertTableRow creates empty cells with no border styling; copying attributes from the
+  // template row gives new cells the same borders/fonts as the rest of the table.
+  const tpRow = vendorsTable.getRow(tpRowIndex);
+  const cellAttrs = [];
+  for (let c = 0; c < tpRow.getNumCells(); c++) {
+    cellAttrs.push(tpRow.getCell(c).getAttributes());
+  }
+
+  // Insert one row per service above the template row (reverse order preserves sequence)
   for (let i = services.length - 1; i >= 0; i--) {
     const svc = services[i];
     const newRow = vendorsTable.insertTableRow(tpRowIndex);
-    newRow.getCell(0).setText(svc.startTime || '');  // ETA
-    newRow.getCell(1).setText(svc.type      || '');  // Service
-    newRow.getCell(2).setText(svc.company   || '');  // Company & Contact
-    newRow.getCell(3).setText('');                    // Notes
+    const texts = [svc.startTime || '', svc.type || '', svc.company || '', ''];
+    for (let c = 0; c < 4; c++) {
+      while (newRow.getNumCells() <= c) newRow.appendTableCell();
+      const cell = newRow.getCell(c);
+      cell.setText(texts[c]);
+      if (cellAttrs[c]) cell.setAttributes(cellAttrs[c]);
+    }
   }
 
   // Remove template row (now shifted down by services.length)
   vendorsTable.removeRow(tpRowIndex + services.length);
+
+  // Safety net: clear any stray tp- markers that slipped through
+  body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');
 }
 
 /**
