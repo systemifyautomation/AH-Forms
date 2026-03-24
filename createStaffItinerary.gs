@@ -561,6 +561,9 @@ function createStaffItinerary(formData) {
     // Replace all variables in the document
     replaceAllVariables(body, variables);
 
+    // Clean up Venue Setup table: remove rows where the content cell is empty
+    processVenueSetupTable(body);
+
     // Process the services table: remove unselected rows, fill in timings
     processServicesTable(body, formData);
 
@@ -2080,6 +2083,63 @@ function buildThirdPartyServicesSection(data) {
 }
 
 // ============================================================================
+// VENUE SETUP TABLE PROCESSOR
+// ============================================================================
+
+/**
+ * Finds the Venue Setup table (identified by rows containing the section labels
+ * "Suite", "Serenity\nSuite", "Foyer") and removes any row whose content cell
+ * (column 1) is empty after variable replacement.  This ensures the output
+ * document never shows blank venue setup rows.
+ *
+ * The table is identified by looking for a cell whose text starts with "Suite"
+ * or "Serenity" in column 0.
+ */
+function processVenueSetupTable(body) {
+  const tables = body.getTables();
+  let venueTable = null;
+
+  // Find the venue setup table – it contains label cells like "Suite", "Serenity\nSuite", "Foyer"
+  for (let t = 0; t < tables.length && !venueTable; t++) {
+    const table = tables[t];
+    for (let r = 0; r < table.getNumRows() && !venueTable; r++) {
+      const cellText = table.getRow(r).getCell(0).getText().trim();
+      if (cellText === 'Suite' || cellText === 'Serenity \nSuite' || cellText === 'Serenity\nSuite'
+          || cellText === 'Serenity Suite' || cellText === 'Foyer') {
+        venueTable = table;
+      }
+    }
+  }
+
+  if (!venueTable) {
+    Logger.log('processVenueSetupTable: venue setup table not found');
+    return;
+  }
+
+  Logger.log('processVenueSetupTable: found table with ' + venueTable.getNumRows() + ' rows');
+
+  // Walk rows in reverse to safely delete empty ones
+  for (let r = venueTable.getNumRows() - 1; r >= 0; r--) {
+    const row = venueTable.getRow(r);
+    // Skip the header row (row 0) or rows with only 1 cell
+    if (row.getNumCells() < 2) continue;
+
+    const labelText = row.getCell(0).getText().trim();
+    const contentText = row.getCell(1).getText().trim();
+
+    // Only process known venue setup label rows
+    const isVenueRow = labelText === 'Suite'
+      || labelText === 'Serenity \nSuite' || labelText === 'Serenity\nSuite' || labelText === 'Serenity Suite'
+      || labelText === 'Foyer';
+
+    if (isVenueRow && contentText === '') {
+      Logger.log('processVenueSetupTable: removing empty row "' + labelText + '"');
+      venueTable.removeRow(r);
+    }
+  }
+}
+
+// ============================================================================
 // PAGE 9 - SERVICES TABLE PROCESSOR
 // ============================================================================
 
@@ -2301,7 +2361,7 @@ function processExternalVendorsTable(body, data) {
       return;
     }
 
-    // Copy text formatting from the last data row
+    // Copy cell attributes from the last data row (to preserve borders and formatting)
     const lastRowIdx = vendorsTable.getNumRows() - 1;
     const refRow = vendorsTable.getRow(lastRowIdx);
     const refAttrs = [];
@@ -2318,7 +2378,14 @@ function processExternalVendorsTable(body, data) {
         while (newRow.getNumCells() <= c) newRow.appendTableCell();
         const cell = newRow.getCell(c);
         cell.setText(texts[c]);
-        if (refAttrs[c]) cell.setAttributes(refAttrs[c]);
+        // Apply all attributes including borders
+        if (refAttrs[c]) {
+          cell.setAttributes(refAttrs[c]);
+        }
+        // Explicitly set border properties to ensure they're preserved
+        const refCell = refRow.getCell(c);
+        cell.setBorderColor(refCell.getBorderColor());
+        cell.setBorderWidth(refCell.getBorderWidth());
       }
     }
 
@@ -2371,9 +2438,9 @@ function buildVendorConditions(data) {
   const receptionSup   = data['reception-drinks-supplier'] || '';
 
   return {
-    'photography':      data['photographer'] === 'Yes',
-    'videography':      data['videographer'] === 'Yes',
-    'dj':               data['sound-system'] === 'DJ',
+    'photography':      data['photographer'] === 'Yes' && !!data['photographer-company-name'],
+    'videography':      data['videographer'] === 'Yes' && !!data['videographer-company-name'],
+    'dj':               data['sound-system'] === 'DJ' && !!data['dj-name'],
     'cake':             !!cakeCompany,
     'decor':            data['decor-provider'] === 'Third Party' && !!data['decor-company-name'],
     'catering':         true,
