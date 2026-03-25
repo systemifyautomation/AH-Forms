@@ -89,20 +89,28 @@ const QUESTION_MAPPING = {
   // Page 4 - Décor
   'Which of the following will you be having for your event?': 'decor-provider',
   'Décor Company Name': 'decor-company-name',
-  'Contact Name': 'decor-contact-name',
-  'Contact Number': 'decor-contact-number',
-  'Contact Number - Prefix': 'decor-contact-number-prefix',
+  'Décor Contact Name': 'decor-contact-name',
+  'Décor Contact Number': 'decor-contact-number',
+  'Décor Contact Number - Prefix': 'decor-contact-number-prefix',
   'Contact Email': 'decor-contact-email',
   'Décor Plans': 'decor-description',
   
   // Page 5 - Vendors
   'Photography': 'photographer',
-  'Company Name': 'photographer-company-name',
+  'Photographer Company Name': 'photographer-company-name',
+  'Photographer Contact Name': 'photographer-contact-name',
+  'Photographer Contact Number': 'photographer-contact-number',
+  'Photographer Contact Number - Prefix': 'photographer-contact-number-prefix',
   'Videography': 'videographer',
+  'Videographer Company Name': 'videographer-company-name',
+  'Videographer Contact Name': 'videographer-contact-name',
+  'Videographer Contact Number': 'videographer-contact-number',
+  'Videographer Contact Number - Prefix': 'videographer-contact-number-prefix',
   'DJ or Sound System': 'sound-system',
   'DJ Name/Company': 'dj-name',
   'DJ Contact Number': 'dj-contact-number',
   'DJ Contact Number - Prefix': 'dj-contact-number-prefix',
+  'Cinematography Equipment': 'cinematography-equipment',
   
   // Page 6 - Additional Extras
   'Dancefloor': 'dancefloor',
@@ -1214,18 +1222,11 @@ function buildDecorInHouseNotes(data) {
   const provider = data['decor-provider'] || '';
   if (provider !== 'Elegant Moments' && provider !== 'Humsafar Wedding Services') return '';
 
-  const parts = [];
-
-  const contactName = data['decor-contact-name'] || '';
-  const phone = formatPhone(data['decor-contact-number-prefix'], data['decor-contact-number']);
-  const email = data['decor-contact-email'] || '';
-
-  if (contactName) parts.push(`Contact: ${contactName}`);
-  if (phone) parts.push(`Tel: ${phone}`);
-  if (email) parts.push(`Email: ${email}`);
-  if (data['decor-description']) parts.push(`Description: ${data['decor-description']}`);
-
-  return parts.join(' | ');
+  // In-house providers don't need contact info in the notes.
+  // The decor-contact-* fields are only collected when provider === 'Third Party',
+  // so we should NOT display them here to avoid showing stale or misrouted data.
+  if (data['decor-description']) return data['decor-description'];
+  return '';
 }
 
 /**
@@ -1735,14 +1736,8 @@ function getVendorCakeNotes(data) {
  */
 function getVendorDJ(data) {
   if (data['sound-system'] !== 'DJ') return '';
-  
-  const name = data['dj-name'] || '';
-  const phone = formatPhone(data['dj-contact-number-prefix'], data['dj-contact-number']);
-  
-  let info = name;
-  if (phone) info += ` - ${phone}`;
-  
-  return info;
+  // Phone is already shown in the Notes column via getVendorDJNotes()
+  return data['dj-name'] || '';
 }
 
 /**
@@ -2378,16 +2373,13 @@ function processExternalVendorsTable(body, data) {
         while (newRow.getNumCells() <= c) newRow.appendTableCell();
         const cell = newRow.getCell(c);
         cell.setText(texts[c]);
-        // Apply all attributes including borders
-        if (refAttrs[c]) {
-          cell.setAttributes(refAttrs[c]);
-        }
-        // Explicitly set border properties to ensure they're preserved
-        const refCell = refRow.getCell(c);
-        cell.setBorderColor(refCell.getBorderColor());
-        cell.setBorderWidth(refCell.getBorderWidth());
+        if (refAttrs[c]) cell.setAttributes(refAttrs[c]);
       }
     }
+
+    // Reset table-level borders to ensure all rows (including new ones) have borders
+    vendorsTable.setBorderColor('#000000');
+    vendorsTable.setBorderWidth(1);
 
     body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');
     return;
@@ -2424,6 +2416,10 @@ function processExternalVendorsTable(body, data) {
 
   // Remove template row (now shifted down by services.length)
   vendorsTable.removeRow(tpRowIndex + services.length);
+
+  // Reset table-level borders to ensure all rows (including inserted ones) have borders
+  vendorsTable.setBorderColor('#000000');
+  vendorsTable.setBorderWidth(1);
 
   // Safety net: clear any stray tp- markers that slipped through
   body.replaceText('\\{\\{ext:tp-[^}]+\\}\\}', '');

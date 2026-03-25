@@ -43,23 +43,23 @@ const FIELD_TO_QUESTION_MAPPING = {
     // Page 4 - Décor
     'decor-provider': 'Which of the following will you be having for your event?',
     'decor-company-name': 'Décor Company Name',
-    'decor-contact-name': 'Contact Name',
-    'decor-contact-number': 'Contact Number',
-    'decor-contact-number-prefix': 'Contact Number - Prefix',
+    'decor-contact-name': 'Décor Contact Name',
+    'decor-contact-number': 'Décor Contact Number',
+    'decor-contact-number-prefix': 'Décor Contact Number - Prefix',
     'decor-contact-email': 'Contact Email',
     'decor-description': 'Décor Plans',
     
     // Page 5 - Vendors
     'photographer': 'Photography',
-    'photographer-company-name': 'Company Name',
-    'photographer-contact-name': 'Contact Name',
-    'photographer-contact-number': 'Contact Number',
-    'photographer-contact-number-prefix': 'Contact Number - Prefix',
+    'photographer-company-name': 'Photographer Company Name',
+    'photographer-contact-name': 'Photographer Contact Name',
+    'photographer-contact-number': 'Photographer Contact Number',
+    'photographer-contact-number-prefix': 'Photographer Contact Number - Prefix',
     'videographer': 'Videography',
-    'videographer-company-name': 'Company Name',
-    'videographer-contact-name': 'Contact Name',
-    'videographer-contact-number': 'Contact Number',
-    'videographer-contact-number-prefix': 'Contact Number - Prefix',
+    'videographer-company-name': 'Videographer Company Name',
+    'videographer-contact-name': 'Videographer Contact Name',
+    'videographer-contact-number': 'Videographer Contact Number',
+    'videographer-contact-number-prefix': 'Videographer Contact Number - Prefix',
     'sound-system': 'DJ or Sound System',
     'dj-name': 'DJ Name/Company',
     'dj-contact-number': 'DJ Contact Number',
@@ -70,6 +70,7 @@ const FIELD_TO_QUESTION_MAPPING = {
     'dancefloor-type': 'Type',
     'dancefloor-size': 'Size',
     'wedding-cake': 'Wedding Cake',
+    'cake-company': 'Cake Company Name',
     'cake-company-name': 'Cake Company Name',
     'cake-contact-name': 'Cake Contact Name',
     'cake-contact-number': 'Cake Contact Number',
@@ -83,6 +84,12 @@ const FIELD_TO_QUESTION_MAPPING = {
     'menu-cards': 'Menu Cards',
     'menu-cards-placement': 'Menu Cards Placement',
     'menu-cards-placement-other-text': 'Menu Cards Placement - Other',
+    
+    // Page 7 - LCD/LED Screens
+    'amington-wall-screen': 'Amington Wall Screen',
+    'serenity-wall-screen': 'Serenity Wall Screen',
+    'foyer-screen': 'Foyer Screen',
+    'screen-details': 'Screen Details',
     
     // Page 9 - Additional Services
     'additional-services': 'Additional Services',
@@ -122,7 +129,16 @@ const FIELD_TO_QUESTION_MAPPING = {
     'priority-parking-section1': 'Priority Parking Section 1',
     'priority-parking-section2': 'Priority Parking Section 2',
     'total-priority-parking': 'Total Priority Parking',
-    'parking-notes': 'Parking Notes'
+    'parking-notes': 'Parking Notes',
+
+    // Page 8 - additional unmapped fields
+    'cinematography-equipment': 'Cinematography Equipment',
+
+    // Metadata / form control fields (kept for pass-through)
+    'attendees': 'Attendees',
+    'table-settings': 'table-settings',
+    'want-reserved-tables': 'want-reserved-tables',
+    'third-party-service-counter': 'third-party-service-counter'
 };
 
 /**
