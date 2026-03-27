@@ -388,6 +388,7 @@ function testSetup() {
     
     // Reserved Seating & Tables
     'reserved-seatings': '40',
+    'table-plan': 'Yes',
     'table-gift': true,
     'table-drink': true,
     'table-nendra': true,
@@ -496,6 +497,12 @@ function testSetup() {
     'hot-drinks-contact-name': 'Coffee Masters',
     'hot-drinks-contact-number-prefix': '+44',
     'hot-drinks-contact-number': '7700900444',
+    
+    // Page 7 - LCD/LED Screens
+    'amington-wall-screen': 'Photo slideshows',
+    'serenity-wall-screen': 'To play a video',
+    'foyer-screen': 'Still image',
+    'screen-details': 'Please display wedding photos slideshow on Amington screen. Video trailer from Nikkah day on Serenity screen. Couple initials on Foyer screen.',
     
     // Page 11 - Car Parking
     'vip-parking-passes': '4',
@@ -868,6 +875,11 @@ function buildSuiteSection(data) {
     section += `\nGuest tables:\n\t${formatGuestTablesWithVIP(parseInt(guestTables), guestCount)}`;
   }
 
+  // Table Plan
+  if (data['table-plan']) {
+    section += `\n\nTable Plan: ${data['table-plan']}`;
+  }
+
   // Reserved tables
   const groomReserved = parseInt(data['reserved-tables-groom']) || 0;
   const brideReserved = parseInt(data['reserved-tables-bride']) || 0;
@@ -1013,6 +1025,11 @@ function buildSerenitySuiteSection(data) {
       const halfTables = Math.ceil(halfGuests / 10);
       section += `\nGuest tables:\n\t${halfTables} Round Tables of 10 = ${halfGuests} Seats`;
     }
+  }
+
+  // Table Plan
+  if (data['table-plan']) {
+    section += `\n\nTable Plan: ${data['table-plan']}`;
   }
 
   // Reserved tables
@@ -1736,8 +1753,11 @@ function getVendorCakeNotes(data) {
  */
 function getVendorDJ(data) {
   if (data['sound-system'] !== 'DJ') return '';
-  // Phone is already shown in the Notes column via getVendorDJNotes()
-  return data['dj-name'] || '';
+  const name = data['dj-name'] || '';
+  const phone = formatPhone(data['dj-contact-number-prefix'], data['dj-contact-number']);
+  let info = name;
+  if (phone) info += ` - ${phone}`;
+  return info;
 }
 
 /**
@@ -1823,30 +1843,20 @@ function getVendorHotDrinksCompany(data) {
 
 function getVendorPhotographyNotes(data) {
   if (data['photographer'] !== 'Yes') return '';
-  const parts = [];
-  const contact = data['photographer-contact-name'] || '';
-  const phone   = formatPhone(data['photographer-contact-number-prefix'], data['photographer-contact-number']);
-  if (contact) parts.push(`Contact: ${contact}`);
-  if (phone)   parts.push(`Tel: ${phone}`);
-  return parts.join(' | ');
+  // Contact info is already in the Company column, so notes should only contain additional information
+  return '';
 }
 
 function getVendorVideographyNotes(data) {
   if (data['videographer'] !== 'Yes') return '';
-  const parts = [];
-  const contact = data['videographer-contact-name'] || '';
-  const phone   = formatPhone(data['videographer-contact-number-prefix'], data['videographer-contact-number']);
-  if (contact) parts.push(`Contact: ${contact}`);
-  if (phone)   parts.push(`Tel: ${phone}`);
-  return parts.join(' | ');
+  // Contact info is already in the Company column, so notes should only contain additional information
+  return '';
 }
 
 function getVendorDJNotes(data) {
   if (data['sound-system'] !== 'DJ') return '';
-  const parts = [];
-  const phone = formatPhone(data['dj-contact-number-prefix'], data['dj-contact-number']);
-  if (phone) parts.push(`Tel: ${phone}`);
-  return parts.join(' | ');
+  // Phone is already in the Company column, so notes should only contain additional information
+  return '';
 }
 
 function getVendorCateringNotes(data) {
@@ -1864,12 +1874,11 @@ function getVendorCateringNotes(data) {
 function getVendorTableDrinksNotes(data) {
   const provider = data['drinks-provider'] || '';
   if (provider === 'Third Party Company') {
-    const contact = data['drinks-third-party-name'] || '';
-    const phone   = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
-    const parts   = [];
-    if (contact) parts.push(`Company: ${contact}`);
-    if (phone)   parts.push(`Tel: ${phone}`);
-    return parts.join(' | ');
+    // Contact info is already in the Company column, so notes should only contain additional information
+    return '';
+  }
+  if (provider === 'Client') {
+    return 'Supplier: Client';
   }
   return '';
 }
@@ -1882,12 +1891,8 @@ function getVendorReceptionDrinksNotes(data) {
 
 function getVendorHotDrinksNotes(data) {
   if (data['hot-drinks-supplier'] !== 'Third Party Company') return '';
-  const parts   = [];
-  const contact = data['hot-drinks-contact-name'] || '';
-  const phone   = formatPhone(data['hot-drinks-contact-number-prefix'], data['hot-drinks-contact-number']);
-  if (contact) parts.push(`Contact: ${contact}`);
-  if (phone)   parts.push(`Tel: ${phone}`);
-  return parts.join(' | ');
+  // Contact info is already in the Company column, so notes should only contain additional information
+  return '';
 }
 
 /**
@@ -2405,7 +2410,9 @@ function processExternalVendorsTable(body, data) {
   for (let i = services.length - 1; i >= 0; i--) {
     const svc = services[i];
     const newRow = vendorsTable.insertTableRow(tpRowIndex);
-    const texts = [svc.startTime || '', svc.type || '', svc.company || '', ''];
+    // ETA column left empty for manual entry, timing goes in Notes column with descriptive label
+    const timeNote = svc.startTime ? `Time of start: ${svc.startTime}` : '';
+    const texts = ['', svc.type || '', svc.company || '', timeNote];
     for (let c = 0; c < 4; c++) {
       while (newRow.getNumCells() <= c) newRow.appendTableCell();
       const cell = newRow.getCell(c);
@@ -2596,24 +2603,143 @@ function getHotDrinksSupplier(data) {
 // ============================================================================
 
 /**
- * Builds Key Notes section from catering/operational data
+ * Builds Key Notes section from form data as bullet points
  */
 function buildKeyNotes(data) {
   const notes = [];
 
-  // Has catering company worked with venue before
+  // Event Details
+  if (data['ethnicity']) {
+    notes.push(`• Ethnicity/Cultural Background: ${data['ethnicity']}`);
+  }
+  
+  if (data['walkthrough-date']) {
+    notes.push(`• Walkthrough Date: ${formatEventDate(data['walkthrough-date'])}`);
+  }
+  
+  if (data['attendees']) {
+    notes.push(`• Walkthrough Attendees: ${data['attendees']}`);
+  }
+
+  // Guest Arrangements
+  if (data['guest-arrangements']) {
+    notes.push(`• Guest Arrangements: ${data['guest-arrangements']}`);
+  }
+  
+  if (data['guest-arrangements'] === 'Men & Women Segregation') {
+    if (data['male-guests']) {
+      notes.push(`• Male Guests: ${data['male-guests']}`);
+    }
+    if (data['female-guests']) {
+      notes.push(`• Female Guests: ${data['female-guests']}`);
+    }
+  }
+
+  // Tables
+  if (data['table-type']) {
+    notes.push(`• Table Type (Front Tables): ${data['table-type']}`);
+  }
+  
+  if (data['table-plan'] === 'Yes') {
+    notes.push(`• Table Plan: Provided by client`);
+  }
+
+  // Head Table
+  if (data['head-table']) {
+    notes.push(`• Head Table: ${data['head-table']}`);
+  }
+
+  // Cake
+  if (data['wedding-cake'] === 'Yes') {
+    const cakeParts = ['Cake: Yes'];
+    if (data['cake-tiers']) cakeParts.push(`${data['cake-tiers']} tiers`);
+    if (data['cake-served']) cakeParts.push(data['cake-served']);
+    notes.push(`• ${cakeParts.join(' - ')}`);
+  }
+
+  // Favours & Cards
+  if (data['favours'] === 'Yes' && data['favours-type']) {
+    notes.push(`• Favours: ${data['favours-type']}`);
+  }
+  
+  if (data['thankyou-cards'] === 'Yes') {
+    notes.push(`• Thank You Cards: Yes`);
+  }
+  
+  if (data['menu-cards'] === 'Yes') {
+    const placement = data['menu-cards-placement'] === 'Other' 
+      ? data['menu-cards-placement-other-text'] 
+      : data['menu-cards-placement'];
+    notes.push(`• Menu Cards: ${placement || 'Yes'}`);
+  }
+
+  // Dancefloor
+  if (data['dancefloor'] === 'Yes') {
+    const dfParts = ['Dancefloor: Yes'];
+    if (data['dancefloor-type']) dfParts.push(data['dancefloor-type']);
+    if (data['dancefloor-size']) dfParts.push(data['dancefloor-size']);
+    notes.push(`• ${dfParts.join(' - ')}`);
+  }
+
+  // Cinematography Equipment
+  if (data['cinematography-equipment']) {
+    notes.push(`• Cinematography Equipment: ${data['cinematography-equipment']}`);
+  }
+
+  // Catering Details
   if (data['company-worked-before']) {
-    notes.push(`Catering Company worked at Amington Hall before: ${data['company-worked-before']}`);
+    notes.push(`• Catering Company worked at venue before: ${data['company-worked-before']}`);
   }
 
-  // Leftover food
   if (data['leftover-food-drinks']) {
-    notes.push(`Leftover Food & Drinks: ${data['leftover-food-drinks']}`);
+    notes.push(`• Leftover Food & Drinks: ${data['leftover-food-drinks']}`);
   }
 
-  // Leftover containers
   if (data['leftover-containers']) {
-    notes.push(`Leftover Containers provided by: ${data['leftover-containers']}`);
+    notes.push(`• Leftover Containers: ${data['leftover-containers']}`);
+  }
+
+  // Drinks
+  if (data['drinks-provider']) {
+    notes.push(`• Table Drinks Provider: ${data['drinks-provider']}`);
+  }
+  
+  if (data['reception-drinks'] === 'Yes' && data['reception-drinks-supplier']) {
+    notes.push(`• Reception Drinks: ${data['reception-drinks-supplier']}`);
+  }
+  
+  if (data['hot-drinks-supplier']) {
+    notes.push(`• Hot Drinks Supplier: ${data['hot-drinks-supplier']}`);
+  }
+
+  // Screens
+  if (data['amington-wall-screen']) {
+    notes.push(`• Amington Wall Screen: ${data['amington-wall-screen']}`);
+  }
+  
+  if (data['serenity-wall-screen']) {
+    notes.push(`• Serenity Wall Screen: ${data['serenity-wall-screen']}`);
+  }
+  
+  if (data['foyer-screen']) {
+    notes.push(`• Foyer Screen: ${data['foyer-screen']}`);
+  }
+  
+  if (data['screen-details']) {
+    notes.push(`• Screen Details: ${data['screen-details']}`);
+  }
+
+  // Parking
+  if (data['vip-parking-passes'] && data['vip-parking-passes'] !== '0') {
+    notes.push(`• VIP Parking Passes: ${data['vip-parking-passes']}`);
+  }
+  
+  if (data['total-priority-parking'] && data['total-priority-parking'] !== '0') {
+    notes.push(`• Total Priority Parking: ${data['total-priority-parking']}`);
+  }
+  
+  if (data['parking-notes']) {
+    notes.push(`• Parking Notes: ${data['parking-notes']}`);
   }
 
   return notes.length > 0 ? notes.join('\n') : '';
@@ -2633,21 +2759,24 @@ function buildLCDLEDSection(data) {
 
   // Amington Suite Wall Screen
   if (suiteHired === 'Amington Suite' || suiteHired === 'Both') {
-    const val = data['amington-wall-screen'] || '';
-    lines.push(`Amington Suite Wall Screen: ${val || 'LED/LCD – NON'}`);
-    if (description) lines.push(`\t${description}`);
+    const val = data['amington-wall-screen'] || 'LED/LCD – NON';
+    lines.push(`Amington Suite Wall Screen: ${val}`);
   }
 
   // Serenity Suite Wall Screen
   if (suiteHired === 'Serenity Suite' || suiteHired === 'Both') {
-    const val = data['serenity-wall-screen'] || '';
-    lines.push(`Serenity Suite Wall Screen: ${val || 'LED/LCD – NON'}`);
-    if (description) lines.push(`\t${description}`);
+    const val = data['serenity-wall-screen'] || 'LED/LCD – NON';
+    lines.push(`Serenity Suite Wall Screen: ${val}`);
   }
 
   // Foyer Screen (always shown)
-  const foyerVal = data['foyer-screen'] || '';
-  lines.push(`Foyer Screen: ${foyerVal || 'LED/LCD – NON'}`);
+  const foyerVal = data['foyer-screen'] || 'LED/LCD – NON';
+  lines.push(`Foyer Screen: ${foyerVal}`);
+
+  // Add screen details at the end if provided
+  if (description) {
+    lines.push(`\nScreen Details:\n\t${description}`);
+  }
 
   return lines.join('\n');
 }

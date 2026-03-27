@@ -53,9 +53,9 @@ A comprehensive 7-page wedding venue walkthrough form with data persistence, val
   - Other (with text field)
 
 **Validation Rules:**
-- Guest count must not exceed suite capacity (Amington: 360, Serenity: 180, Both: 540)
+- Guest count must not exceed suite capacity (Amington: 400, Serenity: 200, Both: 600)
 - Segregation only available for Amington Suite
-- If segregation enabled, max combined count is 310
+- If segregation enabled, max combined count is 350
 
 ---
 
