@@ -616,6 +616,7 @@ function buildVariables(data) {
     '{{seatingArrangement}}': data['guest-arrangements'] || '',
     '{{brideName}}': data['bride-name'] || '',
     '{{groomName}}': data['groom-name'] || '',
+    '{{ethnicity}}': data['ethnicity'] || '',
     '{{attendees}}': data['attendees'] ? `Attendees: ${data['attendees']}` : '',
 
     // MPC Information
@@ -667,6 +668,7 @@ function buildVariables(data) {
     '{{vendorDecorCompany}}':           getVendorDecorCompany(data),
     '{{vendorDecorNotes}}':             getVendorDecorNotes(data),
     '{{vendorCatererCompany}}':         getVendorCatererCompany(data),
+    '{{vendorCateringService}}':        getVendorCateringService(data),
     '{{vendorCateringNotes}}':          getVendorCateringNotes(data),
     '{{vendorTableDrinksCompany}}':     getVendorTableDrinksCompany(data),
     '{{vendorTableDrinksNotes}}':       getVendorTableDrinksNotes(data),
@@ -876,8 +878,8 @@ function buildSuiteSection(data) {
   }
 
   // Table Plan
-  if (data['table-plan']) {
-    section += `\n\nTable Plan: ${data['table-plan']}`;
+  if (data['table-plan'] === 'Yes') {
+    section += `\n\nTable Plan: Yes`;
   }
 
   // Reserved tables
@@ -1028,8 +1030,8 @@ function buildSerenitySuiteSection(data) {
   }
 
   // Table Plan
-  if (data['table-plan']) {
-    section += `\n\nTable Plan: ${data['table-plan']}`;
+  if (data['table-plan'] === 'Yes') {
+    section += `\n\nTable Plan: Yes`;
   }
 
   // Reserved tables
@@ -1050,6 +1052,19 @@ function buildSerenitySuiteSection(data) {
       section += `\n\t${tablesRight} round tables on right side of stage`;
     }
   }
+
+  // CCLG & Favours section
+  section += '\n\nCCLG';
+  if (data['favours'] === 'Yes') {
+    section += '\n\tFavours – YES';
+    if (data['favours-type']) section += `\n\t${data['favours-type']}`;
+  } else {
+    section += '\n\tFavours – NO';
+  }
+  const thankyou = data['thankyou-cards'] || '';
+  section += `\n\tThank you cards – ${thankyou === 'Yes' ? 'Yes' : 'No'}`;
+  const menuCards = data['menu-cards'] || '';
+  section += `\n\tMenu cards – ${menuCards === 'Yes' ? 'Yes' : 'No'}`;
 
   return section;
 }
@@ -1859,16 +1874,15 @@ function getVendorDJNotes(data) {
   return '';
 }
 
+function getVendorCateringService(data) {
+  const parts = ['Catering'];
+  if (data['drinks-provider'] === 'Caterer') parts.push('Table Drinks');
+  if (data['hot-drinks-supplier'] === 'Caterer') parts.push('Hot Drinks');
+  return parts.join(', ');
+}
+
 function getVendorCateringNotes(data) {
-  const parts = [];
-  if (data['company-worked-before'])  parts.push(`Worked with venue before: ${data['company-worked-before']}`);
-  if (data['leftover-food-drinks'])   parts.push(`Leftover food & drinks: ${data['leftover-food-drinks']}`);
-  if (data['leftover-containers'])    parts.push(`Leftover containers: ${data['leftover-containers']}`);
-  const drinksProvider    = data['drinks-provider']    || '';
-  const hotDrinksSupplier = data['hot-drinks-supplier'] || '';
-  if (drinksProvider    === 'Caterer') parts.push('Also providing: Table Drinks');
-  if (hotDrinksSupplier === 'Caterer') parts.push('Also providing: Hot Drinks');
-  return parts.join(' | ');
+  return '';
 }
 
 function getVendorTableDrinksNotes(data) {
@@ -2411,7 +2425,7 @@ function processExternalVendorsTable(body, data) {
     const svc = services[i];
     const newRow = vendorsTable.insertTableRow(tpRowIndex);
     // ETA column left empty for manual entry, timing goes in Notes column with descriptive label
-    const timeNote = svc.startTime ? `Time of start: ${svc.startTime}` : '';
+    const timeNote = svc.startTime ? `Service start time: ${svc.startTime}` : '';
     const texts = ['', svc.type || '', svc.company || '', timeNote];
     for (let c = 0; c < 4; c++) {
       while (newRow.getNumCells() <= c) newRow.appendTableCell();
@@ -2635,42 +2649,12 @@ function buildKeyNotes(data) {
     }
   }
 
-  // Tables
-  if (data['table-type']) {
-    notes.push(`• Table Type (Front Tables): ${data['table-type']}`);
-  }
-  
-  if (data['table-plan'] === 'Yes') {
-    notes.push(`• Table Plan: Provided by client`);
-  }
-
-  // Head Table
-  if (data['head-table']) {
-    notes.push(`• Head Table: ${data['head-table']}`);
-  }
-
   // Cake
   if (data['wedding-cake'] === 'Yes') {
     const cakeParts = ['Cake: Yes'];
     if (data['cake-tiers']) cakeParts.push(`${data['cake-tiers']} tiers`);
     if (data['cake-served']) cakeParts.push(data['cake-served']);
     notes.push(`• ${cakeParts.join(' - ')}`);
-  }
-
-  // Favours & Cards
-  if (data['favours'] === 'Yes' && data['favours-type']) {
-    notes.push(`• Favours: ${data['favours-type']}`);
-  }
-  
-  if (data['thankyou-cards'] === 'Yes') {
-    notes.push(`• Thank You Cards: Yes`);
-  }
-  
-  if (data['menu-cards'] === 'Yes') {
-    const placement = data['menu-cards-placement'] === 'Other' 
-      ? data['menu-cards-placement-other-text'] 
-      : data['menu-cards-placement'];
-    notes.push(`• Menu Cards: ${placement || 'Yes'}`);
   }
 
   // Dancefloor
