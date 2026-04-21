@@ -1886,21 +1886,11 @@ function getVendorCateringNotes(data) {
 }
 
 function getVendorTableDrinksNotes(data) {
-  const provider = data['drinks-provider'] || '';
-  if (provider === 'Third Party Company') {
-    // Contact info is already in the Company column, so notes should only contain additional information
-    return '';
-  }
-  if (provider === 'Client') {
-    return 'Supplier: Client';
-  }
   return '';
 }
 
 function getVendorReceptionDrinksNotes(data) {
-  if (data['reception-drinks'] !== 'Yes') return '';
-  const supplier = data['reception-drinks-supplier'] || '';
-  return supplier ? `Supplier: ${supplier}` : '';
+  return '';
 }
 
 function getVendorHotDrinksNotes(data) {
@@ -2683,19 +2673,6 @@ function buildKeyNotes(data) {
     notes.push(`• Leftover Containers: ${data['leftover-containers']}`);
   }
 
-  // Drinks
-  if (data['drinks-provider']) {
-    notes.push(`• Table Drinks Provider: ${data['drinks-provider']}`);
-  }
-  
-  if (data['reception-drinks'] === 'Yes' && data['reception-drinks-supplier']) {
-    notes.push(`• Reception Drinks: ${data['reception-drinks-supplier']}`);
-  }
-  
-  if (data['hot-drinks-supplier']) {
-    notes.push(`• Hot Drinks Supplier: ${data['hot-drinks-supplier']}`);
-  }
-
   // Screens
   if (data['amington-wall-screen']) {
     notes.push(`• Amington Wall Screen: ${data['amington-wall-screen']}`);
@@ -2744,18 +2721,18 @@ function buildLCDLEDSection(data) {
   // Amington Suite Wall Screen
   if (suiteHired === 'Amington Suite' || suiteHired === 'Both') {
     const val = data['amington-wall-screen'] || 'LED/LCD – NON';
-    lines.push(`Amington Suite Wall Screen: ${val}`);
+    lines.push(`• Amington Suite Wall Screen: ${val}`);
   }
 
   // Serenity Suite Wall Screen
   if (suiteHired === 'Serenity Suite' || suiteHired === 'Both') {
     const val = data['serenity-wall-screen'] || 'LED/LCD – NON';
-    lines.push(`Serenity Suite Wall Screen: ${val}`);
+    lines.push(`• Serenity Suite Wall Screen: ${val}`);
   }
 
   // Foyer Screen (always shown)
   const foyerVal = data['foyer-screen'] || 'LED/LCD – NON';
-  lines.push(`Foyer Screen: ${foyerVal}`);
+  lines.push(`• Foyer Screen: ${foyerVal}`);
 
   // Add screen details at the end if provided
   if (description) {
