@@ -904,6 +904,19 @@ function buildSuiteSection(data) {
         section += `\n\t${tablesGroom} round tables on RHS of stage – Groom's Family`;
         section += `\n\t${tablesBride} round tables on LHS of stage – Bride's Family`;
       }
+    } else if (groomReserved > 0 || brideReserved > 0) {
+      // Per-side reserved tables specified (non-segregated event)
+      if (data['table-type'] === 'VIP') {
+        if (groomReserved >= 1) section += `\n\t1 VIP table on RHS – Grooms Immediate`;
+        if (brideReserved >= 1) section += `\n\t1 VIP table on LHS – Bride's Immediate`;
+        const remainingGroom = groomReserved - 1;
+        const remainingBride = brideReserved - 1;
+        if (remainingGroom > 0) section += `\n\t${remainingGroom} round table${remainingGroom > 1 ? 's' : ''} on RHS of stage – Groom's Family`;
+        if (remainingBride > 0) section += `\n\t${remainingBride} round table${remainingBride > 1 ? 's' : ''} on LHS of stage – Bride's Family`;
+      } else {
+        if (groomReserved > 0) section += `\n\t${groomReserved} round table${groomReserved > 1 ? 's' : ''} on RHS of stage – Groom's Family`;
+        if (brideReserved > 0) section += `\n\t${brideReserved} round table${brideReserved > 1 ? 's' : ''} on LHS of stage – Bride's Family`;
+      }
     } else {
       const reservedTables = Math.ceil(reservedCount / 10);
       if (data['table-type'] === 'VIP' && reservedTables >= 1) {
@@ -1045,6 +1058,10 @@ function buildSerenitySuiteSection(data) {
       const tablesRight = brideReserved || Math.ceil(reservedCount / 2 / 10);
       section += `\n\t${tablesLeft} round tables on left side of stage (Men)`;
       section += `\n\t${tablesRight} round tables on right side of stage (Women)`;
+    } else if (groomReserved > 0 || brideReserved > 0) {
+      // Per-side reserved tables specified (non-segregated event)
+      if (groomReserved > 0) section += `\n\t${groomReserved} round table${groomReserved !== 1 ? 's' : ''} on RHS – Groom's Family`;
+      if (brideReserved > 0) section += `\n\t${brideReserved} round table${brideReserved !== 1 ? 's' : ''} on LHS – Bride's Family`;
     } else {
       const tablesLeft = Math.ceil(reservedCount / 2 / 10);
       const tablesRight = Math.ceil(reservedCount / 2 / 10);
@@ -2335,6 +2352,13 @@ function processExternalVendorsTable(body, data) {
       vendorsTable.removeRow(r);
     } else {
       etaCell.setText('');  // clear marker; staff fill ETA manually
+      // Update catering service label to include hot drinks / table drinks if provided by caterer
+      if (key === 'catering') {
+        const serviceLabel = getVendorCateringService(data);
+        if (serviceLabel !== 'Catering' && vendorsTable.getRow(r).getNumCells() > 1) {
+          vendorsTable.getRow(r).getCell(1).setText(serviceLabel);
+        }
+      }
     }
   }
 
@@ -2616,35 +2640,13 @@ function buildKeyNotes(data) {
   if (data['ethnicity']) {
     notes.push(`• Ethnicity/Cultural Background: ${data['ethnicity']}`);
   }
-  
+
   if (data['walkthrough-date']) {
     notes.push(`• Walkthrough Date: ${formatEventDate(data['walkthrough-date'])}`);
   }
-  
+
   if (data['attendees']) {
     notes.push(`• Walkthrough Attendees: ${data['attendees']}`);
-  }
-
-  // Guest Arrangements
-  if (data['guest-arrangements']) {
-    notes.push(`• Guest Arrangements: ${data['guest-arrangements']}`);
-  }
-  
-  if (data['guest-arrangements'] === 'Men & Women Segregation') {
-    if (data['male-guests']) {
-      notes.push(`• Male Guests: ${data['male-guests']}`);
-    }
-    if (data['female-guests']) {
-      notes.push(`• Female Guests: ${data['female-guests']}`);
-    }
-  }
-
-  // Cake
-  if (data['wedding-cake'] === 'Yes') {
-    const cakeParts = ['Cake: Yes'];
-    if (data['cake-tiers']) cakeParts.push(`${data['cake-tiers']} tiers`);
-    if (data['cake-served']) cakeParts.push(data['cake-served']);
-    notes.push(`• ${cakeParts.join(' - ')}`);
   }
 
   // Dancefloor
@@ -2653,6 +2655,14 @@ function buildKeyNotes(data) {
     if (data['dancefloor-type']) dfParts.push(data['dancefloor-type']);
     if (data['dancefloor-size']) dfParts.push(data['dancefloor-size']);
     notes.push(`• ${dfParts.join(' - ')}`);
+  }
+
+  // Cake
+  if (data['wedding-cake'] === 'Yes') {
+    const cakeParts = ['Cake: Yes'];
+    if (data['cake-tiers']) cakeParts.push(`${data['cake-tiers']} tiers`);
+    if (data['cake-served']) cakeParts.push(data['cake-served']);
+    notes.push(`• ${cakeParts.join(' - ')}`);
   }
 
   // Cinematography Equipment
@@ -2671,23 +2681,6 @@ function buildKeyNotes(data) {
 
   if (data['leftover-containers']) {
     notes.push(`• Leftover Containers: ${data['leftover-containers']}`);
-  }
-
-  // Screens
-  if (data['amington-wall-screen']) {
-    notes.push(`• Amington Wall Screen: ${data['amington-wall-screen']}`);
-  }
-  
-  if (data['serenity-wall-screen']) {
-    notes.push(`• Serenity Wall Screen: ${data['serenity-wall-screen']}`);
-  }
-  
-  if (data['foyer-screen']) {
-    notes.push(`• Foyer Screen: ${data['foyer-screen']}`);
-  }
-  
-  if (data['screen-details']) {
-    notes.push(`• Screen Details: ${data['screen-details']}`);
   }
 
   // Parking

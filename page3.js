@@ -288,6 +288,18 @@ function saveFormData() {
     if (additionalTables.length > 0) {
         formData['additional-tables'] = additionalTables;
     }
+
+    // Save individual named table checkboxes
+    ['table-nendra', 'table-gift', 'table-drink', 'table-other'].forEach(name => {
+        const checkbox = document.querySelector(`input[name="${name}"]`);
+        if (checkbox) {
+            if (checkbox.checked) {
+                formData[name] = 'on';
+            } else {
+                delete formData[name];
+            }
+        }
+    });
     
     // Save select dropdowns
     document.querySelectorAll('select').forEach(select => {
@@ -341,6 +353,21 @@ function loadSavedData() {
             }
         });
     }
+
+    // Load individual named table checkboxes
+    ['table-nendra', 'table-gift', 'table-drink', 'table-other'].forEach(name => {
+        const checkbox = document.querySelector(`input[name="${name}"]`);
+        if (checkbox && (savedData[name] === 'on' || savedData[name] === true)) {
+            checkbox.checked = true;
+            if (name === 'table-other') {
+                const otherText = document.getElementById('table-other-text');
+                if (otherText) {
+                    otherText.style.display = 'block';
+                    otherText.required = true;
+                }
+            }
+        }
+    });
 }
 
 function getStoredData() {
