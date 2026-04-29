@@ -2636,27 +2636,6 @@ function getHotDrinksSupplier(data) {
 function buildKeyNotes(data) {
   const notes = [];
 
-  // Event Details
-  if (data['ethnicity']) {
-    notes.push(`• Ethnicity/Cultural Background: ${data['ethnicity']}`);
-  }
-
-  if (data['walkthrough-date']) {
-    notes.push(`• Walkthrough Date: ${formatEventDate(data['walkthrough-date'])}`);
-  }
-
-  if (data['attendees']) {
-    notes.push(`• Walkthrough Attendees: ${data['attendees']}`);
-  }
-
-  // Dancefloor
-  if (data['dancefloor'] === 'Yes') {
-    const dfParts = ['Dancefloor: Yes'];
-    if (data['dancefloor-type']) dfParts.push(data['dancefloor-type']);
-    if (data['dancefloor-size']) dfParts.push(data['dancefloor-size']);
-    notes.push(`• ${dfParts.join(' - ')}`);
-  }
-
   // Cake
   if (data['wedding-cake'] === 'Yes') {
     const cakeParts = ['Cake: Yes'];
