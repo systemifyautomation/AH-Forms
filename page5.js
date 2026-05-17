@@ -60,7 +60,7 @@ function setupEventListeners() {
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
-            window.location.href = 'page7.html';
+            window.location.href = 'page6.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');

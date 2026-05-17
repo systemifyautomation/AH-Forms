@@ -125,7 +125,6 @@ const FIELD_TO_QUESTION_MAPPING = {
     'hot-drinks-contact-number-prefix': 'Hot Drinks Contact Number - Prefix',
     
     // Page 11 - Car Parking
-    'vip-parking-passes': 'VIP Parking Passes',
     'priority-parking-section1': 'Priority Parking Section 1',
     'priority-parking-section2': 'Priority Parking Section 2',
     'total-priority-parking': 'Total Priority Parking',

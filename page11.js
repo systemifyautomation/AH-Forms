@@ -80,7 +80,6 @@ function validatePage() {
 function saveFormData() {
     console.log('Saving Page 11 data...');
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    formData['vip-parking-passes'] = document.getElementById('vip-parking-passes').value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     console.log('Page 11 data saved:', formData);
 }
@@ -88,9 +87,6 @@ function saveFormData() {
 function loadSavedData() {
     console.log('Loading saved data for Page 11...');
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    if (formData['vip-parking-passes']) {
-        document.getElementById('vip-parking-passes').value = formData['vip-parking-passes'];
-    }
     console.log('Page 11 data loaded');
 }
 

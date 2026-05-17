@@ -171,7 +171,6 @@ const QUESTION_MAPPING = {
   'Screen Details': 'screen-details',
 
   // Page 11 - Car Parking
-  'VIP Parking Passes': 'vip-parking-passes',
   'Priority Parking Section 1': 'priority-parking-section1',
   'Priority Parking Section 2': 'priority-parking-section2',
   'Total Priority Parking': 'total-priority-parking',
@@ -700,7 +699,6 @@ function buildVariables(data) {
     
     // Page 11 - Car Parking
     '{{parkingSection}}': buildParkingSection(data),
-    '{{vipParkingPasses}}': data['vip-parking-passes'] || '0',
     '{{prioritySection1}}': data['priority-parking-section1'] || '0',
     '{{prioritySection2}}': data['priority-parking-section2'] || '0',
     '{{totalPriorityParking}}': data['total-priority-parking'] || '0',
@@ -1448,9 +1446,11 @@ function buildExternalVendors(data) {
     vendors.push(`|  | ${cateringServiceLabel} |  |  |`);
   }
 
-  // Table drinks provider (if Client or Third Party — not Caterer)
+  // Table drinks provider (if Client, Third Party or Amington Hall — not Caterer)
   if (drinksProvider === 'Client') {
     vendors.push('|  | Table Drinks | Client |  |');
+  } else if (drinksProvider === 'Amington Hall') {
+    vendors.push('|  | Table Drinks | Amington Hall |  |');
   } else if (drinksProvider === 'Third Party Company') {
     const thirdPartyName = data['drinks-third-party-name'] || 'TBC';
     const thirdPartyPhone = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
@@ -1845,6 +1845,7 @@ function getVendorCatererCompany(data) {
 function getVendorTableDrinksCompany(data) {
   const provider = data['drinks-provider'] || '';
   if (provider === 'Client') return 'Client';
+  if (provider === 'Amington Hall') return 'Amington Hall';
   if (provider === 'Third Party Company') {
     const name  = data['drinks-third-party-name'] || '';
     const phone = formatPhone(data['drinks-third-party-contact-prefix'], data['drinks-third-party-contact']);
@@ -2475,7 +2476,7 @@ function buildVendorConditions(data) {
     'cake':             !!cakeCompany,
     'decor':            data['decor-provider'] === 'Third Party' && !!data['decor-company-name'],
     'catering':         true,
-    'table-drinks':     drinksProvider === 'Client' || drinksProvider === 'Third Party Company',
+    'table-drinks':     drinksProvider === 'Client' || drinksProvider === 'Third Party Company' || drinksProvider === 'Amington Hall',
     'reception-drinks': data['reception-drinks'] === 'Yes' && receptionSup !== 'Amington Hall',
     'hot-drinks':       data['hot-drinks-supplier'] === 'Third Party Company',
   };
@@ -2663,10 +2664,6 @@ function buildKeyNotes(data) {
   }
 
   // Parking
-  if (data['vip-parking-passes'] && data['vip-parking-passes'] !== '0') {
-    notes.push(`• VIP Parking Passes: ${data['vip-parking-passes']}`);
-  }
-  
   if (data['total-priority-parking'] && data['total-priority-parking'] !== '0') {
     notes.push(`• Total Priority Parking: ${data['total-priority-parking']}`);
   }
@@ -2722,7 +2719,6 @@ function buildLCDLEDSection(data) {
  * Builds complete Car Parking section
  */
 function buildParkingSection(data) {
-  const vip = data['vip-parking-passes'] || '0';
   const priority1 = data['priority-parking-section1'] || '0';
   const priority2 = data['priority-parking-section2'] || '0';
   const total = data['total-priority-parking'] || '0';
@@ -2730,7 +2726,6 @@ function buildParkingSection(data) {
   
   let section = '';
   
-  section += `VIP Parking Passes: ${vip}\n`;
   section += `Priority Parking Section 1: ${priority1}\n`;
   section += `Priority Parking Section 2: ${priority2}\n`;
   section += `Total Priority Parking: ${total}\n`;

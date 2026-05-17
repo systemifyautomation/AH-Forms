@@ -154,7 +154,7 @@ function setupEventListeners() {
     // Previous button
     prevBtn.addEventListener('click', function() {
         saveFormData();
-        window.location.href = 'page4.html';
+        window.location.href = 'page5.html';
     });
 
     // Save Progress button
