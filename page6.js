@@ -2,11 +2,13 @@
 const STORAGE_KEY = 'amington-hall-form-data';
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadSavedData();
     setupEventListeners();
     setupConditionalFields();
     setupDancefloorToggle();
+    setupCakeToggle();
+    setupFavoursToggle();
     setupMenuCardsToggle();
+    loadSavedData(); // Must be last so all toggle handlers are attached before saved data triggers change events
 });
 
 function setupConditionalFields() {
@@ -29,6 +31,49 @@ function setupConditionalFields() {
             tableOtherText.style.display = 'block';
         }
     }
+}
+
+function setupCakeToggle() {
+    const cakeRadios = document.querySelectorAll('input[name="wedding-cake"]');
+    const cakeDetails = document.getElementById('cake-details');
+    const cakeServed = document.querySelectorAll('input[name="cake-served"]');
+    const cakeCompany = document.getElementById('cake-company');
+    const cakeContactName = document.getElementById('cake-contact-name');
+    const cakeContactNumber = document.getElementById('cake-contact-number');
+    const cakeTiers = document.getElementById('cake-tiers');
+
+    cakeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                cakeDetails.style.display = 'block';
+            } else {
+                cakeDetails.style.display = 'none';
+                // Clear cake detail fields
+                if (cakeCompany) cakeCompany.value = '';
+                if (cakeContactName) cakeContactName.value = '';
+                if (cakeContactNumber) cakeContactNumber.value = '';
+                if (cakeTiers) cakeTiers.value = '';
+                cakeServed.forEach(r => r.checked = false);
+            }
+        });
+    });
+}
+
+function setupFavoursToggle() {
+    const favoursRadios = document.querySelectorAll('input[name="favours"]');
+    const favoursTypeSection = document.getElementById('favours-type-section');
+    const favoursType = document.getElementById('favours-type');
+
+    favoursRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                favoursTypeSection.style.display = 'block';
+            } else {
+                favoursTypeSection.style.display = 'none';
+                if (favoursType) favoursType.value = '';
+            }
+        });
+    });
 }
 
 function setupDancefloorToggle() {

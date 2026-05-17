@@ -20,7 +20,7 @@
                 </div>
             </header>
             
-            <form id="page6-form" class="wedding-form">
+            <form id="page6-form" class="wedding-form" novalidate>
                 <h2 class="page-title">Additional Extras</h2>
                 
                 <!-- Dancefloor Section -->
@@ -76,41 +76,60 @@
                 <h3 class="section-subtitle">Cake</h3>
 
                 <div class="form-group">
-                    <label for="cake-company">Cake Company name:</label>
-                    <input type="text" id="cake-company" name="cake-company">
-                </div>
-
-                <div class="form-group">
-                    <label for="cake-contact-name">Contact Name:</label>
-                    <input type="text" id="cake-contact-name" name="cake-contact-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="cake-contact-number">Contact Number:</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="cake-contact-number" name="cake-contact-number" class="phone-number">
+                    <label>Will there be a cake?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="cake-tiers">Number of tiers:</label>
-                    <input type="number" id="cake-tiers" name="cake-tiers" min="1">
-                </div>
+                <!-- Cake Details (Hidden by default) -->
+                <div id="cake-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="cake-company">Cake Company name:</label>
+                        <input type="text" id="cake-company" name="cake-company">
+                    </div>
 
-                <div class="form-group">
-                    <label>Arrangements of the cake?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="cake-served" value="To be cut up by staff and served with the tea after food.">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">To be cut up by staff and served with the tea after food.</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="cake-served" value="To be boxed up and given back to the family.">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">To be boxed up and given back to the family.</span>
-                        </label>
+                    <div class="form-group">
+                        <label for="cake-contact-name">Contact Name:</label>
+                        <input type="text" id="cake-contact-name" name="cake-contact-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-contact-number">Contact Number:</label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="cake-contact-number" name="cake-contact-number" class="phone-number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-tiers">Number of tiers:</label>
+                        <input type="number" id="cake-tiers" name="cake-tiers" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Arrangements of the cake?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="cake-served" value="To be cut up by staff and served with the tea after food.">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To be cut up by staff and served with the tea after food.</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="cake-served" value="To be boxed up and given back to the family.">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To be boxed up and given back to the family.</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -133,9 +152,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="favours-type">Type of favour:</label>
-                    <input type="text" id="favours-type" name="favours-type" placeholder="1 per plate">
+                <div id="favours-type-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="favours-type">Type of favour:</label>
+                        <input type="text" id="favours-type" name="favours-type" placeholder="1 per plate">
+                    </div>
                 </div>
 
                 <div class="form-group">
