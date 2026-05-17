@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amington Hall - Additional Extras</title>
+    <title>Amington Hall - LED/LCD Screen</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,188 +20,142 @@
                 </div>
             </header>
             
-            <form id="page6-form" class="wedding-form" novalidate>
-                <h2 class="page-title">Additional Extras</h2>
+            <form id="page6-form" class="wedding-form">
+                <h2 class="page-title">LED/LCD Screen</h2>
                 
-                <!-- Dancefloor Section -->
-                <h3 class="section-subtitle">Dancefloor</h3>
-               
-                
-                <div class="form-group">
-                    <label>Will you require a dancefloor?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="dancefloor" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="dancefloor" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
+                <!-- Screen Introduction -->
+                <div class="info-notice info-notice-compact">
+                    <p class="text-indent">We do provide a Live screening option. This is usually used for 2 hall events. If you do wish to go ahead with this service you will need to provide an additional camera separate to the ones provided by your camera team. You will also require an additional person to man this service during the event.</p>
                 </div>
 
-                <!-- Dancefloor Options (Hidden by default) -->
-                <div id="dancefloor-options" style="display: none;">
-                    <div class="form-group">
-                        <label>Dancefloor Type</label>
+                <!-- Screen Usage Info -->
+                <div class="info-notice info-notice-subtle info-notice-compact">
+                    <p class="mb-15"><strong>a) Reception Foyer Screen</strong> - we recommend you display a welcome message, e.g Welcome to the wedding of...</p>
+                    <p><strong>b) Amington and Serenity Suite Screens</strong> - screens in the hired Suite(s) are customisable and can be used as follows:</p>
+                </div>
+
+                <!-- Screen Usage Table -->
+                <div class="table-container">
+                    <table class="screen-usage-table">
+                        <thead>
+                            <tr>
+                                <th>Use</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="table-cell-header"><strong>Photo slideshow</strong></td>
+                                <td class="table-cell-content">
+                                    Use for presentations, childhood photos, family photos, pre wedding day event photos, etc.
+                                    <br><br>
+                                    You will need approximately 50 pictures minimum, on a loop, between 6 - 10 seconds per slide, on a smooth transition from one slide to another.
+                                    <br><br>
+                                    We advise against having any flashing images. <span class="text-gold">(Video to upload)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-cell-header"><strong>To play a video</strong></td>
+                                <td class="table-cell-content">For example if you have a trailer from the Nikah/Baraat day you would like to play or if you would like to display a live video stream of the Baraat entrance (if available).</td>
+                            </tr>
+                            <tr>
+                                <td class="table-cell-header"><strong>Still image</strong></td>
+                                <td class="table-cell-content">For example an image of couple's initials or an inspiring quote etc.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Screen Selection -->
+                <div class="form-group">
+                    <label class="subsection-title">
+                        Please complete the table below:
+                    </label>
+                    <p class="field-note field-note-italic">Tick one option per screen being used</p>
+                    
+
+                    <!-- Amington Suite Wall Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Amington Suite Wall Screen (16:9 ratio) (768 X 512px W x H) Landscape</h4>
                         <div class="radio-group">
+                            
                             <label class="radio-label">
-                                <input type="radio" name="dancefloor-type" value="DANCEFLOOR (LED style without the lights)">
+                                <input type="radio" name="amington-wall-screen" value="Photo slideshows">
                                 <span class="radio-custom"></span>
-                                <span class="radio-text">DANCEFLOOR (LED style without the lights)</span>
+                                <span class="radio-text">Photo slideshows</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="dancefloor-type" value="HIP SHEET WITH CUSTOM VINYLS">
+                                <input type="radio" name="amington-wall-screen" value="To play a video">
                                 <span class="radio-custom"></span>
-                                <span class="radio-text">HIP SHEET WITH CUSTOM VINYLS</span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="amington-wall-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
                             </label>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="dancefloor-size">Size</label>
-                        <select id="dancefloor-size" name="dancefloor-size" class="select-input">
-                            <option value="">Select size</option>
-                            <option value="16x16ft">16x16ft</option>
-                            <option value="16x20ft">16x20ft</option>
-                            <option value="20x20ft">20x20ft</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Cake Section -->
-                <h3 class="section-subtitle">Cake</h3>
-
-                <div class="form-group">
-                    <label>Will there be a cake?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="wedding-cake" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="wedding-cake" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Cake Details (Hidden by default) -->
-                <div id="cake-details" style="display: none;">
-                    <div class="form-group">
-                        <label for="cake-company">Cake Company name:</label>
-                        <input type="text" id="cake-company" name="cake-company">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cake-contact-name">Contact Name:</label>
-                        <input type="text" id="cake-contact-name" name="cake-contact-name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cake-contact-number">Contact Number:</label>
-                        <div class="phone-input-wrapper">
-                            <input type="text" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" class="phone-prefix">
-                            <input type="tel" id="cake-contact-number" name="cake-contact-number" class="phone-number">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cake-tiers">Number of tiers:</label>
-                        <input type="number" id="cake-tiers" name="cake-tiers" min="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Arrangements of the cake?</label>
+                    <!-- Serenity Suite Wall Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Serenity Suite Wall Screen (16:9 ratio) (768 X 512px W x H) Landscape</h4>
                         <div class="radio-group">
+                            
                             <label class="radio-label">
-                                <input type="radio" name="cake-served" value="To be cut up by staff and served with the tea after food.">
+                                <input type="radio" name="serenity-wall-screen" value="Photo slideshows">
                                 <span class="radio-custom"></span>
-                                <span class="radio-text">To be cut up by staff and served with the tea after food.</span>
+                                <span class="radio-text">Photo slideshows</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="cake-served" value="To be boxed up and given back to the family.">
+                                <input type="radio" name="serenity-wall-screen" value="To play a video">
                                 <span class="radio-custom"></span>
-                                <span class="radio-text">To be boxed up and given back to the family.</span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="serenity-wall-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
                             </label>
                         </div>
                     </div>
+
+                    <!-- Foyer Screen -->
+                    <div class="screen-option-box">
+                        <h4 class="screen-title">Foyer screen (need details)</h4>
+                        <div class="radio-group">
+                            
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="Photo slideshows">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Photo slideshows</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="To play a video">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To play a video</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="foyer-screen" value="Still image">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Still image</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Shared Upload Section -->
+                    <div id="screen-upload-section" style="display: none; margin-top: 30px; padding: 20px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; background: rgba(212, 175, 55, 0.05);">
+                        <label for="screen-upload-file" style="display: block; margin-bottom: 10px; font-weight: 600;">Upload Video/Images for Photo Slideshows:</label>
+                        <input type="file" id="screen-upload-file" name="screen-upload-file" accept="video/*,image/*" multiple>
+                    </div>
                 </div>
 
-                <!-- Favours/Menu Cards/Thank you cards Section -->
-                <h3 class="section-subtitle">Favours/Menu Cards/Thank you cards</h3>
-                
+                <!-- Additional Details -->
                 <div class="form-group">
-                    <label>Will you be having favours?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="favours" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="favours" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="favours-type-section" style="display: none;">
-                    <div class="form-group">
-                        <label for="favours-type">Type of favour:</label>
-                        <input type="text" id="favours-type" name="favours-type" placeholder="1 per plate">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Will you be having Thank you cards?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="thankyou-cards" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="thankyou-cards" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Will you be having menu cards?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="menu-cards" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="menu-cards" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="menu-cards-placement-section" style="display: none;">
-                    <div class="form-group">
-                        <label for="menu-cards-placement">Menu card placement:</label>
-                        <select id="menu-cards-placement" name="menu-cards-placement" class="select-input">
-                            <option value="">Select placement</option>
-                            <option value="1 per plate">1 per plate</option>
-                            <option value="2 per table">2 per table</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <input type="text" id="menu-cards-placement-other-text" name="menu-cards-placement-other-text" placeholder="Please specify" style="margin-top: 12px; display: none;">
+                    <label for="screen-details" class="field-label">
+                        Please provide any details below should you have any specific requirements for images / videos to be displayed on any of our screens. We will discuss this further in your Walkthrough Meeting:
+                    </label>
+                    <textarea id="screen-details" name="screen-details" rows="6" placeholder="Enter any specific requirements or details..."></textarea>
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -214,7 +168,7 @@
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 6 of 11</span>
+                    <span class="page-info">Page 6 of 10</span>
                 </div>
             </form>
             

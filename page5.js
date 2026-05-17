@@ -1,29 +1,59 @@
-// Page 5 - Wedding Cake and Favours JavaScript
+// Page 5 (New) - Additional Extras JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadSavedData();
     setupEventListeners();
+    setupConditionalFields();
+    setupDancefloorToggle();
     setupCakeToggle();
     setupFavoursToggle();
+    setupMenuCardsToggle();
+    loadSavedData(); // Must be last so all toggle handlers are attached before saved data triggers change events
 });
+
+function setupConditionalFields() {
+    // Table "Other" checkbox toggle
+    const tableOtherCheckbox = document.getElementById('table-other-checkbox');
+    const tableOtherText = document.getElementById('table-other-text');
+    
+    if (tableOtherCheckbox) {
+        tableOtherCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                tableOtherText.style.display = 'block';
+            } else {
+                tableOtherText.style.display = 'none';
+                tableOtherText.value = '';
+            }
+        });
+        
+        // Initialize display state
+        if (tableOtherCheckbox.checked) {
+            tableOtherText.style.display = 'block';
+        }
+    }
+}
 
 function setupCakeToggle() {
     const cakeRadios = document.querySelectorAll('input[name="wedding-cake"]');
-    const cakeDetailsSection = document.getElementById('cake-details-section');
-    
+    const cakeDetails = document.getElementById('cake-details');
+    const cakeServed = document.querySelectorAll('input[name="cake-served"]');
+    const cakeCompany = document.getElementById('cake-company');
+    const cakeContactName = document.getElementById('cake-contact-name');
+    const cakeContactNumber = document.getElementById('cake-contact-number');
+    const cakeTiers = document.getElementById('cake-tiers');
+
     cakeRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'Yes') {
-                cakeDetailsSection.style.display = 'block';
+                cakeDetails.style.display = 'block';
             } else {
-                cakeDetailsSection.style.display = 'none';
-                // Clear cake details
-                document.getElementById('cake-company-name').value = '';
-                document.getElementById('cake-tiers').value = '';
-                document.getElementById('cake-contact-name').value = '';
-                document.getElementById('cake-contact-number').value = '';
-                document.getElementById('cake-contact-number-prefix').value = '+44';
+                cakeDetails.style.display = 'none';
+                // Clear cake detail fields
+                if (cakeCompany) cakeCompany.value = '';
+                if (cakeContactName) cakeContactName.value = '';
+                if (cakeContactNumber) cakeContactNumber.value = '';
+                if (cakeTiers) cakeTiers.value = '';
+                cakeServed.forEach(r => r.checked = false);
             }
         });
     });
@@ -31,20 +61,74 @@ function setupCakeToggle() {
 
 function setupFavoursToggle() {
     const favoursRadios = document.querySelectorAll('input[name="favours"]');
-    const favoursDetailsSection = document.getElementById('favours-details-section');
-    
+    const favoursTypeSection = document.getElementById('favours-type-section');
+    const favoursType = document.getElementById('favours-type');
+
     favoursRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'Yes') {
-                favoursDetailsSection.style.display = 'block';
+                favoursTypeSection.style.display = 'block';
             } else {
-                favoursDetailsSection.style.display = 'none';
-                // Clear favours details
-                document.getElementById('favours-number').value = '';
-                document.getElementById('favours-type').value = '';
+                favoursTypeSection.style.display = 'none';
+                if (favoursType) favoursType.value = '';
             }
         });
     });
+}
+
+function setupDancefloorToggle() {
+    const dancefloorRadios = document.querySelectorAll('input[name="dancefloor"]');
+    const dancefloorOptions = document.getElementById('dancefloor-options');
+    const dancefloorType = document.querySelectorAll('input[name="dancefloor-type"]');
+    const dancefloorSize = document.getElementById('dancefloor-size');
+    
+    dancefloorRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                dancefloorOptions.style.display = 'block';
+            } else {
+                dancefloorOptions.style.display = 'none';
+                // Clear selections
+                dancefloorType.forEach(type => type.checked = false);
+                if (dancefloorSize) dancefloorSize.value = '';
+            }
+        });
+    });
+}
+
+function setupMenuCardsToggle() {
+    const menuCardsRadios = document.querySelectorAll('input[name="menu-cards"]');
+    const menuCardsPlacementSection = document.getElementById('menu-cards-placement-section');
+    const menuCardsPlacement = document.getElementById('menu-cards-placement');
+    const menuCardsPlacementOtherText = document.getElementById('menu-cards-placement-other-text');
+    
+    menuCardsRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                menuCardsPlacementSection.style.display = 'block';
+            } else {
+                menuCardsPlacementSection.style.display = 'none';
+                // Clear selections
+                if (menuCardsPlacement) menuCardsPlacement.value = '';
+                if (menuCardsPlacementOtherText) {
+                    menuCardsPlacementOtherText.style.display = 'none';
+                    menuCardsPlacementOtherText.value = '';
+                }
+            }
+        });
+    });
+    
+    // Handle "Other" option in placement dropdown
+    if (menuCardsPlacement) {
+        menuCardsPlacement.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                menuCardsPlacementOtherText.style.display = 'block';
+            } else {
+                menuCardsPlacementOtherText.style.display = 'none';
+                menuCardsPlacementOtherText.value = '';
+            }
+        });
+    }
 }
 
 function setupEventListeners() {
@@ -53,7 +137,7 @@ function setupEventListeners() {
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
 
-    // Form submission (Next button)
+    // Form submission (navigation to next page)
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -89,27 +173,26 @@ function setupEventListeners() {
 }
 
 function validatePage() {
-    console.log('=== Starting Page 5 Validation ===');
+    console.log('=== Starting Page 6 Validation ===');
     
-    // Check wedding cake radio
-    const weddingCakeRadio = document.querySelector('input[name="wedding-cake"]:checked');
-    if (!weddingCakeRadio) {
-        console.log('Wedding cake question not answered');
-        return 'Please indicate if you will be having a wedding cake.';
-    }
+    // Page 6 has no required fields - all fields are optional
+    // Validation passes automatically
     
-    console.log('=== Page 5 Validation Passed ===');
+    console.log('=== Page 6 Validation Passed ===');
     return true;
 }
 
 function saveFormData() {
     const formData = getStoredData() || {};
     
-    // Save text, number, tel, email inputs
-    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
-        if (input.value) {
-            formData[input.name || input.id] = input.value;
-        }
+    // Save all text, number, tel, email, time, textarea, file inputs
+    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="time"], input[type="email"], textarea').forEach(input => {
+        formData[input.name || input.id] = input.value || '';
+    });
+    
+    // Save select dropdowns
+    document.querySelectorAll('select').forEach(select => {
+        formData[select.name || select.id] = select.value || '';
     });
     
     // Save radio buttons
@@ -117,9 +200,18 @@ function saveFormData() {
         formData[radio.name] = radio.value;
     });
     
-    // Save timestamp
-    formData.lastSaved = new Date().toISOString();
+    // Save checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        formData[checkbox.name || checkbox.id] = checkbox.checked ? 'on' : 'off';
+    });
     
+    // Save file input info (just the filename)
+    const fileInput = document.getElementById('decor-upload');
+    if (fileInput && fileInput.files.length > 0) {
+        formData['decor-upload-filename'] = fileInput.files[0].name;
+    }
+    
+    formData.lastSaved = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     console.log('Form data saved:', formData);
 }
@@ -133,11 +225,15 @@ function loadSavedData() {
     
     console.log('Loading saved data:', savedData);
     
-    // Load all inputs
+    // Load all text inputs and selects
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key);
-        if (element && element.type !== 'radio') {
+        if (element && element.type !== 'radio' && element.type !== 'checkbox') {
             element.value = savedData[key];
+            // Trigger change event for selects to show conditional fields
+            if (element.tagName === 'SELECT') {
+                element.dispatchEvent(new Event('change'));
+            }
         }
     });
     
@@ -146,8 +242,16 @@ function loadSavedData() {
         const radio = document.querySelector(`input[name="${key}"][value="${savedData[key]}"]`);
         if (radio) {
             radio.checked = true;
-            // Trigger change event for toggles
             radio.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Load checkboxes
+    Object.keys(savedData).forEach(key => {
+        const checkbox = document.getElementById(key);
+        if (checkbox && checkbox.type === 'checkbox') {
+            checkbox.checked = savedData[key] === 'on';
+            checkbox.dispatchEvent(new Event('change'));
         }
     });
 }

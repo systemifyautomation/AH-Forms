@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catering - Amington Hall</title>
+    <title>Car Parking - Amington Hall</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,206 +21,33 @@
             </header>
             
             <form id="page10-form" class="wedding-form">
-                <h2 class="page-title">Catering</h2>
+                <h2 class="page-title">Car Parking</h2>
 
-                <!-- Catering Company Name -->
-                <div class="form-group">
-                    <label for="catering-company-name">Catering Company Name:</label>
-                    <input type="text" id="catering-company-name" name="catering-company-name">
-                </div>
-
-                <!-- Contact Name & Number -->
-                <div class="form-group">
-                    <label for="catering-contact-name">Contact Name & Number:</label>
-                    <input type="text" id="catering-contact-name" name="catering-contact-name">
-                </div>
-
-                <!-- Has Company Worked at Amington Hall Before -->
-                <div class="form-group">
-                    <label>Has the Company Worked at Amington Hall before?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="company-worked-before" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="company-worked-before" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
+                <div class="info-notice">
+                    <p><strong>There are 3 key areas of parking for our Venue and designated as:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Section 1: Venue Level - 6 VIP + 15 Priority</li>
+                        <li>Section 2: Top Level – 15 Priority</li>
+                        <li>Section 3: Bottom Level Main Car parking area for overflow guests. NO PASSES REQUIRED</li>
+                    </ul>
                 </div>
 
                 <div class="info-notice">
-                    <p>If your chosen caterer has not worked at Amington Hall before they will need to organise a site visit with the Venue. It is vital that the caterer inspects the kitchen facilities on site and understands how our kitchen equipment is operated well before your event.</p>
+                    <p><strong>VIP Parking</strong> – directly in front of the main entrance to the Venue with 6 parking spaces</p>
+                    <p><strong>Priority Parking</strong> - close to the entrance of the Venue with 30 parking spaces</p>
+                    <p><strong>Main Parking</strong> – car parking spaces adjacent to the Venue</p>
                 </div>
 
                 <div class="info-notice">
-                    <p>Please note: the Venue does NOT provide any serving dishes. These will need to be provided by your chosen caterer and be white in colour. Please see our Party Catering leaflet for more information.</p>
+                    <p>We recommend that you reserve VIP/Venue level for the groom side, and the Top level for Bride side if you are planning to have a baraat/grooms side arrival separately.</p>
                 </div>
 
                 <div class="info-notice">
-                    <p>Prior to your event it is important for you to discuss with your caterer the arrangements of the leftover food and drinks. Please discuss the following:</p>
+                    <p>We recommend that you reserve Priority Parking spaces close family, special guests or elderly guests.</p>
                 </div>
 
-                <!-- Who is taking leftover Food & Drinks -->
-                <div class="form-group">
-                    <label>Who is taking the leftover Food & Drinks? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-food-drinks" value="Caterer" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Caterer</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-food-drinks" value="Client" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Client</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-food-drinks" value="Charity (Must be arranged by client)" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Charity (Must be arranged by client)</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Who will provide Containers for leftover food -->
-                <div class="form-group">
-                    <label>Who will provide the Containers for leftover food? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-containers" value="Caterer" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Caterer</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-containers" value="Client" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Client</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Drinks Section -->
-                <h3 class="section-subtitle mt-40 mb-20">Drinks</h3>
-
-                <div class="form-group">
-                    <label>Who will be providing the drinks? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="drinks-provider" value="Caterer" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Caterer</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="drinks-provider" value="Client" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Client</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="drinks-provider" value="Third Party Company" required id="drinks-third-party">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Third Party Company</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="drinks-provider" value="Amington Hall" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Amington Hall</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="drinks-third-party-details" class="conditional-section" style="display: none;">
-                    <div class="form-group">
-                        <label for="drinks-third-party-name">Name:</label>
-                        <input type="text" id="drinks-third-party-name" name="drinks-third-party-name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="drinks-third-party-contact">Contact Number:</label>
-                        <div class="phone-input-wrapper">
-                            <input type="text" id="drinks-third-party-contact-prefix" name="drinks-third-party-contact-prefix" value="+44" class="phone-prefix">
-                            <input type="tel" id="drinks-third-party-contact" name="drinks-third-party-contact" class="phone-number">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reception Drinks Section -->
-                <h3 class="section-subtitle mt-40 mb-20">Reception Drinks</h3>
-
-                <div class="form-group">
-                    <label>Will you be having reception drinks? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="reception-drinks" value="Yes" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="reception-drinks" value="No" required>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="reception-drinks-details" class="conditional-section" style="display: none;">
-                    <div class="form-group">
-                        <label class="required">Who is your supplier?</label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="reception-drinks-supplier" value="Amington Hall">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Amington Hall</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="reception-drinks-supplier" value="Client">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Client</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="reception-drinks-supplier" value="Third Party">
-                                <span class="radio-custom"></span>
-                                <span class="radio-text">Third Party</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hot Drinks Section -->
-                <h3 class="section-subtitle mt-40 mb-20">Hot Drinks</h3>
-
-                <div class="form-group">
-                    <label>Who is your Supplier?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="hot-drinks-supplier" value="Caterer">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Caterer</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="hot-drinks-supplier" value="Third Party Company" id="hot-drinks-third-party">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Third Party Company</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="hot-drinks-third-party-details" class="conditional-section" style="display: none;">
-                    <div class="form-group">
-                        <label for="hot-drinks-contact-name">Contact Name:</label>
-                        <input type="text" id="hot-drinks-contact-name" name="hot-drinks-contact-name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="hot-drinks-contact-number">Contact Number:</label>
-                        <div class="phone-input-wrapper">
-                            <input type="text" id="hot-drinks-contact-number-prefix" name="hot-drinks-contact-number-prefix" value="+44" class="phone-prefix">
-                            <input type="tel" id="hot-drinks-contact-number" name="hot-drinks-contact-number" class="phone-number">
-                        </div>
-                    </div>
+                <div class="info-notice">
+                    <p>For all reserved parking we will provide you with a set number of passes that you will need to hand-out prior to your event day. Guests with no reserved parking passes will be asked to park in the Main Parking Spaces.</p>
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -228,12 +55,12 @@
                     <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
                     <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
                     <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
-                    <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+                    <button type="submit" class="nav-btn submit-btn">Submit Form</button>
                 </div>
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 10 of 11</span>
+                    <span class="page-info">Page 10 of 10</span>
                 </div>
             </form>
             
@@ -269,8 +96,8 @@
         <div class="modal-content success-modal-content">
             <div class="success-icon">✓</div>
             <h2>Submission Successful!</h2>
-            <p>Thank you for completing the Amington Hall Walkthrough Register.</p>
-            <p class="success-subtext">Your submission has been received and is being processed. We will contact you shortly to confirm your event details.</p>
+            <p>Thank you for filling out this form. Your information has been received. We look forward to seeing you on your Walk-Through Meeting.</p>
+            <p class="success-subtext">Happy Planning!</p>
             <button type="button" class="modal-btn primary-modal-btn" id="success-ok-btn">Done</button>
         </div>
     </div>
@@ -279,6 +106,7 @@
     <div class="notification" id="notification"></div>
 
     <script src="data-utils.js"></script>
+    <script src="form-mapping.js"></script>
     <script src="page10.js"></script>
 </body>
 </html>

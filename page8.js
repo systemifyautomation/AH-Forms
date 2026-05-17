@@ -1,4 +1,4 @@
-// Page 7 - Visuals & External JavaScript
+// Page 9 - Additional Services JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 // Load endpoints from JSON file
@@ -20,101 +20,112 @@ async function loadAppScriptEndpoints() {
 
 let isSubmitting = false;
 let isNavigating = false;
+let serviceCounter = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadAppScriptEndpoints(); // Load endpoints first
+    loadAppScriptEndpoints();
     loadSavedData();
     setupEventListeners();
-    setupToggleSections();
-    setupCinematographyToggle();
-    setupSoundSystemToggle();
+    setupAdditionalServicesToggle();
+    setupTimingToggles();
     setupExitWarnings();
     setupModalListeners();
 });
 
-function setupToggleSections() {
-    // Photographer toggle
-    const photographerRadios = document.querySelectorAll('input[name="photographer"]');
-    const photographerDetails = document.getElementById('photographer-details');
+function setupAdditionalServicesToggle() {
+    const additionalServicesRadios = document.querySelectorAll('input[name="additional-services"]');
+    const additionalServicesContent = document.getElementById('additional-services-content');
     
-    photographerRadios.forEach(radio => {
+    additionalServicesRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'Yes') {
-                photographerDetails.style.display = 'block';
+                additionalServicesContent.style.display = 'block';
             } else {
-                photographerDetails.style.display = 'none';
-                clearSection('photographer');
-            }
-        });
-    });
-
-    // Videographer toggle
-    const videographerRadios = document.querySelectorAll('input[name="videographer"]');
-    const videographerDetails = document.getElementById('videographer-details');
-    
-    videographerRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                videographerDetails.style.display = 'block';
-            } else {
-                videographerDetails.style.display = 'none';
-                clearSection('videographer');
+                additionalServicesContent.style.display = 'none';
             }
         });
     });
 }
 
-function setupCinematographyToggle() {
-    const cinematographyRadios = document.querySelectorAll('input[name="cinematography-equipment"]');
-    const cinematographyOptions = document.getElementById('cinematography-options');
-    const cinematographyTypeRadios = document.querySelectorAll('input[name="cinematography-type"]');
+function setupTimingToggles() {
+    // Low Fog toggle
+    const lowFogCheckbox = document.getElementById('low-fog-checkbox');
+    const lowFogOptions = document.getElementById('low-fog-options');
+    const lowFogTiming = document.getElementById('low-fog-timing');
     
-    cinematographyRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                cinematographyOptions.style.display = 'block';
+    if (lowFogCheckbox) {
+        lowFogCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                lowFogOptions.style.display = 'block';
             } else {
-                cinematographyOptions.style.display = 'none';
-                // Clear type selection
-                cinematographyTypeRadios.forEach(typeRadio => typeRadio.checked = false);
+                lowFogOptions.style.display = 'none';
+                if (lowFogTiming) lowFogTiming.value = '';
             }
         });
-    });
-}
+    }
 
-function setupSoundSystemToggle() {
-    const soundSystemRadios = document.querySelectorAll('input[name="sound-system"]');
-    const djDetails = document.getElementById('dj-details');
-    const inhouseDjDetails = document.getElementById('inhouse-dj-details');
+    // Sparklers toggle
+    const sparklersCheckbox = document.getElementById('sparklers-checkbox');
+    const sparklersOptions = document.getElementById('sparklers-options');
+    const sparklersTiming = document.getElementById('sparklers-timing');
     
-    soundSystemRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'DJ') {
-                djDetails.style.display = 'block';
-                inhouseDjDetails.style.display = 'none';
-            } else if (this.value === 'In-house DJ') {
-                djDetails.style.display = 'none';
-                inhouseDjDetails.style.display = 'block';
-                // Clear DJ fields
-                document.getElementById('dj-name').value = '';
-                document.getElementById('dj-contact-number').value = '';
-                document.getElementById('dj-contact-number-prefix').value = '+44';
+    if (sparklersCheckbox) {
+        sparklersCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                sparklersOptions.style.display = 'block';
+            } else {
+                sparklersOptions.style.display = 'none';
+                if (sparklersTiming) sparklersTiming.value = '';
             }
         });
-    });
-}
+    }
 
-function clearSection(section) {
-    if (section === 'photographer') {
-        document.getElementById('photographer-company-name').value = '';
-        document.getElementById('photographer-contact-name').value = '';
-        document.getElementById('photographer-contact-number').value = '';
-        document.getElementById('photographer-contact-number-prefix').value = '+44';
-    } else if (section === 'videographer') {
-        document.getElementById('videographer-company-name').value = '';
-        document.getElementById('videographer-contact-name').value = '';
-        document.getElementById('videographer-contact-number').value = '';
-        document.getElementById('videographer-contact-number-prefix').value = '+44';
+    // Pancake Cart timing toggle
+    const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
+    const pancakeCartOptions = document.getElementById('pancake-cart-options');
+    const pancakeCartTiming = document.getElementById('pancake-cart-timing');
+    
+    if (pancakeCartCheckbox) {
+        pancakeCartCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                pancakeCartOptions.style.display = 'block';
+            } else {
+                pancakeCartOptions.style.display = 'none';
+                if (pancakeCartTiming) pancakeCartTiming.value = '';
+            }
+        });
+    }
+
+    // 360 Booth timing toggle
+    const booth360Checkbox = document.getElementById('booth-360-checkbox');
+    const booth360Options = document.getElementById('booth-360-options');
+    const booth360Timing = document.getElementById('booth-360-timing');
+    
+    if (booth360Checkbox) {
+        booth360Checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                booth360Options.style.display = 'block';
+            } else {
+                booth360Options.style.display = 'none';
+                if (booth360Timing) booth360Timing.value = '';
+            }
+        });
+    }
+
+    // Vintage Photobooth timing toggle
+    const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
+    const vintagePhotoboothOptions = document.getElementById('vintage-photobooth-options');
+    const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
+    
+    if (vintagePhotoboothCheckbox) {
+        vintagePhotoboothCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                vintagePhotoboothOptions.style.display = 'block';
+            } else {
+                vintagePhotoboothOptions.style.display = 'none';
+                if (vintagePhotoboothTiming) vintagePhotoboothTiming.value = '';
+            }
+        });
     }
 }
 
@@ -124,6 +135,10 @@ function setupEventListeners() {
     const nextBtn = document.getElementById('next-btn');
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
+    const addServiceBtn = document.getElementById('add-service-btn');
+
+    // Add Service button
+    addServiceBtn.addEventListener('click', addThirdPartyService);
 
     // Next button
     nextBtn.addEventListener('click', function() {
@@ -160,310 +175,389 @@ function setupEventListeners() {
     });
 }
 
+function addThirdPartyService() {
+    serviceCounter++;
+    const container = document.getElementById('third-party-services-container');
+    
+    const serviceDiv = document.createElement('div');
+    serviceDiv.className = 'third-party-service';
+    serviceDiv.setAttribute('data-service-id', serviceCounter);
+    serviceDiv.innerHTML = `
+        <div class="service-header">
+            <h4>Service ${serviceCounter}</h4>
+            <button type="button" class="nav-btn restart-btn remove-service-btn" onclick="removeThirdPartyService(${serviceCounter})">Remove</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="service-type-${serviceCounter}">Type of Service:</label>
+            <input type="text" id="service-type-${serviceCounter}" name="third-party-service-type-${serviceCounter}">
+        </div>
+
+        <div class="form-group">
+            <label for="service-company-${serviceCounter}">Name of Company & Contact Number:</label>
+            <input type="text" id="service-company-${serviceCounter}" name="third-party-service-company-${serviceCounter}">
+        </div>
+
+        <div class="form-group">
+            <label for="service-start-time-${serviceCounter}">Start Time:</label>
+            <input type="time" id="service-start-time-${serviceCounter}" name="third-party-service-start-time-${serviceCounter}">
+        </div>
+    `;
+    
+    container.appendChild(serviceDiv);
+}
+
+function removeThirdPartyService(serviceId) {
+    const serviceDiv = document.querySelector(`[data-service-id="${serviceId}"]`);
+    if (serviceDiv) {
+        serviceDiv.remove();
+    }
+}
+
 function validatePage() {
-    console.log('=== Starting Page 8 Validation ===');
+    console.log('=== Starting Page 9 Validation ===');
     
-    // Check required radio groups with user-friendly labels
-    const requiredFields = [
-        { name: 'photographer', label: 'Photographer' },
-        { name: 'videographer', label: 'Videographer' },
-        { name: 'cinematography-equipment', label: 'Cinematography Equipment' }
-    ];
+    // Check required radio group
+    const additionalServices = document.querySelector('input[name="additional-services"]:checked');
     
-    const missingFields = [];
+    if (!additionalServices) {
+        return 'Please answer if you will be having any additional services.';
+    }
     
-    for (const field of requiredFields) {
-        const checked = document.querySelector(`input[name="${field.name}"]:checked`);
-        if (!checked) {
-            console.log(`Required field not answered: ${field.label}`);
-            missingFields.push(field.label);
+    // If additional services is Yes, check conditional timing fields
+    if (additionalServices.value === 'Yes') {
+        // Check low fog timing
+        const lowFogCheckbox = document.getElementById('low-fog-checkbox');
+        if (lowFogCheckbox && lowFogCheckbox.checked) {
+            const lowFogTiming = document.getElementById('low-fog-timing');
+            if (!lowFogTiming || !lowFogTiming.value) {
+                return 'Please select when Low Fog will be used.';
+            }
+        }
+        
+        // Check sparklers timing
+        const sparklersCheckbox = document.getElementById('sparklers-checkbox');
+        if (sparklersCheckbox && sparklersCheckbox.checked) {
+            const sparklersTiming = document.getElementById('sparklers-timing');
+            if (!sparklersTiming || !sparklersTiming.value) {
+                return 'Please select when Sparklers will be used.';
+            }
+        }
+        
+        // Check pancake cart timing
+        const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
+        if (pancakeCartCheckbox && pancakeCartCheckbox.checked) {
+            const pancakeCartTiming = document.getElementById('pancake-cart-timing');
+            if (!pancakeCartTiming || !pancakeCartTiming.value) {
+                return 'Please select the timing for Pancake Cart service.';
+            }
+        }
+        
+        // Check 360 booth timing
+        const booth360Checkbox = document.getElementById('booth-360-checkbox');
+        if (booth360Checkbox && booth360Checkbox.checked) {
+            const booth360Timing = document.getElementById('booth-360-timing');
+            if (!booth360Timing || !booth360Timing.value) {
+                return 'Please select the timing for 360 Booth service.';
+            }
+        }
+        
+        // Check vintage photobooth timing
+        const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
+        if (vintagePhotoboothCheckbox && vintagePhotoboothCheckbox.checked) {
+            const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
+            if (!vintagePhotoboothTiming || !vintagePhotoboothTiming.value) {
+                return 'Please select the timing for Vintage Photobooth service.';
+            }
         }
     }
     
-    // Check if cinematography equipment is Yes, then cinematography type is required
-    const cinematographyEquipment = document.querySelector('input[name="cinematography-equipment"]:checked');
-    if (cinematographyEquipment && cinematographyEquipment.value === 'Yes') {
-        const cinematographyType = document.querySelector('input[name="cinematography-type"]:checked');
-        if (!cinematographyType) {
-            console.log('Cinematography type not selected when equipment is Yes');
-            missingFields.push('Cinematography Equipment Type');
-        }
-    }
-    
-    if (missingFields.length > 0) {
-        return `Please answer the following required questions:\n\n• ${missingFields.join('\n• ')}`;
-    }
-    
-    console.log('=== Page 8 Validation Passed ===');
+    console.log('Page 9 validation passed');
     return true;
 }
 
-function setupExitWarnings() {
-    window.addEventListener('beforeunload', function(e) {
-        if (!isSubmitting && !isNavigating) {
-            e.preventDefault();
-            e.returnValue = 'You have unsaved changes. Are you sure you want to leave? At least save your progress.';
-            return e.returnValue;
-        }
-    });
-
-    document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'hidden' && !isSubmitting && !isNavigating) {
-            const modal = document.getElementById('exit-modal');
-            if (modal && !modal.classList.contains('show')) {
-                showExitModal();
-            }
-        }
-    });
-}
-
-function setupModalListeners() {
-    const modal = document.getElementById('exit-modal');
-    const saveAndExitBtn = document.getElementById('save-and-exit');
-    const exitWithoutSavingBtn = document.getElementById('exit-without-saving');
-    const continueFormBtn = document.getElementById('continue-form');
-    const modalPhone = document.getElementById('modal-phone');
-    const modalPhonePrefix = document.getElementById('modal-phone-prefix');
-
-    saveAndExitBtn.addEventListener('click', function() {
-        const phoneNumber = modalPhone.value.trim();
-        if (phoneNumber) {
-            const formData = getStoredData() || {};
-            const prefix = modalPhonePrefix.value;
-            formData.reminderPhone = phoneNumber;
-            formData.reminderPhonePrefix = prefix;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-        }
-        saveFormData();
-        showNotification('Progress saved! We\'ll remind you to complete the form.', 'success');
-        hideExitModal();
-    });
-
-    exitWithoutSavingBtn.addEventListener('click', function() {
-        hideExitModal();
-    });
-
-    continueFormBtn.addEventListener('click', function() {
-        hideExitModal();
-    });
-
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideExitModal();
-        }
-    });
-}
-
-function showExitModal() {
-    const modal = document.getElementById('exit-modal');
-    modal.classList.add('show');
-}
-
-function hideExitModal() {
-    const modal = document.getElementById('exit-modal');
-    modal.classList.remove('show');
-}
-
-function showSuccessModal() {
-    const modal = document.getElementById('success-modal');
-    modal.classList.add('show');
+function saveFormData() {
+    console.log('Saving Page 9 data...');
     
-    // Remove any existing event listeners
-    const okBtn = document.getElementById('success-ok-btn');
-    const newBtn = okBtn.cloneNode(true);
-    okBtn.parentNode.replaceChild(newBtn, okBtn);
+    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     
-    // Add fresh event listener
-    newBtn.addEventListener('click', function() {
-        modal.classList.remove('show');
-        // Force navigation after a short delay
-        setTimeout(() => {
-            window.location.href = 'page1.html';
-        }, 100);
+    // Save additional services question
+    const additionalServices = document.querySelector('input[name="additional-services"]:checked');
+    if (additionalServices) {
+        formData['additional-services'] = additionalServices.value;
+    }
+
+    // Save venue services checkboxes
+    const venueServiceCheckboxes = [
+        'venue-service-welcome-drinks',
+        'venue-service-nikkah-partition',
+        'venue-service-low-fog',
+        'venue-service-sparklers',
+        'venue-service-pancake-cart',
+        'venue-service-360-booth',
+        'venue-service-vintage-photobooth'
+    ];
+
+    venueServiceCheckboxes.forEach(name => {
+        const checkbox = document.querySelector(`input[name="${name}"]`);
+        if (checkbox) {
+            formData[name] = checkbox.checked;
+        }
     });
+
+    // Save timing options from dropdowns
+    const lowFogTiming = document.getElementById('low-fog-timing');
+    if (lowFogTiming) {
+        formData['low-fog-timing'] = lowFogTiming.value;
+    }
+
+    const sparklersTiming = document.getElementById('sparklers-timing');
+    if (sparklersTiming) {
+        formData['sparklers-timing'] = sparklersTiming.value;
+    }
+
+    const pancakeCartTiming = document.getElementById('pancake-cart-timing');
+    if (pancakeCartTiming) {
+        formData['pancake-cart-timing'] = pancakeCartTiming.value;
+    }
+
+    const booth360Timing = document.getElementById('booth-360-timing');
+    if (booth360Timing) {
+        formData['booth-360-timing'] = booth360Timing.value;
+    }
+
+    const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
+    if (vintagePhotoboothTiming) {
+        formData['vintage-photobooth-timing'] = vintagePhotoboothTiming.value;
+    }
+
+    // Save third party services
+    const thirdPartyServices = [];
+    document.querySelectorAll('.third-party-service').forEach(serviceDiv => {
+        const serviceId = serviceDiv.getAttribute('data-service-id');
+        const serviceData = {
+            id: serviceId,
+            type: document.getElementById(`service-type-${serviceId}`)?.value || '',
+            company: document.getElementById(`service-company-${serviceId}`)?.value || '',
+            startTime: document.getElementById(`service-start-time-${serviceId}`)?.value || ''
+        };
+        thirdPartyServices.push(serviceData);
+    });
+    formData['third-party-services'] = thirdPartyServices;
+    formData['third-party-service-counter'] = serviceCounter;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    console.log('Page 9 data saved:', formData);
 }
 
-function hideSuccessModal() {
-    const modal = document.getElementById('success-modal');
-    modal.classList.remove('show');
+function loadSavedData() {
+    console.log('Loading saved data for Page 9...');
+    
+    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    
+    // Load additional services
+    if (formData['additional-services']) {
+        const radio = document.querySelector(`input[name="additional-services"][value="${formData['additional-services']}"]`);
+        if (radio) radio.checked = true;
+    }
+
+    // Load venue services checkboxes
+    const venueServiceCheckboxes = [
+        'venue-service-welcome-drinks',
+        'venue-service-nikkah-partition',
+        'venue-service-low-fog',
+        'venue-service-sparklers',
+        'venue-service-pancake-cart',
+        'venue-service-360-booth',
+        'venue-service-vintage-photobooth'
+    ];
+
+    venueServiceCheckboxes.forEach(name => {
+        const checkbox = document.querySelector(`input[name="${name}"]`);
+        if (checkbox && formData[name]) {
+            checkbox.checked = true;
+            checkbox.dispatchEvent(new Event('change'));
+        }
+    });
+
+    // Load timing options from dropdowns
+    if (formData['low-fog-timing']) {
+        const select = document.getElementById('low-fog-timing');
+        if (select) select.value = formData['low-fog-timing'];
+    }
+
+    if (formData['sparklers-timing']) {
+        const select = document.getElementById('sparklers-timing');
+        if (select) select.value = formData['sparklers-timing'];
+    }
+
+    if (formData['pancake-cart-timing']) {
+        const select = document.getElementById('pancake-cart-timing');
+        if (select) select.value = formData['pancake-cart-timing'];
+    }
+
+    if (formData['booth-360-timing']) {
+        const select = document.getElementById('booth-360-timing');
+        if (select) select.value = formData['booth-360-timing'];
+    }
+
+    if (formData['vintage-photobooth-timing']) {
+        const select = document.getElementById('vintage-photobooth-timing');
+        if (select) select.value = formData['vintage-photobooth-timing'];
+    }
+
+    // Load third party services
+    if (formData['third-party-services'] && Array.isArray(formData['third-party-services'])) {
+        formData['third-party-services'].forEach(service => {
+            serviceCounter = parseInt(service.id);
+            addThirdPartyService();
+            
+            document.getElementById(`service-type-${service.id}`).value = service.type || '';
+            document.getElementById(`service-company-${service.id}`).value = service.company || '';
+            document.getElementById(`service-start-time-${service.id}`).value = service.startTime || '';
+        });
+    }
+
+    if (formData['third-party-service-counter']) {
+        serviceCounter = formData['third-party-service-counter'];
+    }
+
+    console.log('Page 9 data loaded');
 }
 
 async function handleFormSubmit() {
+    if (isSubmitting) {
+        console.log('Already submitting, ignoring duplicate submission');
+        return;
+    }
+
+    isSubmitting = true;
+    saveFormData();
+    
+    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    
+    if (APPSCRIPT_ENDPOINTS.length === 0) {
+        showNotification('Error: No submission endpoints configured. Please contact support.', 'error');
+        isSubmitting = false;
+        return;
+    }
+
+    console.log('Submitting to endpoints:', APPSCRIPT_ENDPOINTS);
+    
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
     try {
-        // Save current page data first
-        saveFormData();
-        
-        // Get complete form data
-        const rawData = getStoredData() || {};
-        rawData.submittedAt = new Date().toISOString();
-        
-        // Validate complete form
-        const validation = validateCompleteForm(rawData);
-        if (!validation.isValid) {
-            console.warn('Form validation found missing fields:', validation.missingFields);
-            const errorMsg = `Please complete all required fields:\n\n• ${validation.missingFields.join('\n• ')}`;
-            showNotification(errorMsg, 'error');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Form';
-            return;
-        }
-        
-        // Send raw data directly to Apps Script (it expects flat field names)
-        console.log('Submitting form data:', rawData);
-
-        // Submit to App Script endpoints with retry logic
-        const success = await submitToAppScript(rawData);
-        
-        if (!success) {
-            throw new Error('All App Script endpoints failed');
-        }
-
-        console.log('Form submitted successfully');
-        
-        isSubmitting = true;
-        
-        // Clear localStorage
-        localStorage.removeItem(STORAGE_KEY);
-        
-        // Clear all form fields on page 8
-        document.getElementById('page8-form').reset();
-        
-        // Clear all conditional sections
-        document.getElementById('photographer-details').style.display = 'none';
-        document.getElementById('videographer-details').style.display = 'none';
-        
-        // Show success modal
-        showSuccessModal();
-        
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Form';
-
-    } catch (error) {
-        console.error('Error submitting form:', error);
-        showNotification('Submission failed. Please check your internet connection and try again.', 'error');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Form';
-    }
-}
-
-function saveFormData() {
-    const formData = getStoredData() || {};
-    
-    // Save text, tel, number, email, textarea inputs
-    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
-        // Save even if empty to track which fields were visited
-        formData[input.name || input.id] = input.value || '';
-    });
-    
-    // Save radio buttons
-    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
-        formData[radio.name] = radio.value;
-    });
-    
-    // Save checkboxes
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        formData[checkbox.name || checkbox.id] = checkbox.checked ? 'on' : 'off';
-    });
-    
-    formData.lastSaved = new Date().toISOString();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-    console.log('Form data saved:', formData);
-}
-
-function loadSavedData() {
-    const savedData = getStoredData();
-    if (!savedData) {
-        console.log('No saved data found');
-        return;
-    }
-    
-    console.log('Loading saved data:', savedData);
-    
-    Object.keys(savedData).forEach(key => {
-        const element = document.getElementById(key);
-        if (element && element.type !== 'radio') {
-            element.value = savedData[key];
-        }
-    });
-    
-    Object.keys(savedData).forEach(key => {
-        const radio = document.querySelector(`input[name="${key}"][value="${savedData[key]}"]`);
-        if (radio) {
-            radio.checked = true;
-            radio.dispatchEvent(new Event('change'));
-        }
-    });
-}
-
-function getStoredData() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : null;
-}
-
-function showNotification(message, type = 'success') {
-    const notification = document.getElementById('notification');
-    // Preserve line breaks in messages
-    notification.innerHTML = message.replace(/\n/g, '<br>');
-    notification.className = `notification notification-${type} show`;
-    
-    // Errors stay longer so users can read them
-    const duration = type === 'error' ? 5000 : 3000;
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, duration);
-}
-
-/**
- * Submits data to App Script endpoints with fallback retry logic
- * Tries each endpoint in order until one succeeds
- */
-async function submitToAppScript(payload) {
-    if (!APPSCRIPT_ENDPOINTS || APPSCRIPT_ENDPOINTS.length === 0) {
-        console.error('No App Script endpoints configured');
-        showNotification('Configuration error: No submission endpoints available', 'error');
-        return false;
-    }
-
-    console.log(`Attempting submission to ${APPSCRIPT_ENDPOINTS.length} endpoint(s)`);
-
-    for (let i = 0; i < APPSCRIPT_ENDPOINTS.length; i++) {
-        const endpoint = APPSCRIPT_ENDPOINTS[i];
-        console.log(`Trying endpoint ${i + 1}/${APPSCRIPT_ENDPOINTS.length}: ${endpoint.substring(0, 50)}...`);
-
-        try {
-            const response = await fetch(endpoint, {
+        const submissionPromises = APPSCRIPT_ENDPOINTS.map(endpoint => 
+            fetch(endpoint, {
                 method: 'POST',
-                mode: 'no-cors', // Required for Google Apps Script
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload)
-            });
+                body: JSON.stringify(formData)
+            })
+        );
 
-            // With no-cors mode, we can't read the response, but if fetch doesn't throw, consider it successful
-            console.log(`✓ Endpoint ${i + 1} accepted the request`);
-            return true;
-
-        } catch (error) {
-            console.warn(`✗ Endpoint ${i + 1} failed:`, error.message);
-            
-            // If this was the last endpoint, return false
-            if (i === APPSCRIPT_ENDPOINTS.length - 1) {
-                console.error('All endpoints failed');
-                return false;
-            }
-            
-            // Otherwise, continue to next endpoint
-            console.log(`Retrying with next endpoint...`);
-        }
+        await Promise.all(submissionPromises);
+        
+        console.log('Form submitted successfully to all endpoints');
+        
+        localStorage.removeItem(STORAGE_KEY);
+        
+        const successModal = document.getElementById('success-modal');
+        successModal.style.display = 'flex';
+        
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        showNotification('There was an error submitting the form. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Form';
+        isSubmitting = false;
     }
+}
 
-    return false;
+function setupExitWarnings() {
+    let isExiting = false;
+
+    window.addEventListener('beforeunload', function(e) {
+        const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        
+        if (Object.keys(formData).length > 0 && !isExiting && !isSubmitting && !isNavigating) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+    });
+
+    const links = document.querySelectorAll('a:not([href^="#"])');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            
+            if (Object.keys(formData).length > 0 && !isExiting) {
+                e.preventDefault();
+                const exitModal = document.getElementById('exit-modal');
+                exitModal.style.display = 'flex';
+            }
+        });
+    });
+}
+
+function setupModalListeners() {
+    const exitModal = document.getElementById('exit-modal');
+    const successModal = document.getElementById('success-modal');
+    const saveAndExitBtn = document.getElementById('save-and-exit');
+    const exitWithoutSavingBtn = document.getElementById('exit-without-saving');
+    const continueFormBtn = document.getElementById('continue-form');
+    const successOkBtn = document.getElementById('success-ok-btn');
+
+    saveAndExitBtn.addEventListener('click', function() {
+        saveFormData();
+        const phoneInput = document.getElementById('modal-phone');
+        const phonePrefix = document.getElementById('modal-phone-prefix');
+        
+        if (phoneInput.value) {
+            const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            formData['reminder-phone'] = phonePrefix.value + phoneInput.value;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+        }
+        
+        window.location.href = 'index.html';
+    });
+
+    exitWithoutSavingBtn.addEventListener('click', function() {
+        localStorage.removeItem(STORAGE_KEY);
+        window.location.href = 'index.html';
+    });
+
+    continueFormBtn.addEventListener('click', function() {
+        exitModal.style.display = 'none';
+    });
+
+    successOkBtn.addEventListener('click', function() {
+        successModal.style.display = 'none';
+        window.location.href = 'index.html';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === exitModal) {
+            exitModal.style.display = 'none';
+        }
+        if (e.target === successModal) {
+            successModal.style.display = 'none';
+            window.location.href = 'index.html';
+        }
+    });
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `notification ${type} show`;
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 5000);
 }

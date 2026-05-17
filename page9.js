@@ -1,4 +1,4 @@
-// Page 9 - Additional Services JavaScript
+// Page 10 - Catering JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 // Load endpoints from JSON file
@@ -20,113 +20,65 @@ async function loadAppScriptEndpoints() {
 
 let isSubmitting = false;
 let isNavigating = false;
-let serviceCounter = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadAppScriptEndpoints();
     loadSavedData();
     setupEventListeners();
-    setupAdditionalServicesToggle();
-    setupTimingToggles();
+    setupConditionalToggles();
     setupExitWarnings();
     setupModalListeners();
 });
 
-function setupAdditionalServicesToggle() {
-    const additionalServicesRadios = document.querySelectorAll('input[name="additional-services"]');
-    const additionalServicesContent = document.getElementById('additional-services-content');
+function setupConditionalToggles() {
+    // Drinks Third Party toggle
+    const drinksProviderRadios = document.querySelectorAll('input[name="drinks-provider"]');
+    const drinksThirdPartyDetails = document.getElementById('drinks-third-party-details');
     
-    additionalServicesRadios.forEach(radio => {
+    drinksProviderRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                additionalServicesContent.style.display = 'block';
+            if (this.value === 'Third Party Company') {
+                drinksThirdPartyDetails.style.display = 'block';
             } else {
-                additionalServicesContent.style.display = 'none';
+                drinksThirdPartyDetails.style.display = 'none';
+                document.getElementById('drinks-third-party-name').value = '';
+                document.getElementById('drinks-third-party-contact').value = '';
+                document.getElementById('drinks-third-party-contact-prefix').value = '+44';
             }
         });
     });
-}
 
-function setupTimingToggles() {
-    // Low Fog toggle
-    const lowFogCheckbox = document.getElementById('low-fog-checkbox');
-    const lowFogOptions = document.getElementById('low-fog-options');
-    const lowFogTiming = document.getElementById('low-fog-timing');
+    // Reception Drinks toggle
+    const receptionDrinksRadios = document.querySelectorAll('input[name="reception-drinks"]');
+    const receptionDrinksDetails = document.getElementById('reception-drinks-details');
     
-    if (lowFogCheckbox) {
-        lowFogCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                lowFogOptions.style.display = 'block';
+    receptionDrinksRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Yes') {
+                receptionDrinksDetails.style.display = 'block';
             } else {
-                lowFogOptions.style.display = 'none';
-                if (lowFogTiming) lowFogTiming.value = '';
+                receptionDrinksDetails.style.display = 'none';
+                document.querySelectorAll('input[name="reception-drinks-supplier"]').forEach(r => r.checked = false);
             }
         });
-    }
+    });
 
-    // Sparklers toggle
-    const sparklersCheckbox = document.getElementById('sparklers-checkbox');
-    const sparklersOptions = document.getElementById('sparklers-options');
-    const sparklersTiming = document.getElementById('sparklers-timing');
+    // Hot Drinks Third Party toggle
+    const hotDrinksSupplierRadios = document.querySelectorAll('input[name="hot-drinks-supplier"]');
+    const hotDrinksThirdPartyDetails = document.getElementById('hot-drinks-third-party-details');
     
-    if (sparklersCheckbox) {
-        sparklersCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                sparklersOptions.style.display = 'block';
+    hotDrinksSupplierRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Third Party Company') {
+                hotDrinksThirdPartyDetails.style.display = 'block';
             } else {
-                sparklersOptions.style.display = 'none';
-                if (sparklersTiming) sparklersTiming.value = '';
+                hotDrinksThirdPartyDetails.style.display = 'none';
+                document.getElementById('hot-drinks-contact-name').value = '';
+                document.getElementById('hot-drinks-contact-number').value = '';
+                document.getElementById('hot-drinks-contact-number-prefix').value = '+44';
             }
         });
-    }
-
-    // Pancake Cart timing toggle
-    const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
-    const pancakeCartOptions = document.getElementById('pancake-cart-options');
-    const pancakeCartTiming = document.getElementById('pancake-cart-timing');
-    
-    if (pancakeCartCheckbox) {
-        pancakeCartCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                pancakeCartOptions.style.display = 'block';
-            } else {
-                pancakeCartOptions.style.display = 'none';
-                if (pancakeCartTiming) pancakeCartTiming.value = '';
-            }
-        });
-    }
-
-    // 360 Booth timing toggle
-    const booth360Checkbox = document.getElementById('booth-360-checkbox');
-    const booth360Options = document.getElementById('booth-360-options');
-    const booth360Timing = document.getElementById('booth-360-timing');
-    
-    if (booth360Checkbox) {
-        booth360Checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                booth360Options.style.display = 'block';
-            } else {
-                booth360Options.style.display = 'none';
-                if (booth360Timing) booth360Timing.value = '';
-            }
-        });
-    }
-
-    // Vintage Photobooth timing toggle
-    const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
-    const vintagePhotoboothOptions = document.getElementById('vintage-photobooth-options');
-    const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
-    
-    if (vintagePhotoboothCheckbox) {
-        vintagePhotoboothCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                vintagePhotoboothOptions.style.display = 'block';
-            } else {
-                vintagePhotoboothOptions.style.display = 'none';
-                if (vintagePhotoboothTiming) vintagePhotoboothTiming.value = '';
-            }
-        });
-    }
+    });
 }
 
 function setupEventListeners() {
@@ -135,10 +87,6 @@ function setupEventListeners() {
     const nextBtn = document.getElementById('next-btn');
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
-    const addServiceBtn = document.getElementById('add-service-btn');
-
-    // Add Service button
-    addServiceBtn.addEventListener('click', addThirdPartyService);
 
     // Next button
     nextBtn.addEventListener('click', function() {
@@ -175,254 +123,135 @@ function setupEventListeners() {
     });
 }
 
-function addThirdPartyService() {
-    serviceCounter++;
-    const container = document.getElementById('third-party-services-container');
-    
-    const serviceDiv = document.createElement('div');
-    serviceDiv.className = 'third-party-service';
-    serviceDiv.setAttribute('data-service-id', serviceCounter);
-    serviceDiv.innerHTML = `
-        <div class="service-header">
-            <h4>Service ${serviceCounter}</h4>
-            <button type="button" class="nav-btn restart-btn remove-service-btn" onclick="removeThirdPartyService(${serviceCounter})">Remove</button>
-        </div>
-        
-        <div class="form-group">
-            <label for="service-type-${serviceCounter}">Type of Service:</label>
-            <input type="text" id="service-type-${serviceCounter}" name="third-party-service-type-${serviceCounter}">
-        </div>
-
-        <div class="form-group">
-            <label for="service-company-${serviceCounter}">Name of Company & Contact Number:</label>
-            <input type="text" id="service-company-${serviceCounter}" name="third-party-service-company-${serviceCounter}">
-        </div>
-
-        <div class="form-group">
-            <label for="service-start-time-${serviceCounter}">Start Time:</label>
-            <input type="time" id="service-start-time-${serviceCounter}" name="third-party-service-start-time-${serviceCounter}">
-        </div>
-    `;
-    
-    container.appendChild(serviceDiv);
-}
-
-function removeThirdPartyService(serviceId) {
-    const serviceDiv = document.querySelector(`[data-service-id="${serviceId}"]`);
-    if (serviceDiv) {
-        serviceDiv.remove();
-    }
-}
-
 function validatePage() {
-    console.log('=== Starting Page 9 Validation ===');
+    console.log('=== Starting Page 10 Validation ===');
     
-    // Check required radio group
-    const additionalServices = document.querySelector('input[name="additional-services"]:checked');
+    // Check required radio groups
+    const requiredFields = [
+        { name: 'leftover-food-drinks', label: 'Who is taking the leftover Food & Drinks' },
+        { name: 'leftover-containers', label: 'Who will provide the Containers for leftover food' },
+        { name: 'drinks-provider', label: 'Who will be providing the drinks' },
+        { name: 'reception-drinks', label: 'Will you be having reception drinks' }
+    ];
     
-    if (!additionalServices) {
-        return 'Please answer if you will be having any additional services.';
+    for (const field of requiredFields) {
+        const selected = document.querySelector(`input[name="${field.name}"]:checked`);
+        if (!selected) {
+            return `Please select an option for: ${field.label}`;
+        }
     }
-    
-    // If additional services is Yes, check conditional timing fields
-    if (additionalServices.value === 'Yes') {
-        // Check low fog timing
-        const lowFogCheckbox = document.getElementById('low-fog-checkbox');
-        if (lowFogCheckbox && lowFogCheckbox.checked) {
-            const lowFogTiming = document.getElementById('low-fog-timing');
-            if (!lowFogTiming || !lowFogTiming.value) {
-                return 'Please select when Low Fog will be used.';
-            }
-        }
-        
-        // Check sparklers timing
-        const sparklersCheckbox = document.getElementById('sparklers-checkbox');
-        if (sparklersCheckbox && sparklersCheckbox.checked) {
-            const sparklersTiming = document.getElementById('sparklers-timing');
-            if (!sparklersTiming || !sparklersTiming.value) {
-                return 'Please select when Sparklers will be used.';
-            }
-        }
-        
-        // Check pancake cart timing
-        const pancakeCartCheckbox = document.getElementById('pancake-cart-checkbox');
-        if (pancakeCartCheckbox && pancakeCartCheckbox.checked) {
-            const pancakeCartTiming = document.getElementById('pancake-cart-timing');
-            if (!pancakeCartTiming || !pancakeCartTiming.value) {
-                return 'Please select the timing for Pancake Cart service.';
-            }
-        }
-        
-        // Check 360 booth timing
-        const booth360Checkbox = document.getElementById('booth-360-checkbox');
-        if (booth360Checkbox && booth360Checkbox.checked) {
-            const booth360Timing = document.getElementById('booth-360-timing');
-            if (!booth360Timing || !booth360Timing.value) {
-                return 'Please select the timing for 360 Booth service.';
-            }
-        }
-        
-        // Check vintage photobooth timing
-        const vintagePhotoboothCheckbox = document.getElementById('vintage-photobooth-checkbox');
-        if (vintagePhotoboothCheckbox && vintagePhotoboothCheckbox.checked) {
-            const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
-            if (!vintagePhotoboothTiming || !vintagePhotoboothTiming.value) {
-                return 'Please select the timing for Vintage Photobooth service.';
-            }
+
+    // Check conditional required fields
+    const receptionDrinks = document.querySelector('input[name="reception-drinks"]:checked');
+    if (receptionDrinks && receptionDrinks.value === 'Yes') {
+        const supplier = document.querySelector('input[name="reception-drinks-supplier"]:checked');
+        if (!supplier) {
+            return 'Please select who is your reception drinks supplier';
         }
     }
     
-    console.log('Page 9 validation passed');
+    console.log('Page 10 validation passed');
     return true;
 }
 
 function saveFormData() {
-    console.log('Saving Page 9 data...');
+    console.log('Saving Page 10 data...');
     
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     
-    // Save additional services question
-    const additionalServices = document.querySelector('input[name="additional-services"]:checked');
-    if (additionalServices) {
-        formData['additional-services'] = additionalServices.value;
-    }
+    // Save text inputs
+    formData['catering-company-name'] = document.getElementById('catering-company-name').value;
+    formData['catering-contact-name'] = document.getElementById('catering-contact-name').value;
 
-    // Save venue services checkboxes
-    const venueServiceCheckboxes = [
-        'venue-service-welcome-drinks',
-        'venue-service-nikkah-partition',
-        'venue-service-low-fog',
-        'venue-service-sparklers',
-        'venue-service-pancake-cart',
-        'venue-service-360-booth',
-        'venue-service-vintage-photobooth'
+    // Save radio selections
+    const radioGroups = [
+        'company-worked-before',
+        'leftover-food-drinks',
+        'leftover-containers',
+        'drinks-provider',
+        'reception-drinks',
+        'reception-drinks-supplier',
+        'hot-drinks-supplier'
     ];
 
-    venueServiceCheckboxes.forEach(name => {
-        const checkbox = document.querySelector(`input[name="${name}"]`);
-        if (checkbox) {
-            formData[name] = checkbox.checked;
+    radioGroups.forEach(name => {
+        const selected = document.querySelector(`input[name="${name}"]:checked`);
+        if (selected) {
+            formData[name] = selected.value;
         }
     });
 
-    // Save timing options from dropdowns
-    const lowFogTiming = document.getElementById('low-fog-timing');
-    if (lowFogTiming) {
-        formData['low-fog-timing'] = lowFogTiming.value;
-    }
+    // Save drinks third party details
+    formData['drinks-third-party-name'] = document.getElementById('drinks-third-party-name').value;
+    formData['drinks-third-party-contact'] = document.getElementById('drinks-third-party-contact').value;
+    formData['drinks-third-party-contact-prefix'] = document.getElementById('drinks-third-party-contact-prefix').value;
 
-    const sparklersTiming = document.getElementById('sparklers-timing');
-    if (sparklersTiming) {
-        formData['sparklers-timing'] = sparklersTiming.value;
-    }
-
-    const pancakeCartTiming = document.getElementById('pancake-cart-timing');
-    if (pancakeCartTiming) {
-        formData['pancake-cart-timing'] = pancakeCartTiming.value;
-    }
-
-    const booth360Timing = document.getElementById('booth-360-timing');
-    if (booth360Timing) {
-        formData['booth-360-timing'] = booth360Timing.value;
-    }
-
-    const vintagePhotoboothTiming = document.getElementById('vintage-photobooth-timing');
-    if (vintagePhotoboothTiming) {
-        formData['vintage-photobooth-timing'] = vintagePhotoboothTiming.value;
-    }
-
-    // Save third party services
-    const thirdPartyServices = [];
-    document.querySelectorAll('.third-party-service').forEach(serviceDiv => {
-        const serviceId = serviceDiv.getAttribute('data-service-id');
-        const serviceData = {
-            id: serviceId,
-            type: document.getElementById(`service-type-${serviceId}`)?.value || '',
-            company: document.getElementById(`service-company-${serviceId}`)?.value || '',
-            startTime: document.getElementById(`service-start-time-${serviceId}`)?.value || ''
-        };
-        thirdPartyServices.push(serviceData);
-    });
-    formData['third-party-services'] = thirdPartyServices;
-    formData['third-party-service-counter'] = serviceCounter;
+    // Save hot drinks third party details
+    formData['hot-drinks-contact-name'] = document.getElementById('hot-drinks-contact-name').value;
+    formData['hot-drinks-contact-number'] = document.getElementById('hot-drinks-contact-number').value;
+    formData['hot-drinks-contact-number-prefix'] = document.getElementById('hot-drinks-contact-number-prefix').value;
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-    console.log('Page 9 data saved:', formData);
+    console.log('Page 10 data saved:', formData);
 }
 
 function loadSavedData() {
-    console.log('Loading saved data for Page 9...');
+    console.log('Loading saved data for Page 10...');
     
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     
-    // Load additional services
-    if (formData['additional-services']) {
-        const radio = document.querySelector(`input[name="additional-services"][value="${formData['additional-services']}"]`);
-        if (radio) radio.checked = true;
+    // Load text inputs
+    if (formData['catering-company-name']) {
+        document.getElementById('catering-company-name').value = formData['catering-company-name'];
+    }
+    if (formData['catering-contact-name']) {
+        document.getElementById('catering-contact-name').value = formData['catering-contact-name'];
     }
 
-    // Load venue services checkboxes
-    const venueServiceCheckboxes = [
-        'venue-service-welcome-drinks',
-        'venue-service-nikkah-partition',
-        'venue-service-low-fog',
-        'venue-service-sparklers',
-        'venue-service-pancake-cart',
-        'venue-service-360-booth',
-        'venue-service-vintage-photobooth'
+    // Load radio selections
+    const radioGroups = [
+        'company-worked-before',
+        'leftover-food-drinks',
+        'leftover-containers',
+        'drinks-provider',
+        'reception-drinks',
+        'reception-drinks-supplier',
+        'hot-drinks-supplier'
     ];
 
-    venueServiceCheckboxes.forEach(name => {
-        const checkbox = document.querySelector(`input[name="${name}"]`);
-        if (checkbox && formData[name]) {
-            checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change'));
+    radioGroups.forEach(name => {
+        if (formData[name]) {
+            const radio = document.querySelector(`input[name="${name}"][value="${formData[name]}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change'));
+            }
         }
     });
 
-    // Load timing options from dropdowns
-    if (formData['low-fog-timing']) {
-        const select = document.getElementById('low-fog-timing');
-        if (select) select.value = formData['low-fog-timing'];
+    // Load drinks third party details
+    if (formData['drinks-third-party-name']) {
+        document.getElementById('drinks-third-party-name').value = formData['drinks-third-party-name'];
+    }
+    if (formData['drinks-third-party-contact']) {
+        document.getElementById('drinks-third-party-contact').value = formData['drinks-third-party-contact'];
+    }
+    if (formData['drinks-third-party-contact-prefix']) {
+        document.getElementById('drinks-third-party-contact-prefix').value = formData['drinks-third-party-contact-prefix'];
     }
 
-    if (formData['sparklers-timing']) {
-        const select = document.getElementById('sparklers-timing');
-        if (select) select.value = formData['sparklers-timing'];
+    // Load hot drinks third party details
+    if (formData['hot-drinks-contact-name']) {
+        document.getElementById('hot-drinks-contact-name').value = formData['hot-drinks-contact-name'];
+    }
+    if (formData['hot-drinks-contact-number']) {
+        document.getElementById('hot-drinks-contact-number').value = formData['hot-drinks-contact-number'];
+    }
+    if (formData['hot-drinks-contact-number-prefix']) {
+        document.getElementById('hot-drinks-contact-number-prefix').value = formData['hot-drinks-contact-number-prefix'];
     }
 
-    if (formData['pancake-cart-timing']) {
-        const select = document.getElementById('pancake-cart-timing');
-        if (select) select.value = formData['pancake-cart-timing'];
-    }
-
-    if (formData['booth-360-timing']) {
-        const select = document.getElementById('booth-360-timing');
-        if (select) select.value = formData['booth-360-timing'];
-    }
-
-    if (formData['vintage-photobooth-timing']) {
-        const select = document.getElementById('vintage-photobooth-timing');
-        if (select) select.value = formData['vintage-photobooth-timing'];
-    }
-
-    // Load third party services
-    if (formData['third-party-services'] && Array.isArray(formData['third-party-services'])) {
-        formData['third-party-services'].forEach(service => {
-            serviceCounter = parseInt(service.id);
-            addThirdPartyService();
-            
-            document.getElementById(`service-type-${service.id}`).value = service.type || '';
-            document.getElementById(`service-company-${service.id}`).value = service.company || '';
-            document.getElementById(`service-start-time-${service.id}`).value = service.startTime || '';
-        });
-    }
-
-    if (formData['third-party-service-counter']) {
-        serviceCounter = formData['third-party-service-counter'];
-    }
-
-    console.log('Page 9 data loaded');
+    console.log('Page 10 data loaded');
 }
 
 async function handleFormSubmit() {

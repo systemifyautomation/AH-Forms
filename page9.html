@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Additional Services - Amington Hall</title>
+    <title>Catering - Amington Hall</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,155 +21,206 @@
             </header>
             
             <form id="page9-form" class="wedding-form">
-                <h2 class="page-title">Additional Services</h2>
+                <h2 class="page-title">Catering</h2>
 
-                <!-- Additional Services Question -->
+                <!-- Catering Company Name -->
                 <div class="form-group">
-                    <label>Will you be having any additional services? <span class="required">*</span></label>
+                    <label for="catering-company-name">Catering Company Name:</label>
+                    <input type="text" id="catering-company-name" name="catering-company-name">
+                </div>
+
+                <!-- Contact Name & Number -->
+                <div class="form-group">
+                    <label for="catering-contact-name">Contact Name & Number:</label>
+                    <input type="text" id="catering-contact-name" name="catering-contact-name">
+                </div>
+
+                <!-- Has Company Worked at Amington Hall Before -->
+                <div class="form-group">
+                    <label>Has the Company Worked at Amington Hall before?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="additional-services" value="Yes" required>
-                            <span>Yes</span>
+                            <input type="radio" name="company-worked-before" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="additional-services" value="No" required>
-                            <span>No</span>
+                            <input type="radio" name="company-worked-before" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
                         </label>
                     </div>
                 </div>
 
-                <div id="additional-services-content" class="conditional-section" style="display: none;">
-                    <div class="info-notice">
-                        <p>If you are having any additional services, please add the details below. If the locations or timings have not yet been confirmed, leave boxes blank and the event organizer will discuss this further with you on your Walkthrough Meeting:</p>
+                <div class="info-notice">
+                    <p>If your chosen caterer has not worked at Amington Hall before they will need to organise a site visit with the Venue. It is vital that the caterer inspects the kitchen facilities on site and understands how our kitchen equipment is operated well before your event.</p>
+                </div>
+
+                <div class="info-notice">
+                    <p>Please note: the Venue does NOT provide any serving dishes. These will need to be provided by your chosen caterer and be white in colour. Please see our Party Catering leaflet for more information.</p>
+                </div>
+
+                <div class="info-notice">
+                    <p>Prior to your event it is important for you to discuss with your caterer the arrangements of the leftover food and drinks. Please discuss the following:</p>
+                </div>
+
+                <!-- Who is taking leftover Food & Drinks -->
+                <div class="form-group">
+                    <label>Who is taking the leftover Food & Drinks? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-food-drinks" value="Charity (Must be arranged by client)" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Charity (Must be arranged by client)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Who will provide Containers for leftover food -->
+                <div class="form-group">
+                    <label>Who will provide the Containers for leftover food? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-containers" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="leftover-containers" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Drinks</h3>
+
+                <div class="form-group">
+                    <label>Who will be providing the drinks? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Caterer" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Client" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Client</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Third Party Company" required id="drinks-third-party">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Third Party Company</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="drinks-provider" value="Amington Hall" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Amington Hall</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="drinks-third-party-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="drinks-third-party-name">Name:</label>
+                        <input type="text" id="drinks-third-party-name" name="drinks-third-party-name">
                     </div>
 
-                    <div class="info-notice">
-                        <p>Depending on the nature of the service provided by your chosen vendors, we would require them to provide us with copies of either their Public Liability Insurance cover, PAT certification for their equipment or Health & Hygiene certification.</p>
-                    </div>
-
-                    <!-- Venue Services Section -->
-                    <h3 class="section-subtitle mt-40 mb-20">Will you be having any of the following additional services from us as a venue:</h3>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-welcome-drinks" value="Welcome Drinks" id="welcome-drinks-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Welcome Drinks</span>
-                        </label>
-
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-nikkah-partition" value="Nikkah Partition" id="nikkah-partition-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Nikkah Partition</span>
-                        </label>
-
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-low-fog" value="Low Fog – 1 Time use" id="low-fog-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Low Fog – 1 Time use</span>
-                        </label>
-                    </div>
-
-                    <div id="low-fog-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
-                        <div class="form-group">
-                            <label for="low-fog-timing">When will this be used:</label>
-                            <select id="low-fog-timing" name="low-fog-timing" class="select-input">
-                                <option value="">Select option</option>
-                                <option value="Bride's Entrance">Bride's Entrance</option>
-                                <option value="Baraat Entrance">Baraat Entrance</option>
-                                <option value="Bride & Groom Entrance">Bride & Groom Entrance</option>
-                                <option value="Cake Ceremony">Cake Ceremony</option>
-                                <option value="First Dance">First Dance</option>
-                            </select>
+                    <div class="form-group">
+                        <label for="drinks-third-party-contact">Contact Number:</label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" id="drinks-third-party-contact-prefix" name="drinks-third-party-contact-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="drinks-third-party-contact" name="drinks-third-party-contact" class="phone-number">
                         </div>
                     </div>
+                </div>
 
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-sparklers" value="Sparklers – 1 Time use" id="sparklers-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Sparklers – 1 Time use</span>
+                <!-- Reception Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Reception Drinks</h3>
+
+                <div class="form-group">
+                    <label>Will you be having reception drinks? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="reception-drinks" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="reception-drinks" value="No" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
                         </label>
                     </div>
+                </div>
 
-                    <div id="sparklers-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
-                        <div class="form-group">
-                            <label for="sparklers-timing">When will this be used:</label>
-                            <select id="sparklers-timing" name="sparklers-timing" class="select-input">
-                                <option value="">Select option</option>
-                                <option value="Bride & Groom on Stage">Bride & Groom on Stage</option>
-                                <option value="Cake Ceremony">Cake Ceremony</option>
-                                <option value="First Dance">First Dance</option>
-                            </select>
+                <div id="reception-drinks-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label class="required">Who is your supplier?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Amington Hall">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Amington Hall</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Client">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Client</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="reception-drinks-supplier" value="Third Party">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">Third Party</span>
+                            </label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-pancake-cart" value="Pancake Cart – 2 Hour Service" id="pancake-cart-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Pancake Cart – 2 Hour Service</span>
+                <!-- Hot Drinks Section -->
+                <h3 class="section-subtitle mt-40 mb-20">Hot Drinks</h3>
+
+                <div class="form-group">
+                    <label>Who is your Supplier?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="hot-drinks-supplier" value="Caterer">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Caterer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="hot-drinks-supplier" value="Third Party Company" id="hot-drinks-third-party">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Third Party Company</span>
                         </label>
                     </div>
+                </div>
 
-                    <div id="pancake-cart-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
-                        <div class="form-group">
-                            <label for="pancake-cart-timing">Service Time:</label>
-                            <select id="pancake-cart-timing" name="pancake-cart-timing" class="select-input">
-                                <option value="">Select option</option>
-                                <option value="Guest Arrival">Guest Arrival</option>
-                                <option value="After Food Service">After Food Service</option>
-                            </select>
+                <div id="hot-drinks-third-party-details" class="conditional-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="hot-drinks-contact-name">Contact Name:</label>
+                        <input type="text" id="hot-drinks-contact-name" name="hot-drinks-contact-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hot-drinks-contact-number">Contact Number:</label>
+                        <div class="phone-input-wrapper">
+                            <input type="text" id="hot-drinks-contact-number-prefix" name="hot-drinks-contact-number-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="hot-drinks-contact-number" name="hot-drinks-contact-number" class="phone-number">
                         </div>
                     </div>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-360-booth" value="360 Booth – 2 Hour Service" id="booth-360-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">360 Booth – 2 Hour Service</span>
-                        </label>
-                    </div>
-
-                    <div id="booth-360-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
-                        <div class="form-group">
-                            <label for="booth-360-timing">Service Time:</label>
-                            <select id="booth-360-timing" name="booth-360-timing" class="select-input">
-                                <option value="">Select option</option>
-                                <option value="Guest Arrival">Guest Arrival</option>
-                                <option value="After Food Service">After Food Service</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="venue-service-vintage-photobooth" value="Vintage Photobooth – 2 Hour Service" id="vintage-photobooth-checkbox">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Vintage Photobooth – 2 Hour Service</span>
-                        </label>
-                    </div>
-
-                    <div id="vintage-photobooth-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
-                        <div class="form-group">
-                            <label for="vintage-photobooth-timing">Service Time:</label>
-                            <select id="vintage-photobooth-timing" name="vintage-photobooth-timing" class="select-input">
-                                <option value="">Select option</option>
-                                <option value="Guest Arrival">Guest Arrival</option>
-                                <option value="After Food Service">After Food Service</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Third Party Services Section -->
-                    <h3 class="section-subtitle mt-40 mb-20">Additional Services: Third Party Service Providers</h3>
-                    <p class="mb-20">E.g. Dessert Tables, Welcome Signs, Chocolate Fountain, Photobooth, Guestbook, Audio Phonebook etc</p>
-
-                    <div id="third-party-services-container">
-                        <!-- Services will be added dynamically here -->
-                    </div>
-
-                    <button type="button" class="nav-btn next-btn" id="add-service-btn">+ Service</button>
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -182,7 +233,7 @@
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 9 of 11</span>
+                    <span class="page-info">Page 9 of 10</span>
                 </div>
             </form>
             

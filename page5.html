@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amington Hall - Wedding Cake and Favours</title>
+    <title>Amington Hall - Additional Extras</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,22 +20,71 @@
                 </div>
             </header>
             
-            <form id="page5-form" class="wedding-form">
-                <h2 class="page-title">Wedding Cake and Favours</h2>
+            <form id="page5-form" class="wedding-form" novalidate>
+                <h2 class="page-title">Additional Extras</h2>
                 
-                <!-- Wedding Cake Question -->
+                <!-- Dancefloor Section -->
+                <h3 class="section-subtitle">Dancefloor</h3>
+               
+                
                 <div class="form-group">
-                    <label>
-                        Will you be having a wedding cake? <span class="required">*</span>
-                    </label>
+                    <label>Will you require a dancefloor?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="wedding-cake" value="Yes" required>
+                            <input type="radio" name="dancefloor" value="Yes">
                             <span class="radio-custom"></span>
                             <span class="radio-text">Yes</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="wedding-cake" value="No" required>
+                            <input type="radio" name="dancefloor" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Dancefloor Options (Hidden by default) -->
+                <div id="dancefloor-options" style="display: none;">
+                    <div class="form-group">
+                        <label>Dancefloor Type</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="dancefloor-type" value="DANCEFLOOR (LED style without the lights)">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">DANCEFLOOR (LED style without the lights)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="dancefloor-type" value="HIP SHEET WITH CUSTOM VINYLS">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">HIP SHEET WITH CUSTOM VINYLS</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dancefloor-size">Size</label>
+                        <select id="dancefloor-size" name="dancefloor-size" class="select-input">
+                            <option value="">Select size</option>
+                            <option value="16x16ft">16x16ft</option>
+                            <option value="16x20ft">16x20ft</option>
+                            <option value="20x20ft">20x20ft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cake Section -->
+                <h3 class="section-subtitle">Cake</h3>
+
+                <div class="form-group">
+                    <label>Will there be a cake?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="Yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="wedding-cake" value="No">
                             <span class="radio-custom"></span>
                             <span class="radio-text">No</span>
                         </label>
@@ -43,80 +92,52 @@
                 </div>
 
                 <!-- Cake Details (Hidden by default) -->
-                <div id="cake-details-section" style="display: none;">
-                    <h3 class="section-subtitle">If 'Yes', please confirm the following:</h3>
-                    
+                <div id="cake-details" style="display: none;">
                     <div class="form-group">
-                        <label for="cake-company-name">
-                            Cake Company Name
-                        </label>
-                        <input type="text" id="cake-company-name" name="cake-company-name" placeholder="Enter cake company name">
+                        <label for="cake-company">Cake Company name:</label>
+                        <input type="text" id="cake-company" name="cake-company">
                     </div>
 
                     <div class="form-group">
-                        <label for="cake-tiers">
-                            Number of tiers
-                        </label>
-                        <input type="number" id="cake-tiers" name="cake-tiers" placeholder="Enter number of tiers" min="1">
+                        <label for="cake-contact-name">Contact Name:</label>
+                        <input type="text" id="cake-contact-name" name="cake-contact-name">
                     </div>
 
                     <div class="form-group">
-                        <label for="cake-contact-name">
-                            Contact Name
-                        </label>
-                        <input type="text" id="cake-contact-name" name="cake-contact-name" placeholder="Enter contact name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cake-contact-number">
-                            Contact number
-                        </label>
+                        <label for="cake-contact-number">Contact Number:</label>
                         <div class="phone-input-wrapper">
-                            <input type="text" class="phone-prefix" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" placeholder="+44">
-                            <input type="tel" id="cake-contact-number" name="cake-contact-number" placeholder="Enter phone number" pattern="[0-9]{10,15}">
+                            <input type="text" id="cake-contact-number-prefix" name="cake-contact-number-prefix" value="+44" class="phone-prefix">
+                            <input type="tel" id="cake-contact-number" name="cake-contact-number" class="phone-number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cake-tiers">Number of tiers:</label>
+                        <input type="number" id="cake-tiers" name="cake-tiers" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Arrangements of the cake?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="cake-served" value="To be cut up by staff and served with the tea after food.">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To be cut up by staff and served with the tea after food.</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="cake-served" value="To be boxed up and given back to the family.">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">To be boxed up and given back to the family.</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Cake Serving Question -->
+                <!-- Favours/Menu Cards/Thank you cards Section -->
+                <h3 class="section-subtitle">Favours/Menu Cards/Thank you cards</h3>
+                
                 <div class="form-group">
-                    <label class="subsection-title">
-                        Would you like the cake served on the day of the event?
-                    </label>
-                    
-                    <div class="info-notice info-notice-compact">
-                        <p><strong>Cake Location:</strong> Our standard location for a cake table in either the Amington or Serenity Suite is to the front left of the stage. We can discuss this in your Walkthrough Meeting should you wish to change the standard location.</p>
-                        <p class="text-indent">Our cake table is circular and measures 100cm in diameter. There is a raised level measuring 60cm in diameter.</p>
-                    </div>
-
-                    <label class="form-sublabel">
-                        Kindly confirm if you would like us to provide a cake cutting knife:
-                    </label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="cake-knife" value="Yes">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Yes</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="cake-knife" value="No">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Cake Reminder -->
-                <div class="info-notice info-notice-highlighted">
-                    <p><strong>Please remind your cake company to provide and leave cake boxes at the venue.</strong> This is especially important if you are not serving the cake and/or will need to pack the cake away to take home at the end of your event.</p>
-                    <p class="text-indent">We will discuss the cake cutting ceremony with you in detail and whether you would like this to be served to guests in your Walkthrough Meeting.</p>
-                </div>
-
-                <!-- Favours Question -->
-                <div class="form-group">
-                    <label>
-                        Will you be having favours?
-                    </label>
+                    <label>Will you be having favours?</label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="favours" value="Yes">
@@ -131,45 +152,36 @@
                     </div>
                 </div>
 
-                <!-- Favours Details (Hidden by default) -->
-                <div id="favours-details-section" style="display: none;">
-                    <h3 class="section-subtitle">If 'Yes', please confirm the following:</h3>
-                    
+                <div id="favours-type-section" style="display: none;">
                     <div class="form-group">
-                        <label for="favours-number">
-                            Number of Favours
-                        </label>
-                        <input type="number" id="favours-number" name="favours-number" placeholder="Enter number of favours" min="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="favours-type">
-                            Type of Favour(s)
-                        </label>
-                        <input type="text" id="favours-type" name="favours-type" placeholder="Enter type of favours">
+                        <label for="favours-type">Type of favour:</label>
+                        <input type="text" id="favours-type" name="favours-type" placeholder="1 per plate">
                     </div>
                 </div>
 
-                <!-- Menu Cards Question -->
                 <div class="form-group">
-                    <label>
-                        Would you be having menu cards?
-                    </label>
+                    <label>Will you be having Thank you cards?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="menu-cards" value="Yes, one per table">
+                            <input type="radio" name="thankyou-cards" value="Yes">
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Yes, one per table</span>
+                            <span class="radio-text">Yes</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="menu-cards" value="Yes, 2 per table">
+                            <input type="radio" name="thankyou-cards" value="No">
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Yes, 2 per table</span>
+                            <span class="radio-text">No</span>
                         </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Will you be having menu cards?</label>
+                    <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="menu-cards" value="Yes, one per plate">
+                            <input type="radio" name="menu-cards" value="Yes">
                             <span class="radio-custom"></span>
-                            <span class="radio-text">Yes, one per plate</span>
+                            <span class="radio-text">Yes</span>
                         </label>
                         <label class="radio-label">
                             <input type="radio" name="menu-cards" value="No">
@@ -179,33 +191,17 @@
                     </div>
                 </div>
 
-                <!-- Favours Advice -->
-                <div class="info-notice">
-                    <p>We would advise bringing extra favours, in case any are damaged in transit or lost.</p>
-                </div>
-
-                <!-- Leftover Favours -->
-                <div class="form-group">
-                    <label>
-                        In the case where many favours are left unopened, please confirm whether you would like to have them taken by you at the end of your event or for them to be disposed of:
-                    </label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-favours" value="Family will collect the favours before leaving the venue">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Family will collect the favours before leaving the venue</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="leftover-favours" value="The Venue can dispose of any leftover favours">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">The Venue can dispose of any leftover favours</span>
-                        </label>
+                <div id="menu-cards-placement-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="menu-cards-placement">Menu card placement:</label>
+                        <select id="menu-cards-placement" name="menu-cards-placement" class="select-input">
+                            <option value="">Select placement</option>
+                            <option value="1 per plate">1 per plate</option>
+                            <option value="2 per table">2 per table</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Important Notice -->
-                <div class="info-notice info-notice-highlighted">
-                    <p><strong>We cannot guarantee we will be able to hold onto items left at Amington Hall if they are not collected by the end of your event.</strong></p>
+                    <input type="text" id="menu-cards-placement-other-text" name="menu-cards-placement-other-text" placeholder="Please specify" style="margin-top: 12px; display: none;">
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -218,7 +214,7 @@
 
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
-                    <span class="page-info">Page 5 of 11</span>
+                    <span class="page-info">Page 5 of 10</span>
                 </div>
             </form>
             

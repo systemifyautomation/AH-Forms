@@ -1,135 +1,11 @@
-// Page 5 (New) - Additional Extras JavaScript
+// Page 6 - LED/LCD Screen JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 document.addEventListener('DOMContentLoaded', function() {
+    loadSavedData();
     setupEventListeners();
-    setupConditionalFields();
-    setupDancefloorToggle();
-    setupCakeToggle();
-    setupFavoursToggle();
-    setupMenuCardsToggle();
-    loadSavedData(); // Must be last so all toggle handlers are attached before saved data triggers change events
+    setupScreenUploadToggles();
 });
-
-function setupConditionalFields() {
-    // Table "Other" checkbox toggle
-    const tableOtherCheckbox = document.getElementById('table-other-checkbox');
-    const tableOtherText = document.getElementById('table-other-text');
-    
-    if (tableOtherCheckbox) {
-        tableOtherCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                tableOtherText.style.display = 'block';
-            } else {
-                tableOtherText.style.display = 'none';
-                tableOtherText.value = '';
-            }
-        });
-        
-        // Initialize display state
-        if (tableOtherCheckbox.checked) {
-            tableOtherText.style.display = 'block';
-        }
-    }
-}
-
-function setupCakeToggle() {
-    const cakeRadios = document.querySelectorAll('input[name="wedding-cake"]');
-    const cakeDetails = document.getElementById('cake-details');
-    const cakeServed = document.querySelectorAll('input[name="cake-served"]');
-    const cakeCompany = document.getElementById('cake-company');
-    const cakeContactName = document.getElementById('cake-contact-name');
-    const cakeContactNumber = document.getElementById('cake-contact-number');
-    const cakeTiers = document.getElementById('cake-tiers');
-
-    cakeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                cakeDetails.style.display = 'block';
-            } else {
-                cakeDetails.style.display = 'none';
-                // Clear cake detail fields
-                if (cakeCompany) cakeCompany.value = '';
-                if (cakeContactName) cakeContactName.value = '';
-                if (cakeContactNumber) cakeContactNumber.value = '';
-                if (cakeTiers) cakeTiers.value = '';
-                cakeServed.forEach(r => r.checked = false);
-            }
-        });
-    });
-}
-
-function setupFavoursToggle() {
-    const favoursRadios = document.querySelectorAll('input[name="favours"]');
-    const favoursTypeSection = document.getElementById('favours-type-section');
-    const favoursType = document.getElementById('favours-type');
-
-    favoursRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                favoursTypeSection.style.display = 'block';
-            } else {
-                favoursTypeSection.style.display = 'none';
-                if (favoursType) favoursType.value = '';
-            }
-        });
-    });
-}
-
-function setupDancefloorToggle() {
-    const dancefloorRadios = document.querySelectorAll('input[name="dancefloor"]');
-    const dancefloorOptions = document.getElementById('dancefloor-options');
-    const dancefloorType = document.querySelectorAll('input[name="dancefloor-type"]');
-    const dancefloorSize = document.getElementById('dancefloor-size');
-    
-    dancefloorRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                dancefloorOptions.style.display = 'block';
-            } else {
-                dancefloorOptions.style.display = 'none';
-                // Clear selections
-                dancefloorType.forEach(type => type.checked = false);
-                if (dancefloorSize) dancefloorSize.value = '';
-            }
-        });
-    });
-}
-
-function setupMenuCardsToggle() {
-    const menuCardsRadios = document.querySelectorAll('input[name="menu-cards"]');
-    const menuCardsPlacementSection = document.getElementById('menu-cards-placement-section');
-    const menuCardsPlacement = document.getElementById('menu-cards-placement');
-    const menuCardsPlacementOtherText = document.getElementById('menu-cards-placement-other-text');
-    
-    menuCardsRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                menuCardsPlacementSection.style.display = 'block';
-            } else {
-                menuCardsPlacementSection.style.display = 'none';
-                // Clear selections
-                if (menuCardsPlacement) menuCardsPlacement.value = '';
-                if (menuCardsPlacementOtherText) {
-                    menuCardsPlacementOtherText.style.display = 'none';
-                    menuCardsPlacementOtherText.value = '';
-                }
-            }
-        });
-    });
-    
-    // Handle "Other" option in placement dropdown
-    if (menuCardsPlacement) {
-        menuCardsPlacement.addEventListener('change', function() {
-            if (this.value === 'Other') {
-                menuCardsPlacementOtherText.style.display = 'block';
-            } else {
-                menuCardsPlacementOtherText.style.display = 'none';
-                menuCardsPlacementOtherText.value = '';
-            }
-        });
-    }
-}
 
 function setupEventListeners() {
     const form = document.getElementById('page6-form');
@@ -137,14 +13,14 @@ function setupEventListeners() {
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
 
-    // Form submission (navigation to next page)
+    // Form submission (Next button)
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
         const validation = validatePage();
         if (validation === true) {
             saveFormData();
-            window.location.href = 'page7.html'; // Navigate to LED/LCD Screen page
+            window.location.href = 'page7.html';
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation || 'Please fill in all required fields correctly.', 'error');
@@ -173,26 +49,58 @@ function setupEventListeners() {
 }
 
 function validatePage() {
-    console.log('=== Starting Page 6 Validation ===');
+    console.log('=== Starting Page 7 Validation ===');
     
-    // Page 6 has no required fields - all fields are optional
+    // Page 7 has no required fields - all fields are optional
     // Validation passes automatically
     
-    console.log('=== Page 6 Validation Passed ===');
+    console.log('=== Page 7 Validation Passed ===');
     return true;
+}
+
+function setupScreenUploadToggles() {
+    const screens = [
+        'amington-wall-screen',
+        'serenity-wall-screen',
+        'foyer-screen'
+    ];
+
+    const uploadSection = document.getElementById('screen-upload-section');
+
+    screens.forEach(screenName => {
+        const radios = document.querySelectorAll(`input[name="${screenName}"]`);
+        
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                checkAndShowUpload();
+            });
+        });
+    });
+
+    function checkAndShowUpload() {
+        let anyPhotoSlideshow = false;
+        
+        screens.forEach(screenName => {
+            const selectedRadio = document.querySelector(`input[name="${screenName}"]:checked`);
+            if (selectedRadio && selectedRadio.value === 'Photo slideshows') {
+                anyPhotoSlideshow = true;
+            }
+        });
+
+        if (uploadSection) {
+            uploadSection.style.display = anyPhotoSlideshow ? 'block' : 'none';
+        }
+    }
 }
 
 function saveFormData() {
     const formData = getStoredData() || {};
     
-    // Save all text, number, tel, email, time, textarea, file inputs
-    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="time"], input[type="email"], textarea').forEach(input => {
-        formData[input.name || input.id] = input.value || '';
-    });
-    
-    // Save select dropdowns
-    document.querySelectorAll('select').forEach(select => {
-        formData[select.name || select.id] = select.value || '';
+    // Save text, number, tel, email inputs and textareas
+    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="number"], input[type="email"], textarea').forEach(input => {
+        if (input.value) {
+            formData[input.name || input.id] = input.value;
+        }
     });
     
     // Save radio buttons
@@ -200,18 +108,9 @@ function saveFormData() {
         formData[radio.name] = radio.value;
     });
     
-    // Save checkboxes
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        formData[checkbox.name || checkbox.id] = checkbox.checked ? 'on' : 'off';
-    });
-    
-    // Save file input info (just the filename)
-    const fileInput = document.getElementById('decor-upload');
-    if (fileInput && fileInput.files.length > 0) {
-        formData['decor-upload-filename'] = fileInput.files[0].name;
-    }
-    
+    // Save timestamp
     formData.lastSaved = new Date().toISOString();
+    
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
     console.log('Form data saved:', formData);
 }
@@ -225,15 +124,11 @@ function loadSavedData() {
     
     console.log('Loading saved data:', savedData);
     
-    // Load all text inputs and selects
+    // Load all inputs
     Object.keys(savedData).forEach(key => {
         const element = document.getElementById(key);
-        if (element && element.type !== 'radio' && element.type !== 'checkbox') {
+        if (element && element.type !== 'radio') {
             element.value = savedData[key];
-            // Trigger change event for selects to show conditional fields
-            if (element.tagName === 'SELECT') {
-                element.dispatchEvent(new Event('change'));
-            }
         }
     });
     
@@ -242,16 +137,6 @@ function loadSavedData() {
         const radio = document.querySelector(`input[name="${key}"][value="${savedData[key]}"]`);
         if (radio) {
             radio.checked = true;
-            radio.dispatchEvent(new Event('change'));
-        }
-    });
-    
-    // Load checkboxes
-    Object.keys(savedData).forEach(key => {
-        const checkbox = document.getElementById(key);
-        if (checkbox && checkbox.type === 'checkbox') {
-            checkbox.checked = savedData[key] === 'on';
-            checkbox.dispatchEvent(new Event('change'));
         }
     });
 }

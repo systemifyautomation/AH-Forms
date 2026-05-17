@@ -1,8 +1,8 @@
-// Page 10 - Catering JavaScript
+// Page 11 - Car Parking JavaScript
 const STORAGE_KEY = 'amington-hall-form-data';
 
 // Load endpoints from JSON file
-let APPSCRIPT_ENDPOINTS = [];
+let APPSCRIPT_ENDPOINTS = ["https://script.google.com/macros/s/AKfycbyCW-wd4u3iYt36PZKjP9sQAqlszyVsZGX1OjyuYWRVJV7vuJfsNgPWo4KfiNOfgxrs/exec"];
 
 // Load endpoints on page load
 async function loadAppScriptEndpoints() {
@@ -25,76 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
     loadAppScriptEndpoints();
     loadSavedData();
     setupEventListeners();
-    setupConditionalToggles();
     setupExitWarnings();
     setupModalListeners();
 });
 
-function setupConditionalToggles() {
-    // Drinks Third Party toggle
-    const drinksProviderRadios = document.querySelectorAll('input[name="drinks-provider"]');
-    const drinksThirdPartyDetails = document.getElementById('drinks-third-party-details');
-    
-    drinksProviderRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Third Party Company') {
-                drinksThirdPartyDetails.style.display = 'block';
-            } else {
-                drinksThirdPartyDetails.style.display = 'none';
-                document.getElementById('drinks-third-party-name').value = '';
-                document.getElementById('drinks-third-party-contact').value = '';
-                document.getElementById('drinks-third-party-contact-prefix').value = '+44';
-            }
-        });
-    });
-
-    // Reception Drinks toggle
-    const receptionDrinksRadios = document.querySelectorAll('input[name="reception-drinks"]');
-    const receptionDrinksDetails = document.getElementById('reception-drinks-details');
-    
-    receptionDrinksRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Yes') {
-                receptionDrinksDetails.style.display = 'block';
-            } else {
-                receptionDrinksDetails.style.display = 'none';
-                document.querySelectorAll('input[name="reception-drinks-supplier"]').forEach(r => r.checked = false);
-            }
-        });
-    });
-
-    // Hot Drinks Third Party toggle
-    const hotDrinksSupplierRadios = document.querySelectorAll('input[name="hot-drinks-supplier"]');
-    const hotDrinksThirdPartyDetails = document.getElementById('hot-drinks-third-party-details');
-    
-    hotDrinksSupplierRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'Third Party Company') {
-                hotDrinksThirdPartyDetails.style.display = 'block';
-            } else {
-                hotDrinksThirdPartyDetails.style.display = 'none';
-                document.getElementById('hot-drinks-contact-name').value = '';
-                document.getElementById('hot-drinks-contact-number').value = '';
-                document.getElementById('hot-drinks-contact-number-prefix').value = '+44';
-            }
-        });
-    });
-}
 
 function setupEventListeners() {
     const form = document.getElementById('page10-form');
     const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
     const saveBtn = document.getElementById('save-btn');
     const restartBtn = document.getElementById('restart-btn');
 
-    // Next button
-    nextBtn.addEventListener('click', function() {
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
         const validation = validatePage();
         if (validation === true) {
-            saveFormData();
-            isNavigating = true;
-            window.location.href = 'page11.html';
+            handleFormSubmit();
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showNotification(validation, 'error');
@@ -124,134 +72,22 @@ function setupEventListeners() {
 }
 
 function validatePage() {
-    console.log('=== Starting Page 10 Validation ===');
-    
-    // Check required radio groups
-    const requiredFields = [
-        { name: 'leftover-food-drinks', label: 'Who is taking the leftover Food & Drinks' },
-        { name: 'leftover-containers', label: 'Who will provide the Containers for leftover food' },
-        { name: 'drinks-provider', label: 'Who will be providing the drinks' },
-        { name: 'reception-drinks', label: 'Will you be having reception drinks' }
-    ];
-    
-    for (const field of requiredFields) {
-        const selected = document.querySelector(`input[name="${field.name}"]:checked`);
-        if (!selected) {
-            return `Please select an option for: ${field.label}`;
-        }
-    }
-
-    // Check conditional required fields
-    const receptionDrinks = document.querySelector('input[name="reception-drinks"]:checked');
-    if (receptionDrinks && receptionDrinks.value === 'Yes') {
-        const supplier = document.querySelector('input[name="reception-drinks-supplier"]:checked');
-        if (!supplier) {
-            return 'Please select who is your reception drinks supplier';
-        }
-    }
-    
-    console.log('Page 10 validation passed');
+    console.log('=== Starting Page 11 Validation ===');
+    console.log('Page 11 validation passed');
     return true;
 }
 
 function saveFormData() {
-    console.log('Saving Page 10 data...');
-    
+    console.log('Saving Page 11 data...');
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    
-    // Save text inputs
-    formData['catering-company-name'] = document.getElementById('catering-company-name').value;
-    formData['catering-contact-name'] = document.getElementById('catering-contact-name').value;
-
-    // Save radio selections
-    const radioGroups = [
-        'company-worked-before',
-        'leftover-food-drinks',
-        'leftover-containers',
-        'drinks-provider',
-        'reception-drinks',
-        'reception-drinks-supplier',
-        'hot-drinks-supplier'
-    ];
-
-    radioGroups.forEach(name => {
-        const selected = document.querySelector(`input[name="${name}"]:checked`);
-        if (selected) {
-            formData[name] = selected.value;
-        }
-    });
-
-    // Save drinks third party details
-    formData['drinks-third-party-name'] = document.getElementById('drinks-third-party-name').value;
-    formData['drinks-third-party-contact'] = document.getElementById('drinks-third-party-contact').value;
-    formData['drinks-third-party-contact-prefix'] = document.getElementById('drinks-third-party-contact-prefix').value;
-
-    // Save hot drinks third party details
-    formData['hot-drinks-contact-name'] = document.getElementById('hot-drinks-contact-name').value;
-    formData['hot-drinks-contact-number'] = document.getElementById('hot-drinks-contact-number').value;
-    formData['hot-drinks-contact-number-prefix'] = document.getElementById('hot-drinks-contact-number-prefix').value;
-
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-    console.log('Page 10 data saved:', formData);
+    console.log('Page 11 data saved:', formData);
 }
 
 function loadSavedData() {
-    console.log('Loading saved data for Page 10...');
-    
+    console.log('Loading saved data for Page 11...');
     const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    
-    // Load text inputs
-    if (formData['catering-company-name']) {
-        document.getElementById('catering-company-name').value = formData['catering-company-name'];
-    }
-    if (formData['catering-contact-name']) {
-        document.getElementById('catering-contact-name').value = formData['catering-contact-name'];
-    }
-
-    // Load radio selections
-    const radioGroups = [
-        'company-worked-before',
-        'leftover-food-drinks',
-        'leftover-containers',
-        'drinks-provider',
-        'reception-drinks',
-        'reception-drinks-supplier',
-        'hot-drinks-supplier'
-    ];
-
-    radioGroups.forEach(name => {
-        if (formData[name]) {
-            const radio = document.querySelector(`input[name="${name}"][value="${formData[name]}"]`);
-            if (radio) {
-                radio.checked = true;
-                radio.dispatchEvent(new Event('change'));
-            }
-        }
-    });
-
-    // Load drinks third party details
-    if (formData['drinks-third-party-name']) {
-        document.getElementById('drinks-third-party-name').value = formData['drinks-third-party-name'];
-    }
-    if (formData['drinks-third-party-contact']) {
-        document.getElementById('drinks-third-party-contact').value = formData['drinks-third-party-contact'];
-    }
-    if (formData['drinks-third-party-contact-prefix']) {
-        document.getElementById('drinks-third-party-contact-prefix').value = formData['drinks-third-party-contact-prefix'];
-    }
-
-    // Load hot drinks third party details
-    if (formData['hot-drinks-contact-name']) {
-        document.getElementById('hot-drinks-contact-name').value = formData['hot-drinks-contact-name'];
-    }
-    if (formData['hot-drinks-contact-number']) {
-        document.getElementById('hot-drinks-contact-number').value = formData['hot-drinks-contact-number'];
-    }
-    if (formData['hot-drinks-contact-number-prefix']) {
-        document.getElementById('hot-drinks-contact-number-prefix').value = formData['hot-drinks-contact-number-prefix'];
-    }
-
-    console.log('Page 10 data loaded');
+    console.log('Page 11 data loaded');
 }
 
 async function handleFormSubmit() {
@@ -263,7 +99,13 @@ async function handleFormSubmit() {
     isSubmitting = true;
     saveFormData();
     
-    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const fieldData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    
+    // Transform field names to question text for API submission
+    const submissionData = prepareFormDataForSubmission(fieldData);
+    
+    console.log('Original form data (field names):', fieldData);
+    console.log('Transformed data (question text):', submissionData);
     
     if (APPSCRIPT_ENDPOINTS.length === 0) {
         showNotification('Error: No submission endpoints configured. Please contact support.', 'error');
@@ -275,36 +117,21 @@ async function handleFormSubmit() {
     
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
 
-    try {
-        const submissionPromises = APPSCRIPT_ENDPOINTS.map(endpoint => 
-            fetch(endpoint, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-        );
+    // Fire-and-forget: no-cors responses are opaque and can't be read anyway
+    APPSCRIPT_ENDPOINTS.forEach(endpoint => {
+        fetch(endpoint, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submissionData)
+        }).catch(err => console.warn('Submission error:', err));
+    });
 
-        await Promise.all(submissionPromises);
-        
-        console.log('Form submitted successfully to all endpoints');
-        
-        localStorage.removeItem(STORAGE_KEY);
-        
-        const successModal = document.getElementById('success-modal');
-        successModal.style.display = 'flex';
-        
-    } catch (error) {
-        console.error('Error submitting form:', error);
-        showNotification('There was an error submitting the form. Please try again.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Form';
-        isSubmitting = false;
-    }
+    localStorage.removeItem(STORAGE_KEY);
+    const successModal = document.getElementById('success-modal');
+    successModal.style.display = 'flex';
+    requestAnimationFrame(() => successModal.classList.add('show'));
 }
 
 function setupExitWarnings() {
@@ -329,6 +156,7 @@ function setupExitWarnings() {
                 e.preventDefault();
                 const exitModal = document.getElementById('exit-modal');
                 exitModal.style.display = 'flex';
+                requestAnimationFrame(() => exitModal.classList.add('show'));
             }
         });
     });
@@ -362,21 +190,27 @@ function setupModalListeners() {
     });
 
     continueFormBtn.addEventListener('click', function() {
-        exitModal.style.display = 'none';
+        exitModal.classList.remove('show');
+        setTimeout(() => { exitModal.style.display = 'none'; }, 300);
     });
 
     successOkBtn.addEventListener('click', function() {
-        successModal.style.display = 'none';
-        window.location.href = 'index.html';
+        successModal.classList.remove('show');
+        setTimeout(() => { successModal.style.display = 'none'; }, 300);
+        localStorage.removeItem(STORAGE_KEY);
+        window.location.href = 'page1.html';
     });
 
     window.addEventListener('click', function(e) {
         if (e.target === exitModal) {
-            exitModal.style.display = 'none';
+            exitModal.classList.remove('show');
+            setTimeout(() => { exitModal.style.display = 'none'; }, 300);
         }
         if (e.target === successModal) {
-            successModal.style.display = 'none';
-            window.location.href = 'index.html';
+            successModal.classList.remove('show');
+            setTimeout(() => { successModal.style.display = 'none'; }, 300);
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.href = 'page1.html';
         }
     });
 }

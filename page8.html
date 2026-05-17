@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visuals & External - Amington Hall</title>
+    <title>Additional Services - Amington Hall</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,194 +21,177 @@
             </header>
             
             <form id="page8-form" class="wedding-form">
-                <h2 class="page-title">Visuals & External</h2>
+                <h2 class="page-title">Additional Services</h2>
 
-            <!-- Photographer Section -->
-            <div class="form-group">
-                <label>Will you be having a Photographer? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="photographer" value="Yes" required>
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="photographer" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="photographer-details" class="conditional-section" style="display: none;">
+                <!-- Additional Services Question -->
                 <div class="form-group">
-                    <label for="photographer-company-name">Company Name</label>
-                    <input type="text" id="photographer-company-name" name="photographer-company-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="photographer-contact-name">Contact Name</label>
-                    <input type="text" id="photographer-contact-name" name="photographer-contact-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="photographer-contact-number">Contact Number</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="photographer-contact-number-prefix" name="photographer-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="photographer-contact-number" name="photographer-contact-number" class="phone-number">
-                    </div>
-                </div>
-
-                <div class="info-notice">
-                    <strong>Important:</strong> Please ensure your chosen photographer has Public Liability Insurance cover before booking them for your event. We do not allow photographers on site without this in place.
-                </div>
-            </div>
-
-            <!-- Videographer Section -->
-            <div class="form-group">
-                <label>Will you be having a Videographer? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="videographer" value="Yes" required>
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="videographer" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="videographer-details" class="conditional-section" style="display: none;">
-                <div class="form-group">
-                    <label for="videographer-company-name">Company Name</label>
-                    <input type="text" id="videographer-company-name" name="videographer-company-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="videographer-contact-name">Contact Name</label>
-                    <input type="text" id="videographer-contact-name" name="videographer-contact-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="videographer-contact-number">Contact Number</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="videographer-contact-number-prefix" name="videographer-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="videographer-contact-number" name="videographer-contact-number" class="phone-number">
-                    </div>
-                </div>
-
-                <div class="info-notice">
-                    <strong>Important:</strong> Please ensure your chosen videographer has Public Liability Insurance cover before booking them for your event. We do not allow videographers on site without this in place.
-                </div>
-            </div>
-
-            <!-- Cinematography Equipment Section -->
-            <div class="form-group">
-                <label>Will you be having any Cinematography Equipment? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="Yes" required>
-                        <span>Yes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="cinematography-equipment" value="No" required>
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="cinematography-options" style="display: none;">
-                <div class="form-group">
-                    <label>Please select the type of equipment: <span class="required">*</span></label>
+                    <label>Will you be having any additional services? <span class="required">*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="cinematography-type" value="Crane Only">
-                            <span>Crane Only</span>
+                            <input type="radio" name="additional-services" value="Yes" required>
+                            <span>Yes</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="cinematography-type" value="Drone Only">
-                            <span>Drone Only</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="cinematography-type" value="Crane & Drone">
-                            <span>Crane & Drone</span>
+                            <input type="radio" name="additional-services" value="No" required>
+                            <span>No</span>
                         </label>
                     </div>
                 </div>
-            </div>
 
-            <div class="info-notice">
-                <strong>Note:</strong> If you are having a Drone on site on the day of your event, you are responsible for ensuring your videographer has all the relevant and required documentation and licenses to fly a drone commercially.
-            </div>
+                <div id="additional-services-content" class="conditional-section" style="display: none;">
+                    <div class="info-notice">
+                        <p>If you are having any additional services, please add the details below. If the locations or timings have not yet been confirmed, leave boxes blank and the event organizer will discuss this further with you on your Walkthrough Meeting:</p>
+                    </div>
 
-            <!-- Camera Crew Access Notice -->
-            <div class="info-notice">
-                <strong>Camera Crew Access:</strong> Please note that your camera crew will only be allowed access to the venue 30 minutes before your booking start time.
-            </div>
+                    <div class="info-notice">
+                        <p>Depending on the nature of the service provided by your chosen vendors, we would require them to provide us with copies of either their Public Liability Insurance cover, PAT certification for their equipment or Health & Hygiene certification.</p>
+                    </div>
 
+                    <!-- Venue Services Section -->
+                    <h3 class="section-subtitle mt-40 mb-20">Will you be having any of the following additional services from us as a venue:</h3>
 
-            <!-- DJ/Sound System Section -->
-            <h3 class="section-subtitle mt-40 mb-20">Sound & Audio</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-welcome-drinks" value="Welcome Drinks" id="welcome-drinks-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Welcome Drinks</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-nikkah-partition" value="Nikkah Partition" id="nikkah-partition-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Nikkah Partition</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-low-fog" value="Low Fog – 1 Time use" id="low-fog-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Low Fog – 1 Time use</span>
+                        </label>
+                    </div>
+
+                    <div id="low-fog-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="low-fog-timing">When will this be used:</label>
+                            <select id="low-fog-timing" name="low-fog-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Bride's Entrance">Bride's Entrance</option>
+                                <option value="Baraat Entrance">Baraat Entrance</option>
+                                <option value="Bride & Groom Entrance">Bride & Groom Entrance</option>
+                                <option value="Cake Ceremony">Cake Ceremony</option>
+                                <option value="First Dance">First Dance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-sparklers" value="Sparklers – 1 Time use" id="sparklers-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Sparklers – 1 Time use</span>
+                        </label>
+                    </div>
+
+                    <div id="sparklers-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="sparklers-timing">When will this be used:</label>
+                            <select id="sparklers-timing" name="sparklers-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Bride & Groom on Stage">Bride & Groom on Stage</option>
+                                <option value="Cake Ceremony">Cake Ceremony</option>
+                                <option value="First Dance">First Dance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-pancake-cart" value="Pancake Cart – 2 Hour Service" id="pancake-cart-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Pancake Cart – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="pancake-cart-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="pancake-cart-timing">Service Time:</label>
+                            <select id="pancake-cart-timing" name="pancake-cart-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-360-booth" value="360 Booth – 2 Hour Service" id="booth-360-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">360 Booth – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="booth-360-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="booth-360-timing">Service Time:</label>
+                            <select id="booth-360-timing" name="booth-360-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="venue-service-vintage-photobooth" value="Vintage Photobooth – 2 Hour Service" id="vintage-photobooth-checkbox">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Vintage Photobooth – 2 Hour Service</span>
+                        </label>
+                    </div>
+
+                    <div id="vintage-photobooth-options" class="sub-options" style="display: none; margin-left: 30px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label for="vintage-photobooth-timing">Service Time:</label>
+                            <select id="vintage-photobooth-timing" name="vintage-photobooth-timing" class="select-input">
+                                <option value="">Select option</option>
+                                <option value="Guest Arrival">Guest Arrival</option>
+                                <option value="After Food Service">After Food Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Third Party Services Section -->
+                    <h3 class="section-subtitle mt-40 mb-20">Additional Services: Third Party Service Providers</h3>
+                    <p class="mb-20">E.g. Dessert Tables, Welcome Signs, Chocolate Fountain, Photobooth, Guestbook, Audio Phonebook etc</p>
+
+                    <div id="third-party-services-container">
+                        <!-- Services will be added dynamically here -->
+                    </div>
+
+                    <button type="button" class="nav-btn next-btn" id="add-service-btn">+ Service</button>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
+                    <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
+                    <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
+                    <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <span class="page-info">Page 8 of 10</span>
+                </div>
+            </form>
             
-            <div class="form-group">
-                <label>Which of the following will you be having for your event?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="sound-system" value="DJ">
-                        <span class="radio-custom"></span>
-                        <span class="radio-text">DJ</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="sound-system" value="In-house DJ">
-                        <span class="radio-custom"></span>
-                        <span class="radio-text">In-house DJ</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- DJ Section -->
-            <div id="dj-details" class="conditional-section" style="display: none;">
-                <div class="form-group">
-                    <label for="dj-name">DJ - Name:</label>
-                    <input type="text" id="dj-name" name="dj-name">
-                </div>
-
-                <div class="form-group">
-                    <label for="dj-contact-number">Contact Number:</label>
-                    <div class="phone-input-wrapper">
-                        <input type="text" id="dj-contact-number-prefix" name="dj-contact-number-prefix" value="+44" class="phone-prefix">
-                        <input type="tel" id="dj-contact-number" name="dj-contact-number" class="phone-number">
-                    </div>
-                </div>
-            </div>
-
-            <!-- In-house DJ Section -->
-            <div id="inhouse-dj-details" class="conditional-section" style="display: none;">
-                <h3 class="section-subtitle mt-30 mb-15">In-house DJ</h3>
-                <div class="info-notice mb-25">
-                    <p class="mt-10"><strong>In-house</strong> DJ contact number 07720289789. You will need to get in touch with this DJ and discuss with him your music for your event. This is only if you have booked them with the venue.</p>
-                </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="form-navigation">
-                <button type="button" class="nav-btn prev-btn" id="prev-btn">Previous</button>
-                <button type="button" class="nav-btn restart-btn" id="restart-btn">Restart Form</button>
-                <button type="button" class="nav-btn save-btn" id="save-btn">Save Progress</button>
-                <button type="button" class="nav-btn next-btn" id="next-btn">Next</button>
-            </div>
-
-            <!-- Progress Indicator -->
-            <div class="progress-indicator">
-                <span class="page-info">Page 8 of 11</span>
-            </div>
-        </form>
-        
-        <footer class="form-footer">
-            <p>&copy; 2025 Amington Hall. All rights reserved.</p>
-            <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
-        </footer>
+            <footer class="form-footer">
+                <p>&copy; 2025 Amington Hall. All rights reserved.</p>
+                <p class="made-by">Made by <a href="https://systemifyautomation.com" target="_blank" rel="noopener noreferrer">Systemify Automation</a></p>
+            </footer>
+        </div>
     </div>
-</div>
 
     <!-- Exit Modal -->
     <div class="modal" id="exit-modal">
